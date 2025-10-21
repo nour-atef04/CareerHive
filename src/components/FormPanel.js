@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import FormInput from "./FormInput";
-import styles from "./LoginPanel.module.css";
+import styles from "./FormPanel.module.css";
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function LoginPanel() {
+export default function FormPanel() {
   // pre-fill for dev purposes
   const [email, setEmail] = useState("john.doe@example.com");
   const [password, setPassword] = useState("qwerty12345");
@@ -16,7 +16,7 @@ export default function LoginPanel() {
 
   // if authenticated, skip login
   useEffect(() => {
-    if (isAuthenticated) navigate("/dashboard", { replace: true });
+    if (isAuthenticated) navigate("/home", { replace: true });
   }, [isAuthenticated, navigate]);
 
   function handleSubmit(e) {
@@ -24,9 +24,9 @@ export default function LoginPanel() {
 
     if (email === "john.doe@example.com" && password === "qwerty12345") {
       login();
-    }
-    else{
-      alert("Login Failed!")
+      navigate("/home", { replace: true });
+    } else {
+      alert("Login Failed!");
     }
   }
 
@@ -41,12 +41,14 @@ export default function LoginPanel() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
           />
           <FormInput
             type="password"
             placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
           />
           <div className={styles["form-options"]}>
             <div>
@@ -58,7 +60,7 @@ export default function LoginPanel() {
 
             <p className={styles["forgot-password"]}>Forgot password?</p>
           </div>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit" className={styles["form-button"]}>Sign In</Button>
           <hr className={styles.hr} />
           <p className={styles["join-now"]}>New to CareerHive? Join Now</p>
         </form>

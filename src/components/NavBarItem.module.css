@@ -1,0 +1,14 @@
+.nav-item {
+  color: var(--color-dark--1);
+  text-decoration: none;
+}
+
+.active {
+  color: var(--color-brand--2);
+  text-decoration: underline var(--color-brand--2);
+  font-weight: 600;
+}
+
+.item-name {
+  text-transform: capitalize;
+}

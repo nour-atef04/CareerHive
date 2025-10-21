@@ -7,7 +7,6 @@
   color: var(--color-light--1);
   font-weight: 900;
   cursor: pointer;
-  width: 100%;
   transition: 0.2s;
 }
 

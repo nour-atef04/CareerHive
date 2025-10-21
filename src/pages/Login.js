@@ -1,8 +1,8 @@
-import LoginPanel from "../components/LoginPanel";
+import LoginPanel from "../components/FormPanel";
 import MarketingPanel from "../components/MarketingPanel";
-import styles from "./Homepage.module.css";
+import styles from "./Login.module.css";
 
-export default function Homepage() {
+export default function Login() {
   return (
     <div className={styles.container}>
       <LoginPanel />

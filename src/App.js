@@ -1,25 +1,55 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import Dashboard from "./pages/Dashboard";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NavBar from "./components/NavBar";
+import NotFound from "./components/NotFound";
+import Network from "./pages/Network";
+import Jobs from "./pages/Jobs";
+import Messages from "./pages/Messages";
+import Notifications from "./pages/Notifications";
+
+function ProtectedLayout() {
+  return (
+    <ProtectedRoute>
+      <NavBar />
+      {/* Nested pages will render here */}
+      <Outlet />
+    </ProtectedRoute>
+  );
+}
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
-          <Route index element={<Homepage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+          {/* Redirect "/" to "/login" */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Public route */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Protected routes */}
+          <Route element={<ProtectedLayout />}>
+            <Route path="/home" element={<Home />}/>
+            <Route path="/network" element={<Network />}/>
+            <Route path="/jobs" element={<Jobs />}/>
+            <Route path="/messages" element={<Messages />}/>
+            <Route path="/notifications" element={<Notifications />}/>
+          </Route>
+
+          {/* Fallback */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
