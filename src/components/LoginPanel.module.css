@@ -41,8 +41,8 @@
 
 .forgot-password,
 .join-now {
-  color: blue;
-  text-decoration: underline blue;
+  color: #0e6cb5;
+  text-decoration: underline #0e6cb5;
   cursor: pointer;
   font-size: small;
   text-align: center;

@@ -1,20 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import FormInput from "./FormInput";
 import styles from "./LoginPanel.module.css";
 import Logo from "./Logo";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPanel() {
   // pre-fill for dev purposes
   const [email, setEmail] = useState("john.doe@example.com");
   const [password, setPassword] = useState("qwerty12345");
+  const { isAuthenticated, login } = useAuth();
+
+  const navigate = useNavigate();
+
+  // if authenticated, skip login
+  useEffect(() => {
+    if (isAuthenticated) navigate("/dashboard", { replace: true });
+  }, [isAuthenticated, navigate]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (email === "john.doe@example.com" && password === "qwerty12345") {
+      login();
+    }
+    else{
+      alert("Login Failed!")
+    }
+  }
 
   return (
     <div className={styles["login-panel"]}>
       <Logo />
       <div className={styles["form-div"]}>
         <h2 className={styles["form-title"]}>Welcome Back to CareerHive</h2>
-        <form className={styles["form-inner"]}>
+        <form className={styles["form-inner"]} onSubmit={handleSubmit}>
           <FormInput
             type="email"
             placeholder="Email"
