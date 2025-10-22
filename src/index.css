@@ -1,6 +1,7 @@
 @import "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap";
 
 :root {
+  /* default colors */
   --color-brand--1: #344f64;
   --color-brand--2: #d2b174;
 
@@ -12,6 +13,19 @@
   --color-dark--2: #31302f;
   --color-dark--3: #181818;
   --color-dark--4: #2b3740;
+
+  /* default border styles */
+  --border-style-default: 1px solid #344f6437;
+  --border-radius-default: 0.5rem;
+
+  /* default spacing scales */
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-xxl: 3rem;
 }
 
 * {
@@ -26,5 +40,3 @@ body {
   font-weight: 400;
   height: 100vh;
 }
-
-

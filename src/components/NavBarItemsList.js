@@ -7,7 +7,7 @@ export default function NavBarItemsList({ showMenu }) {
 
   return (
     <ul className={`${styles["navbar-list"]} ${showMenu ? styles.show : ""}`}>
-      {navItems.map((item) => <NavBarItem page={item}/>)}
+      {navItems.map((item, i) => <NavBarItem key={i} page={item}/>)}
     </ul>
   );
 }

@@ -1,7 +1,7 @@
 .logo {
   display: flex;
   align-items: center;
-  margin: 1.4rem;
+  margin: var(--space-md);
 }
 
 .logo-image, .logo-title{

@@ -1,0 +1,75 @@
+.main {
+  background-color: var(--color-light--1);
+  padding: var(--space-xl);
+  display: grid;
+  grid-template-columns: 250px 600px 250px;
+  grid-template-areas: "left posts right";
+  gap: var(--space-xl);
+  justify-content: center;
+}
+
+.left-section {
+  grid-area: left;
+}
+
+.posts-panel {
+  grid-area: posts;
+}
+
+.right-section {
+  grid-area: right;
+}
+
+.profile-summary-panel,
+.suggestions-panel,
+.premium-panel,
+.top-jobs-panel,
+.most-viewed-panel {
+  margin-bottom: var(--space-xs);
+  height: 400px;
+  background-color: white;
+  border-radius: var(--border-radius-default);
+  border: var(--border-style-default);
+}
+
+.posts-panel {
+  height: 1000px;
+  background-color: white;
+  border-radius: var(--border-radius-default);
+  border: var(--border-style-default);
+}
+
+@media (max-width: 1200px) {
+  .main {
+    grid-template-columns: 250px 600px;
+    grid-template-areas: "left posts";
+    gap: var(--space-xl);
+    align-items: start;
+  }
+  .right-section {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+  }
+}
+
+@media (max-width: 915px) {
+  .main {
+    grid-template-columns: 100%;
+    grid-template-areas: "posts";
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .right-section {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  .left-section {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+  }
+}

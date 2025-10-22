@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 6px #344f6437;
+  /* box-shadow: 0 2px 6px #344f6437; */
+  border: var(--border-style-default);
 }
 
 .show-more-ellipses {

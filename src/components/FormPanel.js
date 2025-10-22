@@ -1,3 +1,5 @@
+// npm run server
+
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import FormInput from "./FormInput";
@@ -19,15 +21,9 @@ export default function FormPanel() {
     if (isAuthenticated) navigate("/home", { replace: true });
   }, [isAuthenticated, navigate]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-
-    if (email === "john.doe@example.com" && password === "qwerty12345") {
-      login();
-      navigate("/home", { replace: true });
-    } else {
-      alert("Login Failed!");
-    }
+    login(email, password);
   }
 
   return (
@@ -60,7 +56,9 @@ export default function FormPanel() {
 
             <p className={styles["forgot-password"]}>Forgot password?</p>
           </div>
-          <Button type="submit" className={styles["form-button"]}>Sign In</Button>
+          <Button type="submit" className={styles["form-button"]}>
+            Sign In
+          </Button>
           <hr className={styles.hr} />
           <p className={styles["join-now"]}>New to CareerHive? Join Now</p>
         </form>
