@@ -1,36 +1,16 @@
 import styles from "./Post.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostStatus from "./PostStatus";
 import PostInteractions from "./PostInteractions";
 import PostCommentSection from "./PostCommentSection";
+import { usePost } from "../../context/PostContext";
 
 export default function Post() {
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(200);
-  const [openComments, setOpenComments] = useState(false);
-
+  const { state } = usePost();
+  const { liked, likes, openComments } = state;
   const commentInputRef = useRef(null);
-
-  function handleLike() {
-    if (liked) {
-      setLiked(false);
-      setLikes((likes) => likes - 1);
-    } else {
-      setLiked(true);
-      setLikes((likes) => likes + 1);
-    }
-  }
-
-  function handleOpenComments() {
-    setOpenComments(true);
-
-    // If already open → just focus the input
-    if (commentInputRef.current) {
-      commentInputRef.current.focus();
-    }
-  }
 
   // focus input when comments open
   useEffect(() => {
@@ -46,8 +26,6 @@ export default function Post() {
       <PostStatus likes={likes} />
       <PostInteractions
         liked={liked}
-        onLike={handleLike}
-        onOpenComments={handleOpenComments}
       />
       {openComments && <PostCommentSection ref={commentInputRef} />}
     </div>
