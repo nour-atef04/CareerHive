@@ -1,12 +1,12 @@
 // npm run server
 
 import { useEffect, useState } from "react";
-import Button from "./Button";
-import FormInput from "./FormInput";
+import Button from "../Button";
+import FormInput from "../FormInput";
 import styles from "./FormPanel.module.css";
-import Logo from "./Logo";
+import Logo from "../Logo/Logo";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function FormPanel() {
   // pre-fill for dev purposes

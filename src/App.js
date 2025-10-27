@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import NotFound from "./components/NotFound";
 import Network from "./pages/Network";
 import Jobs from "./pages/Jobs";

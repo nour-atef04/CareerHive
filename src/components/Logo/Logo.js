@@ -1,6 +1,6 @@
 import styles from "./Logo.module.css";
-import logoImage from "../assets/logo-image.png";
-import logoTitle from "../assets/logo-title.png";
+import logoImage from "../../assets/logo-image.png";
+import logoTitle from "../../assets/logo-title.png";
 
 export default function Logo({ className }) {
   return (

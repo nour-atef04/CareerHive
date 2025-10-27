@@ -1,0 +1,29 @@
+.interactions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.interactions div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  padding: var(--space-md);
+  border-radius: var(--border-radius-default);
+  font-weight: bolder;
+}
+
+.interactions div:hover {
+  background-color: var(--color-light--1);
+  transition: 0.2s;
+}
+
+.interactions img {
+  width: var(--space-md);
+}
+
+.liked {
+  color: rgb(0, 162, 255);
+}

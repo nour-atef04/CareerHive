@@ -1,0 +1,19 @@
+.icon {
+  height: var(--space-xxl);
+  width: var(--space-xxl);
+  background-color: grey;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.name {
+  color: var(--color-dark--3);
+  font-size: large;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}

@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/marketing-background.png");
+  background-image: url("../../assets/marketing-background.png");
   background-size: cover;
   background-position: center;
   background-color: var(--color-dark--4);

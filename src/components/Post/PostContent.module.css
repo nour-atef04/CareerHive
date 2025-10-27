@@ -1,0 +1,8 @@
+.content {
+  color: var(--color-dark--3);
+}
+
+.image {
+  background-color: grey;
+  height: 400px;
+}

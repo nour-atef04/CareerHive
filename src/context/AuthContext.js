@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
       }
     } catch (err) {
       console.log("Error during login: ", err);
-      alert("Something went wrong durig logging in.");
+      alert("Something went wrong during logging in.");
     }
   }
 
