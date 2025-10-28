@@ -1,9 +1,10 @@
-import styles from "./PostHeader.module.css"
+import styles from "./PostHeader.module.css";
+import userPfp from "../../assets/john.doe.jpg";
 
 export default function PostHeader() {
   return (
     <div className={styles["header"]}>
-      <div className={styles["icon"]}></div>
+      <img src={userPfp} alt="john doe" className={styles["icon"]} />
       <div>
         <h3 className={styles["name"]}>John Doe</h3>
         <p>Tech Enthusiast</p>

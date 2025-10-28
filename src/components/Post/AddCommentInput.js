@@ -1,22 +1,32 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import styles from "./AddCommentInput.module.css";
 import FormInput from "../FormInput";
 import { usePost } from "../../context/PostContext";
+import { useAuth } from "../../context/AuthContext";
 
-export default function AddCommentInput({ ref }) {
+const AddCommentInput = forwardRef(function AddCommentInput(_, ref) {
+  const { user } = useAuth();
+  const { image, name } = user;
   const [comment, setComment] = useState("");
   const { dispatch } = usePost();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!comment.trim()) return;
-    dispatch({ type: "add_comment", payload: comment });
+    dispatch({
+      type: "add_comment",
+      payload: { text: comment, author: name },
+    });
     setComment("");
   }
 
   return (
     <form className={styles["add-comment"]} onSubmit={handleSubmit}>
-      <div className={styles["comment-icon"]}></div>
+      <img
+        src={`/assets/${image}.jpg`}
+        alt="user"
+        className={styles["comment-icon"]}
+      />
       <FormInput
         ref={ref}
         className={styles["add-comment-input"]}
@@ -26,4 +36,6 @@ export default function AddCommentInput({ ref }) {
       />
     </form>
   );
-}
+});
+
+export default AddCommentInput;

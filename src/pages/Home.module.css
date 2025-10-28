@@ -20,13 +20,20 @@
   grid-area: right;
 }
 
-.profile-summary-panel,
 .suggestions-panel,
 .premium-panel,
 .top-jobs-panel,
 .most-viewed-panel {
   margin-bottom: var(--space-xs);
   height: 400px;
+  background-color: white;
+  border-radius: var(--border-radius-default);
+  border: var(--border-style-default);
+}
+
+.profile-summary-panel{
+  margin-bottom: var(--space-xs);
+  height: auto;
   background-color: white;
   border-radius: var(--border-radius-default);
   border: var(--border-style-default);

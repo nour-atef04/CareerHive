@@ -6,7 +6,7 @@ const postState = {
   liked: false,
   likes: 200,
   openComments: false,
-  comments: ["Proud of you!", "Congratulations!🎉"],
+  comments: [],
 };
 
 function reducer(state, action) {
@@ -21,13 +21,26 @@ function reducer(state, action) {
     case "toggle_comments":
       return {
         ...state,
-        openComments: true,
+        openComments: !state.openComments,
       };
 
     case "add_comment":
       return {
         ...state,
-        comments: [...state.comments, action.payload],
+        comments: [
+          {
+            id: Date.now(),
+            text: action.payload.text,
+            author: action.payload.author,
+          },
+          ...state.comments,
+        ],
+      };
+
+    case "delete_comment":
+      return {
+        ...state,
+        comments: state.comments.filter((c) => c.id !== action.payload),
       };
 
     default:

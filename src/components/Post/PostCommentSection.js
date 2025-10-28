@@ -10,8 +10,8 @@ const PostCommentSection = forwardRef(function PostCommentSection(_, ref) {
   return (
     <>
       <AddCommentInput ref={ref} />
-      {comments.map((comment, i) => (
-        <Comment key={i}>{comment}</Comment>
+      {comments.map((comment) => (
+        <Comment key={comment.id} comment={comment} />
       ))}
     </>
   );

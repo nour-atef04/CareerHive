@@ -5,16 +5,12 @@ import ProfileSummaryHomePanel from "../components/HomePanels/ProfileSummaryHome
 import SuggestionsHomePanel from "../components/HomePanels/SuggestionsHomePanel";
 import TopJobsHomePanel from "../components/HomePanels/TopJobsHomePanel";
 import styles from "./Home.module.css";
-import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
-  const { user } = useAuth();
-
   return (
     <main className={styles.main}>
       <section className={styles["left-section"]}>
         <ProfileSummaryHomePanel
-          profileName={user.name}
           className={styles["profile-summary-panel"]}
         />
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />

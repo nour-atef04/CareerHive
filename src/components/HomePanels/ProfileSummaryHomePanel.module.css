@@ -1,0 +1,70 @@
+.profile-summary-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-summary-header {
+  position: relative;
+  background-color: var(--color-brand--1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: var(--space-md);
+  padding-top: var(--space-lg);
+  padding-bottom: calc(var(--space-xxxl) / 2);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.profile-summary-container img {
+  position: absolute;
+  bottom: calc(var(--space-xxxl) / -2);
+  height: var(--space-xxxl);
+  width: var(--space-xxxl);
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.profile-name {
+  margin-top: calc(var(--space-xxxl) / 2 + var(--space-sm));
+  font-size: larger;
+  font-weight: bolder;
+  color: var(--color-brand--1);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-lg);
+  width: 100%;
+  border-bottom: solid 1px var(--color-light--2);
+}
+
+.stats > p:first-of-type , .profile-position {
+  color:var(--color-light--3);
+}
+
+.profile-position{
+    font-weight: bold;
+}
+
+.profile-summary-container > .stats:nth-of-type(2) {
+  border-top: solid 1px var(--color-light--2);
+  margin-top: var(--space-md);
+}
+
+.profile-summary-container > p:last-of-type {
+  color: var(--color-brand--2);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
+  cursor: pointer;
+}
+
+.profile-summary-container > p:last-of-type:hover {
+  text-decoration: underline;
+}

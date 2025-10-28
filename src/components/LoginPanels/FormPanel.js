@@ -10,7 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function FormPanel() {
   // pre-fill for dev purposes
-  const [email, setEmail] = useState("john.doe@example.com");
+  const [email, setEmail] = useState("jessica.william@example.com");
   const [password, setPassword] = useState("qwerty12345");
   const { isAuthenticated, login } = useAuth();
 

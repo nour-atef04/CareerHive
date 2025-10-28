@@ -1,4 +1,5 @@
 import styles from "./PostContent.module.css";
+import post from "../../assets/post.jpg";
 
 export default function PostContent() {
   return (
@@ -14,7 +15,7 @@ export default function PostContent() {
         pellentesque mi ac diam sollicitudin, commodo interdum ipsum lobortis.
         Vestibulum quis accumsan ante.
       </div>
-      <div className={styles["image"]}></div>
+      <img src={post} alt="post" />
     </>
   );
 }

@@ -2,9 +2,11 @@
   "users": [
     {
       "id": 1,
-      "email": "john.doe@example.com",
+      "email": "jessica.william@example.com",
       "password": "qwerty12345",
-      "name": "John Doe"
+      "name": "Jessica William",
+      "image": "jessica.william",
+      "position": "Data Scientist"
     },
     {
       "id": 2,
