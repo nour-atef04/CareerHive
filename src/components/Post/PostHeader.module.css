@@ -1,11 +1,3 @@
-.icon {
-  height: var(--space-xxl);
-  width: var(--space-xxl);
-  background-color: grey;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
 .name {
   color: var(--color-dark--3);
   font-size: large;

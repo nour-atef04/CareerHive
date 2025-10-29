@@ -1,5 +1,7 @@
 import { useAuth } from "../../context/AuthContext";
 import { usePost } from "../../context/PostContext";
+import DeleteButton from "../DeleteButton";
+import ProfileIcon from "../ProfileIcon";
 import styles from "./Comment.module.css";
 
 export default function Comment({ comment }) {
@@ -17,10 +19,10 @@ export default function Comment({ comment }) {
     <div className={styles["comment-container"]}>
       <div className={styles["comment"]}>
         <div className={styles["commenter-header"]}>
-          <img
+          <ProfileIcon
             src={`/assets/${image}.jpg`}
             alt="user"
-            className={styles["comment-icon"]}
+            size="small"
           />
           <div>
             <p className={styles["name"]}>{name}</p>
@@ -30,9 +32,7 @@ export default function Comment({ comment }) {
         <p className={styles["comment-content"]}>{comment.text}</p>
       </div>
       {isMine && (
-        <button onClick={handleDelete} className={styles["delete-btn"]}>
-          X
-        </button>
+        <DeleteButton onClick={handleDelete}/>
       )}
     </div>
   );

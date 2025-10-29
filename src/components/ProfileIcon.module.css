@@ -1,0 +1,20 @@
+.profile-icon {
+  border-radius: 50%;
+  background-color: grey;
+  cursor: pointer;
+}
+
+.small {
+  height: var(--space-xl);
+  width: var(--space-xl);
+}
+
+.medium {
+  height: var(--space-xxl);
+  width: var(--space-xxl);
+}
+
+.large {
+  height: var(--space-xxxl);
+  width: var(--space-xxxl);
+}

@@ -1,6 +1,7 @@
 import { useState, forwardRef } from "react";
 import styles from "./AddCommentInput.module.css";
 import FormInput from "../FormInput";
+import ProfileIcon from "../ProfileIcon";
 import { usePost } from "../../context/PostContext";
 import { useAuth } from "../../context/AuthContext";
 
@@ -22,10 +23,10 @@ const AddCommentInput = forwardRef(function AddCommentInput(_, ref) {
 
   return (
     <form className={styles["add-comment"]} onSubmit={handleSubmit}>
-      <img
+      <ProfileIcon
         src={`/assets/${image}.jpg`}
         alt="user"
-        className={styles["comment-icon"]}
+        size="small"
       />
       <FormInput
         ref={ref}

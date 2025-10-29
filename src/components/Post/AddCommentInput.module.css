@@ -9,11 +9,4 @@
     width: 90%;
 }
 
-.comment-icon {
-  height: var(--space-xl);
-  width: var(--space-xl);
-  background-color: grey;
-  border-radius: 50%;
-  cursor: pointer;
-}
 

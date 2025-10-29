@@ -7,8 +7,21 @@ export default function FormInput({
   onChange,
   autoComplete,
   className,
-  ref
+  ref,
 }) {
+  if (type === "textarea") {
+    return (
+      <textarea
+        className={`${styles.input} ${className || ""}`}
+        rows="5"
+        cols="40"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      ></textarea>
+    );
+  }
+
   return (
     <input
       type={type}
