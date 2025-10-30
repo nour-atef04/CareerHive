@@ -6,12 +6,13 @@ export default function Button({
   onClick,
   className,
   disabled=false,
+  filled=true
 }) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${styles.button} ${className || ""}`}
+      className={`${styles.button} ${className || ""} ${filled ? "" : styles["non-filled"]}`}
       disabled={disabled}
     >
       {children}

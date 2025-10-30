@@ -31,6 +31,10 @@
   border: var(--border-style-default);
 }
 
+.premium-panel{
+  border: none;
+}
+
 .profile-summary-panel{
   margin-bottom: var(--space-xs);
   height: auto;

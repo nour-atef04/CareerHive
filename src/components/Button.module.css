@@ -16,4 +16,7 @@
   background-color: #eab657;
 }
 
-
+.non-filled {
+  background-color: transparent;
+  border: 2px solid var(--color-light--1);
+}
