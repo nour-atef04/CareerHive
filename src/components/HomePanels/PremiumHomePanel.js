@@ -17,7 +17,7 @@ export default function PremiumHomePanel({ className }) {
         <li>✓ Interview Prep Tools</li>
         <li>✓ Learning Courses</li>
       </ul>
-      <Button filled={false}>Join Premium Now</Button>
+      <Button variant="outline" color="brand2">Join Premium Now</Button>
     </div>
   );
 }

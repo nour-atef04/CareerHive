@@ -56,7 +56,13 @@ export default function FormPanel() {
 
             <p className={styles["forgot-password"]}>Forgot password?</p>
           </div>
-          <Button type="submit" className={styles["form-button"]}>
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            color="brand2"
+            className={styles["form-button"]}
+          >
             Sign In
           </Button>
           <hr className={styles.hr} />

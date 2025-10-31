@@ -2,7 +2,7 @@ import MostViewedHomePanel from "../components/HomePanels/MostViewedHomePanel";
 import Posts from "../components/Post/Posts";
 import PremiumHomePanel from "../components/HomePanels/PremiumHomePanel";
 import ProfileSummaryHomePanel from "../components/HomePanels/ProfileSummaryHomePanel";
-import SuggestionsHomePanel from "../components/HomePanels/SuggestionsHomePanel";
+import SuggestionsHomePanel from "../components/HomePanels/Suggestions/SuggestionsHomePanel";
 import TopJobsHomePanel from "../components/HomePanels/TopJobsHomePanel";
 import styles from "./Home.module.css";
 

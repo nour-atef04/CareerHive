@@ -20,23 +20,23 @@
   grid-area: right;
 }
 
-.suggestions-panel,
 .premium-panel,
 .top-jobs-panel,
 .most-viewed-panel {
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-md);
   height: 400px;
   background-color: white;
   border-radius: var(--border-radius-default);
   border: var(--border-style-default);
 }
 
-.premium-panel{
+.premium-panel {
   border: none;
 }
 
-.profile-summary-panel{
-  margin-bottom: var(--space-xs);
+.profile-summary-panel,
+.suggestions-panel {
+  margin-bottom: var(--space-md);
   height: auto;
   background-color: white;
   border-radius: var(--border-radius-default);

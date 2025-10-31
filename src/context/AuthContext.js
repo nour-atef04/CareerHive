@@ -1,10 +1,30 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useReducer } from "react";
 
 const AuthContext = createContext();
+
+const initialState = { followers: 305, following: 10 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "add_following":
+      return {
+        ...state,
+        following: state.following + 1,
+      };
+    case "delete_following":
+      return {
+        ...state,
+        following: state.following - 1,
+      };
+    default:
+      throw new Error(`Unknown action type: ${action.type}`);
+  }
+}
 
 function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   async function login(email, password) {
     try {
@@ -27,7 +47,9 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, state, dispatch }}
+    >
       {children}
     </AuthContext.Provider>
   );

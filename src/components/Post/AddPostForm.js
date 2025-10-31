@@ -6,7 +6,13 @@ import Button from "../Button";
 import { useAuth } from "../../context/AuthContext";
 import importPhoto from "../../assets/import-photo.png";
 
-export default function AddPostForm({ setIsNewPostFormOpen, postText, setPostText, photo, setPhoto }) {
+export default function AddPostForm({
+  setIsNewPostFormOpen,
+  postText,
+  setPostText,
+  photo,
+  setPhoto,
+}) {
   const { user } = useAuth();
   const { image } = user;
 
@@ -54,8 +60,10 @@ export default function AddPostForm({ setIsNewPostFormOpen, postText, setPostTex
         </label>
         <Button
           className={styles["post-button"]}
-          disabled={postText && !postText.trim()}
+          variant={(postText === "" && !postText.trim()) ? "disabled" : "filled"}
           type="submit"
+          size="md"
+          color="brand2"
         >
           Post
         </Button>

@@ -1,0 +1,32 @@
+.suggestion {
+  padding: var(--space-lg);
+  /* border-bottom: var(--border-style-default); */
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  /* justify-content: space-between; */
+}
+
+.icon {
+  height: var(--space-xl);
+  width: var(--space-xl);
+  border-radius: 50%;
+  background-color: var(--color-brand--1);
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  font-weight: bold;
+  font-size: smaller;
+}
+
+.position {
+  font-size: small;
+}
+
+.follow-btn {
+  margin-left: auto;
+}

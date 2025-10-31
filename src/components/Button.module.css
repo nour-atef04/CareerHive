@@ -1,22 +1,75 @@
 .button {
-  padding: 0.5rem 1rem;
   font-family: inherit;
-  background-color: var(--color-brand--2);
   border: none;
   border-radius: 5px;
-  color: var(--color-light--1);
   font-weight: 900;
-  cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
-.button:hover {
+/* ===== VARIANTS ===== */
+.variant--filled {
+  background-color: var(--color-brand);
+  color: var(--color-light--1);
+  cursor: pointer;
+}
+
+.variant--filled:hover {
   transform: translateY(-2px);
   transition: 0.2s;
-  background-color: #eab657;
+  background-color: var(--color-brand--hover);
 }
 
-.non-filled {
+.variant--outline {
   background-color: transparent;
   border: 2px solid var(--color-light--1);
+  color: var(--color-light--1);
+  cursor: pointer;
+}
+
+.variant--outline:hover {
+  background-color: var(--color-brand);
+}
+
+.variant--outline-dark {
+  background-color: transparent;
+  border: 2px solid var(--color-light--2);
+  color: var(--color-light--2);
+  cursor: pointer;
+}
+
+.variant--outline-dark:hover {
+  background-color: var(--color-brand);
+  border: 1px solid var(--color-brand);
+  color: var(--color-light--1);
+}
+
+.variant--disabled {
+  background-color: var(--color-light--2);
+  color: var(--color-light--1);
+}
+
+/* ===== SIZES ===== */
+.size--sm {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  border: 1px solid;
+}
+.size--md {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+.size--lg {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+/* ===== COLORS ===== */
+.color--brand1 {
+  --color-brand: var(--color-brand--1);
+  --color-brand--hover: #3c7cad;
+}
+
+.color--brand2 {
+  --color-brand: var(--color-brand--2);
+  --color-brand--hover: #eab657;
 }

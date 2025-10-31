@@ -16,7 +16,7 @@ export default function AddPost() {
 
     // Example: print post content
     console.log({
-      text: postText,
+      text: postText === "",
       photo: photo?.name || "no photo",
     });
 

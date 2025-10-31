@@ -5,15 +5,22 @@ export default function Button({
   type = "button",
   onClick,
   className,
-  disabled=false,
-  filled=true
+  variant = "filled", // "filled" | "outline" | "outline-dark" | "disabled"
+  size = "md", // "sm" | "md" | "lg"
+  color = "brand1", // "brand1" | "brand2"
 }) {
+  const variantClass = styles[`variant--${variant}`];
+  const sizeClass = styles[`size--${size}`];
+  const colorClass = styles[`color--${color}`];
+
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${styles.button} ${className || ""} ${filled ? "" : styles["non-filled"]}`}
-      disabled={disabled}
+      className={`${styles.button} ${variantClass} ${sizeClass} ${colorClass} ${
+        className || ""
+      }`}
+      disabled={variant === "disabled"}
     >
       {children}
     </button>
