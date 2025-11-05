@@ -1,13 +1,7 @@
+// PostContext manages state of ONE post (likes, comments, etc.)
 import { createContext, useContext, useReducer } from "react";
 
 const PostContext = createContext();
-
-const postState = {
-  liked: false,
-  likes: 200,
-  openComments: false,
-  comments: [],
-};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -48,8 +42,15 @@ function reducer(state, action) {
   }
 }
 
-function PostProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, postState);
+function PostProvider({ post, children }) {
+  const initialPostState = {
+    liked: false,
+    likes: post.likes || 0,
+    openComments: false,
+    comments: post.comments || [],
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialPostState);
   return (
     <PostContext.Provider value={{ state, dispatch }}>
       {children}

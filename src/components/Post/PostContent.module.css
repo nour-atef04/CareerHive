@@ -1,3 +1,6 @@
 .content {
   color: var(--color-dark--3);
+  font-size: large;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }

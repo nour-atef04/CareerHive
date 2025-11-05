@@ -1,12 +1,64 @@
+// TODO: HANDLE POSTS PHOTOS!
+
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "jessica.william@example.com",
       "password": "qwerty12345",
       "name": "Jessica William",
       "image": "jessica.william",
       "position": "Data Scientist"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "authorId": "1",
+      "authorName": "Jessica William",
+      "authorImage": "jessica.william",
+      "authorPosition": "Data Scientist",
+      "text": "Excited to start a new project!",
+      "photo": null,
+      "date": "2025-11-05T10:00:00Z",
+      "likes": 12,
+      "comments": []
+    },
+    {
+      "id": 2,
+      "authorId": "2",
+      "authorName": "John Doe",
+      "authorImage": "john.doe",
+      "authorPosition": "Tech Enthusiast",
+      "text": "Hello CareerHive!",
+      "photo": null,
+      "date": "2025-11-05T17:25:46.433Z",
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 1762364400135,
+      "authorId": "1",
+      "authorName": "Jessica William",
+      "authorImage": "jessica.william",
+      "authorPosition": "Data Scientist",
+      "text": "This is my new project!",
+      "photo": null,
+      "date": "2025-11-05T17:40:00.135Z",
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 1762364666707,
+      "authorId": "1",
+      "authorName": "Jessica William",
+      "authorImage": "jessica.william",
+      "authorPosition": "Data Scientist",
+      "text": "here!\n",
+      "photo": null,
+      "date": "2025-11-05T17:44:26.707Z",
+      "likes": 0,
+      "comments": []
     }
   ]
 }

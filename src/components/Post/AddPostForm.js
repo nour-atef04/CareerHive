@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./AddPostForm.module.css";
 import ProfileIcon from "../ProfileIcon";
 import FormInput from "../FormInput";
@@ -16,9 +17,19 @@ export default function AddPostForm({
   const { user } = useAuth();
   const { image } = user;
 
+  const [photoPreview, setPhotoPreview] = useState(null);
+
   function handlePhotoChange(e) {
     const file = e.target.files[0];
-    setPhoto(file);
+    if (file) {
+      setPhoto(file); // keep the file for backend
+      setPhotoPreview(URL.createObjectURL(file)); // for UI
+    }
+  }
+
+  function handleDeletePhoto() {
+    setPhoto(null);
+    setPhotoPreview(null);
   }
 
   return (
@@ -36,14 +47,14 @@ export default function AddPostForm({
           placeholder="What do you want to talk about?"
         />
       </div>
-      {photo && (
+      {photoPreview && (
         <div className={styles["photo-preview"]}>
           <DeleteButton
             className={styles["delete-button"]}
-            onClick={() => setPhoto(null)}
+            onClick={handleDeletePhoto}
           />
 
-          <img src={URL.createObjectURL(photo)} alt="post media" />
+          <img src={photoPreview} alt="post media" />
         </div>
       )}
       <div className={styles["bottom-container"]}>
@@ -60,7 +71,7 @@ export default function AddPostForm({
         </label>
         <Button
           className={styles["post-button"]}
-          variant={(postText === "" && !postText.trim()) ? "disabled" : "filled"}
+          variant={postText === "" && !postText.trim() ? "disabled" : "filled"}
           type="submit"
           size="md"
           color="brand2"

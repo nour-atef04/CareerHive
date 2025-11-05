@@ -3,6 +3,7 @@ import ProfileIcon from "../ProfileIcon";
 import styles from "./AddPost.module.css";
 import { useState } from "react";
 import AddPostForm from "./AddPostForm";
+import { usePosts } from "../../context/PostsContext";
 
 export default function AddPost() {
   const { user } = useAuth();
@@ -10,15 +11,14 @@ export default function AddPost() {
   const [IsNewPostFormOpen, setIsNewPostFormOpen] = useState(false);
   const [postText, setPostText] = useState("");
   const [photo, setPhoto] = useState(null);
+  const { addPost } = usePosts();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    // Example: print post content
-    console.log({
-      text: postText === "",
-      photo: photo?.name || "no photo",
-    });
+    if (!postText.trim() && !photo) return;
+
+    addPost(postText, photo ? URL.createObjectURL(photo) : null);
 
     setPostText("");
     setPhoto(null);

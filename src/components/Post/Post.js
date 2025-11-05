@@ -7,9 +7,9 @@ import PostInteractions from "./PostInteractions";
 import PostCommentSection from "./PostCommentSection";
 import { usePost } from "../../context/PostContext";
 
-export default function Post() {
+export default function Post({ post }) {
   const { state } = usePost();
-  const { liked, likes, openComments } = state;
+  const { liked, likes, comments, openComments } = state;
   const commentInputRef = useRef(null);
 
   // focus input when comments open
@@ -21,12 +21,10 @@ export default function Post() {
 
   return (
     <div className={styles["post"]}>
-      <PostHeader />
-      <PostContent />
-      <PostStatus likes={likes} />
-      <PostInteractions
-        liked={liked}
-      />
+      <PostHeader post={post} />
+      <PostContent post={post} />
+      <PostStatus likes={likes} comments={comments}/>
+      <PostInteractions liked={liked} comments={comments}/>
       {openComments && <PostCommentSection ref={commentInputRef} />}
     </div>
   );
