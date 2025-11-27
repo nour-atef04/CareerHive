@@ -1,19 +1,14 @@
+import { Suspense } from "react";
 import {
   Navigate,
   Outlet,
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
+
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar/NavBar";
-import NotFound from "./components/NotFound";
-import Network from "./pages/Network";
-import Jobs from "./pages/Jobs";
-import Messages from "./pages/Messages";
-import Notifications from "./pages/Notifications";
 import { PostsProvider } from "./context/PostsContext";
 
 function ProtectedLayout() {
@@ -27,46 +22,65 @@ function ProtectedLayout() {
 }
 
 const router = createBrowserRouter([
-  // redirect to "/" to "/login"
   {
     path: "/",
     element: <Navigate to="/login" replace />,
   },
-  // public route
   {
     path: "/login",
-    element: <Login />,
+    lazy: async () => {
+      const { default: Login } = await import("./pages/Login");
+      return { Component: Login };
+    },
   },
-  // protected routes
   {
     element: <ProtectedLayout />,
     children: [
       {
         path: "/home",
-        element: <Home />,
+        lazy: async () => {
+          const { default: Home } = await import("./pages/Home");
+          return { Component: Home };
+        },
       },
       {
         path: "/network",
-        element: <Network />,
+        lazy: async () => {
+          const { default: Network } = await import("./pages/Network");
+          return { Component: Network };
+        },
       },
       {
         path: "/jobs",
-        element: <Jobs />,
+        lazy: async () => {
+          const { default: Jobs } = await import("./pages/Jobs");
+          return { Component: Jobs };
+        },
       },
       {
         path: "/messages",
-        element: <Messages />,
+        lazy: async () => {
+          const { default: Messages } = await import("./pages/Messages");
+          return { Component: Messages };
+        },
       },
       {
         path: "/notifications",
-        element: <Notifications />,
+        lazy: async () => {
+          const { default: Notifications } = await import(
+            "./pages/Notifications"
+          );
+          return { Component: Notifications };
+        },
       },
     ],
   },
-  // fallback route
   {
     path: "*",
-    element: <NotFound />,
+    lazy: async () => {
+      const { default: NotFound } = await import("./components/NotFound");
+      return { Component: NotFound };
+    },
   },
 ]);
 
@@ -100,7 +114,9 @@ export default function App() {
   return (
     <AuthProvider>
       <PostsProvider>
-        <RouterProvider router={router} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RouterProvider router={router} />
+        </Suspense>
       </PostsProvider>
     </AuthProvider>
   );

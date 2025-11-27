@@ -10,10 +10,10 @@ export default function Suggestion({ className, name, position }) {
   function handleFollow() {
     if (!followed) {
       setFollowed(true);
-      dispatch({ type: "add_following" });
+      dispatch({ type: "add_following", payload: name });
     } else {
       setFollowed(false);
-      dispatch({ type: "delete_following" });
+      dispatch({ type: "delete_following", payload: name });
     }
   }
 

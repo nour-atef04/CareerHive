@@ -5,12 +5,13 @@ import ChatPanel from "../components/MessagesPanels/ChatPanel";
 
 export default function Messages() {
   const [showChat, setShowChat] = useState(false);
+  const [chatPerson, setChatPerson] = useState("person1");
 
   return (
     <main className={styles["main"]}>
       <section className={styles["messages-page"]}>
-        <PeoplePanel showChat={showChat} setShowChat={setShowChat} />
-        <ChatPanel showChat={showChat} setShowChat={setShowChat} />
+        <PeoplePanel showChat={showChat} setShowChat={setShowChat} onSetChatPerson={setChatPerson}/>
+        <ChatPanel showChat={showChat} setShowChat={setShowChat} chatPerson={chatPerson}/>
       </section>
     </main>
   );

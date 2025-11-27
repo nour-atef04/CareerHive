@@ -1,23 +1,28 @@
-.message-other-person, .my-message{
-    width: 70%;
-    padding: var(--space-sm);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+.message-other-person,
+.my-message {
+  max-width: 70%;
+  width: fit-content;
+  padding: var(--space-sm);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
-.message-other-person{
-    background-color: var(--color-brand--1);
-    color: white;
+.message-other-person {
+  background-color: var(--color-brand--1);
+  color: white;
 }
 
-.my-message{
-    background-color: white;
-    margin-left: auto;
+.my-message {
+  background-color: white;
+  margin-left: auto;
 }
 
-.time{
-    font-size: var(--space-sm);
-    margin-left: auto;
-    opacity: 60%;
+.time {
+  font-size: var(--space-sm);
+  margin-left: auto;
+  opacity: 60%;
 }

@@ -1,11 +1,14 @@
 import ProfileIcon from "../ProfileIcon";
 import styles from "./MessagePerson.module.css";
 
-export default function MessagePerson({onClick}) {
+export default function MessagePerson({ onClick, name, className }) {
   return (
-    <div className={styles["message-person"]} onClick={onClick}>
+    <div
+      className={`${styles["message-person"]} ${className || ""}`}
+      onClick={onClick}
+    >
       <ProfileIcon />
-      <p>Name</p>
+      <p>{name}</p>
     </div>
   );
 }

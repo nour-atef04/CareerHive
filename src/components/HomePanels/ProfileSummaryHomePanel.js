@@ -22,11 +22,11 @@ export default function ProfileSummaryHomePanel({ className }) {
       <p className={styles["profile-position"]}>{position}</p>
       <div className={styles["stats"]}>
         <p>Followers</p>
-        <p>{followers}</p>
+        <p>{followers.length}</p>
       </div>
       <div className={styles["stats"]}>
         <p>Following</p>
-        <p>{following}</p>
+        <p>{following.length}</p>
       </div>
       <p>View Profile</p>
     </div>

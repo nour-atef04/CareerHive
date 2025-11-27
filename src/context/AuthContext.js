@@ -2,19 +2,32 @@ import { createContext, useContext, useState, useReducer } from "react";
 
 const AuthContext = createContext();
 
-const initialState = { followers: 305, following: 10 };
+// const initialState = { followers: 305, following: 10 };
+const initialState = {
+  followers: ["person1", "person2", "person3"],
+  following: [
+    "person1",
+    "person2",
+    "person3",
+    "person4",
+    "person5",
+    "person6",
+  ],
+};
 
 function reducer(state, action) {
   switch (action.type) {
     case "add_following":
       return {
         ...state,
-        following: state.following + 1,
+        following: [...state.following, action.payload],
       };
     case "delete_following":
       return {
         ...state,
-        following: state.following - 1,
+        following: state.following.filter(
+          (person) => person !== action.payload
+        ),
       };
     default:
       throw new Error(`Unknown action type: ${action.type}`);
