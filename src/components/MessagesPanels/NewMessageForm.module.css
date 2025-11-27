@@ -1,0 +1,14 @@
+.new-message {
+  background-color: white;
+  border-bottom-left-radius: var(--border-radius-default);
+  border-bottom-right-radius: var(--border-radius-default);
+  padding: var(--space-md);
+  border-color: transparent;
+  font-size: var(--space-md);
+  color: var(--color-light--4);
+  width: 100%;
+}
+
+.new-message:focus {
+  outline: none;
+}

@@ -1,6 +1,6 @@
 import styles from "./ProfileIcon.module.css";
 
-export default function ProfileIcon({ src, alt, className, size }) {
+export default function ProfileIcon({ src, alt, className, size = "small" }) {
 
   let sizeClassName;
 

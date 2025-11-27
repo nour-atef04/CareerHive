@@ -1,0 +1,34 @@
+.people-section {
+  width: 40%;
+  height: 100%;
+  border: inherit;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-lg) 0;
+}
+
+.people-section > *:not(:last-child) {
+  border-bottom: var(--border-style-default);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+
+@media (max-width: 600px) {
+  .people-section {
+    width: 100%;
+    border-radius: var(--border-radius-default);
+  }
+  .hide-people {
+    display: none;
+  }
+}
+
+@media (min-width: 1000px) {
+  .people-section {
+    width: 30%;
+  }
+}

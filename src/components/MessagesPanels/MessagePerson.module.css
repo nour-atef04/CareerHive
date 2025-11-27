@@ -1,0 +1,10 @@
+.message-person {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-lg);
+}
+
+.message-person:hover{
+    cursor: pointer;
+}

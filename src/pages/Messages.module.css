@@ -1,0 +1,23 @@
+.main {
+  background-color: var(--color-light--1);
+  padding: var(--space-xl);
+}
+
+.messages-page {
+  background-color: white;
+  height: 100vh;
+  width: 100%;
+  border: var(--border-style-default);
+  border-radius: var(--border-radius-default);
+  display: flex;
+}
+
+@media (min-width: 1000px) {
+    .main{
+        display: flex;
+        justify-content: center;
+    }
+    .messages-page{
+        max-width: 80%;
+    }
+}
