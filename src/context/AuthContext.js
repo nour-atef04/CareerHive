@@ -1,3 +1,5 @@
+// NOTE: I REFACTORED THE CODE TO USE REDUX TOOLKIT, BUT KEPT CONTEXTS FOR LEARNING PURPOSES
+
 import { createContext, useContext, useState, useReducer } from "react";
 
 const AuthContext = createContext();
@@ -5,14 +7,7 @@ const AuthContext = createContext();
 // const initialState = { followers: 305, following: 10 };
 const initialState = {
   followers: ["person1", "person2", "person3"],
-  following: [
-    "person1",
-    "person2",
-    "person3",
-    "person4",
-    "person5",
-    "person6",
-  ],
+  following: ["person1", "person2", "person3", "person4", "person5", "person6"],
 };
 
 function reducer(state, action) {

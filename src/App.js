@@ -6,10 +6,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar/NavBar";
-import { PostsProvider } from "./context/PostsContext";
 
 function ProtectedLayout() {
   return (
@@ -87,37 +85,16 @@ const router = createBrowserRouter([
 export default function App() {
   // return (
   //   <AuthProvider>
-  //     <BrowserRouter>
-  //       <Routes>
-  //         {/* Redirect "/" to "/login" */}
-  //         <Route path="/" element={<Navigate to="/login" replace />} />
-
-  //         {/* Public route */}
-  //         <Route path="/login" element={<Login />} />
-
-  //         {/* Protected routes */}
-  //         <Route element={<ProtectedLayout />}>
-  //           <Route path="/home" element={<Home />} />
-  //           <Route path="/network" element={<Network />} />
-  //           <Route path="/jobs" element={<Jobs />} />
-  //           <Route path="/messages" element={<Messages />} />
-  //           <Route path="/notifications" element={<Notifications />} />
-  //         </Route>
-
-  //         {/* Fallback */}
-  //         <Route path="*" element={<NotFound />} />
-  //       </Routes>
-  //     </BrowserRouter>
+  //     <PostsProvider>
+  //       <Suspense fallback={<div>Loading...</div>}>
+  //         <RouterProvider router={router} />
+  //       </Suspense>
+  //     </PostsProvider>
   //   </AuthProvider>
   // );
-
   return (
-    <AuthProvider>
-      <PostsProvider>
-        <Suspense fallback={<div>Loading...</div>}>
-          <RouterProvider router={router} />
-        </Suspense>
-      </PostsProvider>
-    </AuthProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }

@@ -4,8 +4,9 @@ import ProfileIcon from "../ProfileIcon";
 import FormInput from "../FormInput";
 import DeleteButton from "../DeleteButton";
 import Button from "../Button";
-import { useAuth } from "../../context/AuthContext";
 import importPhoto from "../../assets/import-photo.png";
+import { useSelector } from "react-redux";
+import { getUser } from "../../redux/slices/authSlice";
 
 export default function AddPostForm({
   setIsNewPostFormOpen,
@@ -14,7 +15,7 @@ export default function AddPostForm({
   photo,
   setPhoto,
 }) {
-  const { user } = useAuth();
+  const user = useSelector(getUser);
   const { image } = user;
 
   const [photoPreview, setPhotoPreview] = useState(null);

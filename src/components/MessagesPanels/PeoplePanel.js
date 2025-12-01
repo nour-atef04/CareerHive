@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
 import MessagePerson from "./MessagePerson";
 import styles from "./PeoplePanel.module.css";
+import { useSelector } from "react-redux";
+import { getFollowings } from "../../redux/slices/followSlice";
 
 const MAX_PEOPLE = 9;
 
@@ -10,9 +11,9 @@ export default function PeoplePanel({
   setShowChat,
   onSetChatPerson,
 }) {
-  const { state } = useAuth();
-  const { following } = state;
   const [searchChat, setSearchChat] = useState("");
+
+  const following = useSelector(getFollowings);
   const [followingList, setFollowingList] = useState(following);
 
   function handleInputChange(e) {

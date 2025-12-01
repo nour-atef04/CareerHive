@@ -1,24 +1,27 @@
-import { useAuth } from "../../context/AuthContext";
 import ProfileIcon from "../ProfileIcon";
 import styles from "./AddPost.module.css";
 import { useState } from "react";
 import AddPostForm from "./AddPostForm";
 import { usePosts } from "../../context/PostsContext";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../redux/slices/authSlice";
+import { addNewPost } from "../../redux/slices/postsSlice";
 
 export default function AddPost() {
-  const { user } = useAuth();
+  const user = useSelector(getUser);
   const { image } = user;
   const [IsNewPostFormOpen, setIsNewPostFormOpen] = useState(false);
   const [postText, setPostText] = useState("");
   const [photo, setPhoto] = useState(null);
-  const { addPost } = usePosts();
+  const dispatch = useDispatch();
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!postText.trim() && !photo) return;
 
-    addPost(postText, photo ? URL.createObjectURL(photo) : null);
+    const photoBase64 = photo ? URL.createObjectURL(photo) : null;
+    dispatch(addNewPost({ text: postText, photoBase64, user }));
 
     setPostText("");
     setPhoto(null);

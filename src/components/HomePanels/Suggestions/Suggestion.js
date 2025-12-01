@@ -1,19 +1,27 @@
 import styles from "./Suggestion.module.css";
 import Button from "../../Button";
 import { useState } from "react";
-import { useAuth } from "../../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import {
+  addFollowing,
+  deleteFollowing,
+} from "../../../redux/slices/followSlice";
+// import { useAuth } from "../../../context/AuthContext";
 
 export default function Suggestion({ className, name, position }) {
   const [followed, setFollowed] = useState(false);
-  const { dispatch } = useAuth();
+  // const { dispatch } = useAuth();
+  const dispatch = useDispatch();
 
   function handleFollow() {
     if (!followed) {
       setFollowed(true);
-      dispatch({ type: "add_following", payload: name });
+      // dispatch({ type: "add_following", payload: name });
+      dispatch(addFollowing(name));
     } else {
       setFollowed(false);
-      dispatch({ type: "delete_following", payload: name });
+      // dispatch({ type: "delete_following", payload: name });
+      dispatch(deleteFollowing(name));
     }
   }
 

@@ -1,3 +1,5 @@
+// NOTE: I REFACTORED THE CODE TO USE REDUX TOOLKIT, BUT KEPT CONTEXTS FOR LEARNING PURPOSES
+
 // PostContext manages state of ONE post (likes, comments, etc.)
 import { createContext, useContext, useReducer } from "react";
 

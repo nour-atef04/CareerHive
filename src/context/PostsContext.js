@@ -1,3 +1,5 @@
+// NOTE: I REFACTORED THE CODE TO USE REDUX TOOLKIT, BUT KEPT CONTEXTS FOR LEARNING PURPOSES
+
 // global PostsContext stores all posts
 
 import { createContext, useContext, useEffect, useReducer } from "react";
@@ -68,7 +70,7 @@ function PostsProvider({ children }) {
   // add new post
   async function addPost(text, photo) {
     // only convert if it's a valid File/Blob
-  const photoBase64 = await fileToBase64(photo);
+    const photoBase64 = await fileToBase64(photo);
 
     const newPost = {
       id: Date.now(),

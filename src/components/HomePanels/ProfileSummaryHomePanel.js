@@ -1,11 +1,19 @@
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 import ProfileIcon from "../ProfileIcon";
 import styles from "./ProfileSummaryHomePanel.module.css";
+import { getFollowers, getFollowings } from "../../redux/slices/followSlice";
+import { getUser } from "../../redux/slices/authSlice";
 
 export default function ProfileSummaryHomePanel({ className }) {
-  const { user, state } = useAuth();
+  // const { user, state } = useAuth();
+  // const { image, name, position } = user;
+  // const { followers, following } = state;
+
+  const user = useSelector(getUser);
   const { image, name, position } = user;
-  const { followers, following } = state;
+  const followers = useSelector(getFollowers);
+  const followings = useSelector(getFollowings);
 
   return (
     <div
@@ -26,7 +34,7 @@ export default function ProfileSummaryHomePanel({ className }) {
       </div>
       <div className={styles["stats"]}>
         <p>Following</p>
-        <p>{following.length}</p>
+        <p>{followings.length}</p>
       </div>
       <p>View Profile</p>
     </div>
