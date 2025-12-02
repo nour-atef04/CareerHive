@@ -4,7 +4,7 @@ import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostStatus from "./PostStatus";
 import PostInteractions from "./PostInteractions";
-import PostCommentSection from "./PostCommentSection";
+import PostCommentSection from "./Comments/PostCommentSection";
 import { useDispatch, useSelector } from "react-redux";
 import { initPostState } from "../../redux/slices/postUiSlice";
 

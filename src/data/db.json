@@ -117,6 +117,18 @@
       "date": "2025-12-01T22:08:32.661Z",
       "likes": 0,
       "comments": []
+    },
+    {
+      "id": 1764701092761,
+      "authorId": "1",
+      "authorName": "Jessica William",
+      "authorImage": "jessica.william",
+      "authorPosition": "Data Scientist",
+      "text": "Hello!\n",
+      "photo": null,
+      "date": "2025-12-02T18:44:52.761Z",
+      "likes": 0,
+      "comments": []
     }
   ],
   "chats": [
@@ -134,10 +146,10 @@
           "timestamp": "2025-11-01T10:05:00Z"
         },
         {
-          "id": "1764691000421",
+          "id": "1764699439688",
           "sender": "Jessica William",
-          "text": "Hey John :) ",
-          "timestamp": "2025-12-02T15:56:40.421Z"
+          "text": "Hey John! :)",
+          "timestamp": "2025-12-02T18:17:19.688Z"
         }
       ]
     },

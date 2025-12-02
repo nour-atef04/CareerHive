@@ -1,9 +1,5 @@
 import { useState } from "react";
 import styles from "./Message.module.css";
-import Button from "../../Button";
-import { useDispatch } from "react-redux";
-import { deleteMessage } from "../../../redux/slices/chatsSlice";
-import MessageOptions from "./MessageOptions";
 import EditMessageForm from "./EditMessageForm";
 import { formatFullTimestamp } from "../chatHelperFunctions";
 import DeleteConfirmation from "./DeleteConfirmation";

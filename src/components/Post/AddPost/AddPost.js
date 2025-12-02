@@ -1,11 +1,10 @@
-import ProfileIcon from "../ProfileIcon";
+import ProfileIcon from "../../ui/ProfileIcon";
 import styles from "./AddPost.module.css";
 import { useState } from "react";
 import AddPostForm from "./AddPostForm";
-import { usePosts } from "../../context/PostsContext";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../redux/slices/authSlice";
-import { addNewPost } from "../../redux/slices/postsSlice";
+import { getUser } from "../../../redux/slices/authSlice";
+import { addNewPost } from "../../../redux/slices/postsSlice";
 
 export default function AddPost() {
   const user = useSelector(getUser);

@@ -1,26 +1,19 @@
-import Button from "../Button";
+import Button from "../ui/Button";
 import Logo from "../Logo/Logo";
 import styles from "./NavBar.module.css";
 import ellipses from "../../assets/ellipses.png";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import NavBarItemsList from "./NavBarItemsList";
+import NavBarItem from "./NavBarItem";
 
 export default function NavBar() {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
     <div className={styles.navbar}>
-      <NavLink
-        to="/home"
-        className={({ isActive }) =>
-          isActive
-            ? `${styles["nav-item"]} ${styles.active}`
-            : styles["nav-item"]
-        }
-      >
+      <NavBarItem page={"/home"}>
         <Logo className={styles["navbar-logo"]} />
-      </NavLink>
+      </NavBarItem>
       <NavBarItemsList showMenu={showMenu} />
       <Button
         className={styles["show-more-button"]}

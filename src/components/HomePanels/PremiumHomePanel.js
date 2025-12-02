@@ -1,6 +1,6 @@
 import styles from "./PremiumHomePanel.module.css";
 import crown from "../../assets/crown.png";
-import Button from "../Button";
+import Button from "../ui/Button";
 
 export default function PremiumHomePanel({ className }) {
   return (

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import ProfileIcon from "../ProfileIcon";
+import ProfileIcon from "../ui/ProfileIcon";
 import styles from "./ProfileSummaryHomePanel.module.css";
 import { getFollowers, getFollowings } from "../../redux/slices/followSlice";
 import { getUser } from "../../redux/slices/authSlice";

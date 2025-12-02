@@ -5,7 +5,7 @@
 
 .messages-page {
   background-color: white;
-  height: 100vh;
+  height: 80vh;
   width: 100%;
   border: var(--border-style-default);
   border-radius: var(--border-radius-default);

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./NavBarItem.module.css";
 
-export default function NavBarItem({ page }) {
+export default function NavBarItem({ page, children }) {
   return (
     <li>
       <NavLink
@@ -12,7 +12,7 @@ export default function NavBarItem({ page }) {
             : styles["nav-item"]
         }
       >
-        <p className={styles["item-name"]}>{page}</p>
+        {children ? children : <p className={styles["item-name"]}>{page}</p>}
       </NavLink>
     </li>
   );

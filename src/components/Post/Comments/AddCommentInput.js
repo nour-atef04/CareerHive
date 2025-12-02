@@ -1,10 +1,10 @@
 import { useState, forwardRef } from "react";
 import styles from "./AddCommentInput.module.css";
-import FormInput from "../FormInput";
-import ProfileIcon from "../ProfileIcon";
+import FormInput from "../../ui/FormInput";
+import ProfileIcon from "../../ui/ProfileIcon";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../redux/slices/authSlice";
-import { addComment } from "../../redux/slices/postUiSlice";
+import { getUser } from "../../../redux/slices/authSlice";
+import { addComment } from "../../../redux/slices/postUiSlice";
 
 const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
   const user = useSelector(getUser);

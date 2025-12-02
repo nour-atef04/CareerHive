@@ -1,0 +1,44 @@
+.post-button {
+  width: 15%;
+  /* margin-left: auto; */
+  text-align: center;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.photo-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  padding: var(--space-md);
+  border-radius: var(--border-radius-default);
+  font-weight: bolder;
+  margin-left: auto;
+}
+
+.photo-upload:hover {
+  background-color: var(--color-light--1);
+  transition: 0.2s;
+}
+
+.bottom-container img {
+  width: var(--space-lg);
+}
+
+.bottom-container p {
+  color: var(--color-brand--2);
+  cursor: pointer;
+  font-size: larger;
+  margin-left: 4rem;
+}
+
+.bottom-container p:hover {
+  text-decoration: underline;
+}

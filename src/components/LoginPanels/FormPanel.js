@@ -1,8 +1,8 @@
 // npm run server
 
 import { useEffect, useState } from "react";
-import Button from "../Button";
-import FormInput from "../FormInput";
+import Button from "../ui/Button";
+import FormInput from "../ui/FormInput";
 import styles from "./FormPanel.module.css";
 import Logo from "../Logo/Logo";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import styles from "./Suggestion.module.css";
-import Button from "../../Button";
+import Button from "../../ui/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {

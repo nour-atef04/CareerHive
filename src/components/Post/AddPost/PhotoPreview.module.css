@@ -1,0 +1,25 @@
+.photo-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.photo-preview img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.delete-button {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  border: 1px solid var(--color-light--1);
+  border-radius: 50%;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.delete-button:hover {
+  border: 1px solid var(--color-brand--1);
+}

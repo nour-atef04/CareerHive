@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { editMessage } from "../../../redux/slices/chatsSlice";
 import { useState } from "react";
-import FormInput from "../../FormInput";
-import Button from "../../Button";
+import FormInput from "../../ui/FormInput";
+import Button from "../../ui/Button";
 import styles from "./EditMessageForm.module.css";
 
 export default function EditMessageForm({

@@ -1,0 +1,5 @@
+.comment-content {
+  margin-left: var(--space-xxl);
+  color: var(--color-dark--2);
+  font-size: larger;
+}

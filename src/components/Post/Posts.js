@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
-import AddPost from "./AddPost";
+import AddPost from "./AddPost/AddPost";
 import styles from "./Posts.module.css";
 import { loadPosts } from "../../redux/slices/postsSlice";
 import { useEffect } from "react";

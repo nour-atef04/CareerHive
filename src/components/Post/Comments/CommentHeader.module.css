@@ -1,0 +1,10 @@
+.commenter-header {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.name {
+  font-weight: bolder;
+  color: var(--color-dark--2);
+}

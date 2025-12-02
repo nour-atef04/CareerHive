@@ -3,7 +3,7 @@
 import { forwardRef } from "react";
 import AddCommentInput from "./AddCommentInput";
 import Comment from "./Comment";
-import { usePost } from "../../context/PostContext";
+import { usePost } from "../../../context/PostContext";
 import { useSelector } from "react-redux";
 
 const PostCommentSection = forwardRef(function PostCommentSection(

@@ -1,4 +1,4 @@
-import Button from "../../Button";
+import Button from "../../ui/Button";
 import MessageOptions from "./MessageOptions";
 import styles from "./DeleteConfirmation.module.css";
 import { useDispatch } from "react-redux";
