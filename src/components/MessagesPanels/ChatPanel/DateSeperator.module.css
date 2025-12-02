@@ -1,0 +1,10 @@
+.date-separator {
+  text-align: center;
+  margin: 12px auto;
+  padding: 4px 12px;
+  background: #e5e5e5;
+  color: #444;
+  border-radius: 12px;
+  width: fit-content;
+  font-size: 0.8rem;
+}

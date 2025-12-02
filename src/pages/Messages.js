@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Messages.module.css";
-import PeoplePanel from "../components/MessagesPanels/PeoplePanel";
-import ChatPanel from "../components/MessagesPanels/ChatPanel";
+import PeoplePanel from "../components/MessagesPanels/PeoplePanel/PeoplePanel";
+import ChatPanel from "../components/MessagesPanels/ChatPanel/ChatPanel";
 
 export default function Messages() {
   const [showChat, setShowChat] = useState(false);

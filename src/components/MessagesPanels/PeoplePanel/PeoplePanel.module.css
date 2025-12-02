@@ -16,20 +16,6 @@
   margin-bottom: var(--space-md);
 }
 
-.search {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.search > input {
-  margin: var(--space-sm);
-  padding: var(--space-sm);
-  border-radius: 40px;
-  border: var(--border-style-default);
-  width: 80%;
-}
-
 @media (max-width: 600px) {
   .people-section {
     width: 100%;
