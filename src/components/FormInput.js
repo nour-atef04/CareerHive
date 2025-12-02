@@ -1,7 +1,7 @@
 import styles from "./FormInput.module.css";
 
 export default function FormInput({
-  type,
+  type = "text",
   placeholder,
   value,
   onChange,

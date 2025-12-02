@@ -61,6 +61,50 @@ export const createChat = createAsyncThunk(
   }
 );
 
+export const editMessage = createAsyncThunk(
+  "chats/editMessage",
+  async ({ chatId, messageId, newText }) => {
+    const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+    const chat = await res.json();
+
+    const updatedChat = {
+      ...chat,
+      messages: chat.messages.map((msg) =>
+        msg.id === messageId ? { ...msg, text: newText } : msg
+      ),
+    };
+
+    await fetch(`http://localhost:3001/chats/${chatId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedChat),
+    });
+
+    return { chatId, messageId, newText };
+  }
+);
+
+export const deleteMessage = createAsyncThunk(
+  "chats/deleteMessage",
+  async ({ chatId, messageId }) => {
+    const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+    const chat = await res.json();
+
+    const updatedChat = {
+      ...chat,
+      messages: chat.messages.filter((msg) => msg.id !== messageId),
+    };
+
+    await fetch(`http://localhost:3001/chats/${chatId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedChat),
+    });
+
+    return { chatId, messageId };
+  }
+);
+
 const initialState = {
   chats: [],
   loading: false,
@@ -86,6 +130,23 @@ const chatsSlice = createSlice({
       })
       .addCase(createChat.fulfilled, (state, action) => {
         state.chats.push(action.payload);
+      })
+      .addCase(editMessage.fulfilled, (state, action) => {
+        const { chatId, messageId, newText } = action.payload;
+        const chat = state.chats.find((chat) => chat.id === chatId);
+
+        if (chat) {
+          const message = chat.messages.find((msg) => msg.id === messageId);
+          if (message) message.text = newText;
+        }
+      })
+      .addCase(deleteMessage.fulfilled, (state, action) => {
+        const { chatId, messageId } = action.payload;
+        const chat = state.chats.find((chat) => chat.id === chatId);
+
+        if (chat) {
+          chat.messages = chat.messages.filter((msg) => msg.id !== messageId);
+        }
       });
   },
 });

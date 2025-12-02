@@ -6,6 +6,7 @@
   border-top-right-radius: inherit;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .chat {
