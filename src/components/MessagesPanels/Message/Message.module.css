@@ -1,0 +1,46 @@
+.message-other-person,
+.my-message {
+  max-width: 70%;
+  width: fit-content;
+  padding: var(--space-sm);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.message-other-person {
+  background-color: var(--color-brand--1);
+  color: white;
+}
+
+.my-message {
+  background-color: white;
+  margin-left: auto;
+  position: relative;
+  padding-top: var(--space-lg);
+}
+
+.time {
+  font-size: var(--space-sm);
+  margin-left: auto;
+  opacity: 60%;
+}
+
+.edit-btn {
+  position: absolute;
+  transform: translateY(-27px);
+  /* left: 0;
+  margin-left: 15px; */
+  right: 0;
+  margin-right: 15px;
+  font-size: larger;
+  color: var(--color-light--2);
+}
+
+.edit-btn:hover {
+  color: var(--color-brand--1);
+  cursor: pointer;
+}

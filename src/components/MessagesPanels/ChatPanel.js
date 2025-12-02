@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styles from "./ChatPanel.module.css";
-import Message from "./Message";
+import Message from "./Message/Message";
 import NewMessageForm from "./NewMessageForm";
 import MessagePerson from "./MessagePerson";
 import { useDispatch, useSelector } from "react-redux";

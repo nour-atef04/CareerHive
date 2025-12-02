@@ -1,0 +1,17 @@
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: var(--space-xxs);
+  padding-bottom: var(--space-sm);
+}
+
+.edit-submit-btn {
+  position: absolute;
+  transform: translateY(35px);
+}
+
+.edit-submit-btn:hover {
+  transform: translateY(35px);
+}

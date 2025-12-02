@@ -1,0 +1,8 @@
+.option {
+  cursor: pointer;
+}
+
+.option:hover {
+  color: var(--color-brand--1);
+  font-weight: 600;
+}
