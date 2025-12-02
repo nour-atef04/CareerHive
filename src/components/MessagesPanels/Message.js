@@ -13,14 +13,14 @@ function formatFullTimestamp(isoString) {
   return `${day}/${month}/${year} · ${hours}:${mins}`;
 }
 
-export default function Message({ person, time, children }) {
-  const messageStyle = {
-    1: styles["my-message"],
-    2: styles["message-other-person"],
-  };
+export default function Message({ person, currentUser, time, children }) {
+  const messageStyle =
+    person === currentUser
+      ? styles["my-message"]
+      : styles["message-other-person"];
 
   return (
-    <div className={messageStyle[person]}>
+    <div className={messageStyle}>
       <p>{children}</p>
       <p className={styles["time"]}>{formatFullTimestamp(time)}</p>
     </div>

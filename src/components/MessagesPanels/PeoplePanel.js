@@ -44,6 +44,7 @@ export default function PeoplePanel({
         (person, i) =>
           i < MAX_PEOPLE && (
             <MessagePerson
+              key={i}
               name={person}
               onClick={() => {
                 setShowChat(true);

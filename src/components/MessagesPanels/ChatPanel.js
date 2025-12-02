@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./ChatPanel.module.css";
 import Message from "./Message";
 import NewMessageForm from "./NewMessageForm";
 import MessagePerson from "./MessagePerson";
-
-// pretend database
-const initialChats = {
-  person1: [
-    { person: "2", message: "Hey!", time: new Date().toISOString() },
-    { person: "1", message: "Hi!", time: new Date().toISOString() },
-  ],
-  person2: [
-    {
-      person: "2",
-      message: "Hi, how are you?",
-      time: new Date().toISOString(),
-    },
-  ],
-};
-
-function createTimestamp() {
-  return new Date().toISOString();
-}
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../redux/slices/authSlice";
+import {
+  createChat,
+  loadChats,
+  selectChatByParticipants,
+  sendMessage,
+} from "../../redux/slices/chatsSlice";
 
 function isSameDay(d1, d2) {
   return (
@@ -50,27 +39,45 @@ function getDateLabel(date) {
 }
 
 export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
-  const [allChats, setAllChats] = useState(initialChats);
-  const [messages, setMessages] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const chat = useSelector((state) =>
+    selectChatByParticipants(state, user.name, chatPerson)
+  );
 
-  //load messages whenever chatPerson changes
+  // load messages on mount
   useEffect(() => {
-    setMessages(allChats[chatPerson] || []);
-  }, [chatPerson, allChats]);
+    dispatch(loadChats());
+  }, [dispatch]);
 
-  function handleAddNewMessage(newMessage) {
-    const newMessageObj = {
-      person: "1",
-      message: newMessage,
-      time: createTimestamp(),
-    };
-    setAllChats((prev) => ({
-      ...prev,
-      [chatPerson]: [...(prev[chatPerson] || []), newMessageObj],
-    }));
+  const chatRef = useRef(null);
 
-    setMessages((prev) => [...prev, newMessageObj]);
+  // scroll to bottom when messages change
+  useEffect(() => {
+    chatRef.current?.scrollTo(0, chatRef.current.scrollHeight);
+  }, [chat?.messages]);
+
+  function handleAddNewMessage(text) {
+    if (!chat) {
+      dispatch(
+        createChat({
+          sender: user.name,
+          receiver: chatPerson,
+          text,
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      sendMessage({
+        chatId: chat.id,
+        sender: user.name,
+        text,
+      })
+    );
   }
+
   return (
     <section
       className={`${styles["chat-section"]} ${showChat && styles["show-chat"]}`}
@@ -83,33 +90,43 @@ export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
         >
           ←
         </button>
-        {messages?.map((message, i) => {
-          const msgDate = new Date(message.time);
+        {!chat && (
+          <div className={styles["date-separator"]}>
+            No messages yet. Say Hi to {chatPerson}!
+          </div>
+        )}
+        {chat?.messages?.map((message, i) => {
+          const msgDate = new Date(message.timestamp);
           // determine if this msg starts a new date section
           let showDateLabel = false;
           if (i === 0) {
             showDateLabel = true;
           } else {
-            const prevDate = new Date(messages[i - 1].time);
+            const prevDate = new Date(chat.messages[i - 1].timestamp);
             if (!isSameDay(prevDate, msgDate)) {
               showDateLabel = true;
             }
           }
           return (
-            <div key={i}>
+            <div key={message.id}>
               {showDateLabel && (
                 <div className={styles["date-separator"]}>
                   {getDateLabel(msgDate)}
                 </div>
               )}
 
-              <Message person={message.person} time={message.time}>
-                {message.message}
+              <Message
+                person={message.sender}
+                currentUser={user.name}
+                time={message.timestamp}
+              >
+                {message.text}
               </Message>
             </div>
           );
         })}
       </div>
+
       <NewMessageForm onAddNewMessage={handleAddNewMessage} />
     </section>
   );

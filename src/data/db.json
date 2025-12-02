@@ -71,7 +71,7 @@
       "comments": []
     },
     {
-      "id": 1764626566233,
+      "id": "1764626566233",
       "authorId": "1",
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
@@ -83,7 +83,7 @@
       "comments": []
     },
     {
-      "id": 1764626620154,
+      "id": "1764626620154",
       "authorId": "1",
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
@@ -95,7 +95,7 @@
       "comments": []
     },
     {
-      "id": 1764626663410,
+      "id": "1764626663410",
       "authorId": "1",
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
@@ -107,7 +107,7 @@
       "comments": []
     },
     {
-      "id": 1764626912661,
+      "id": "1764626912661",
       "authorId": "1",
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
@@ -117,6 +117,56 @@
       "date": "2025-12-01T22:08:32.661Z",
       "likes": 0,
       "comments": []
+    }
+  ],
+  "chats": [
+    {
+      "id": "1",
+      "participants": [
+        "Jessica William",
+        "John Doe"
+      ],
+      "messages": [
+        {
+          "id": "1700000000001",
+          "sender": "John Doe",
+          "text": "Hey Jessica!",
+          "timestamp": "2025-11-01T10:05:00Z"
+        },
+        {
+          "id": "1764674292718",
+          "sender": "Jessica William",
+          "text": "Hey John!",
+          "timestamp": "2025-12-02T11:18:12.718Z"
+        },
+        {
+          "id": "1764675685153",
+          "sender": "Jessica William",
+          "text": "How are you? :)",
+          "timestamp": "2025-12-02T11:41:25.153Z"
+        }
+      ]
+    },
+    {
+      "id": "1764676490317",
+      "participants": [
+        "Jessica William",
+        "person2"
+      ],
+      "messages": [
+        {
+          "id": "1764676490317",
+          "sender": "Jessica William",
+          "text": "Hello!",
+          "timestamp": "2025-12-02T11:54:50.317Z"
+        },
+        {
+          "id": "1764676493200",
+          "sender": "Jessica William",
+          "text": ":)",
+          "timestamp": "2025-12-02T11:54:53.200Z"
+        }
+      ]
     }
   ]
 }

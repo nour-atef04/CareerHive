@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import followReducer from "./slices/followSlice";
 import postsReducer from "./slices/postsSlice";
 import postUiReducer from "./slices/postUiSlice";
+import chatsReducer from "./slices/chatsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     follow: followReducer,
     posts: postsReducer,
     postUi: postUiReducer,
+    chats: chatsReducer,
   },
 });
