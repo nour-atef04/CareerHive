@@ -1,0 +1,12 @@
+.profile-section {
+  background-color: white;
+  width: 100%;
+  border: var(--border-style-default);
+  border-radius: var(--border-radius-default);
+}
+
+@media (min-width: 1000px) {
+  .profile-section {
+    max-width: 70%;
+  }
+}

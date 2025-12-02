@@ -1,0 +1,7 @@
+.profile-name, .stats-container{
+  margin-left: var(--space-lg);
+}
+
+.stats-container{
+  margin-bottom: var(--space-md);
+}

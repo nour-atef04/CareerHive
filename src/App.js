@@ -63,14 +63,13 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/notifications",
+        path: "/profile/:userId",
         lazy: async () => {
-          const { default: Notifications } = await import(
-            "./pages/Notifications"
-          );
-          return { Component: Notifications };
+          const { default: Profile } = await import("./pages/Profile");
+          return { Component: Profile };
         },
       },
+      { path: "/profile", element: <Navigate to="/profile/me" replace /> },
     ],
   },
   {
@@ -83,15 +82,6 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  // return (
-  //   <AuthProvider>
-  //     <PostsProvider>
-  //       <Suspense fallback={<div>Loading...</div>}>
-  //         <RouterProvider router={router} />
-  //       </Suspense>
-  //     </PostsProvider>
-  //   </AuthProvider>
-  // );
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <RouterProvider router={router} />

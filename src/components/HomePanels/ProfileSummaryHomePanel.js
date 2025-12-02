@@ -1,29 +1,25 @@
 import { useSelector } from "react-redux";
-import ProfileIcon from "../ui/ProfileIcon";
 import styles from "./ProfileSummaryHomePanel.module.css";
 import { getFollowers, getFollowings } from "../../redux/slices/followSlice";
 import { getUser } from "../../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import ProfileIconHeader from "../ui/ProfileIconHeader";
+import ProfileNamePosition from "../ui/ProfileNamePosition";
 
 export default function ProfileSummaryHomePanel({ className }) {
-
   const user = useSelector(getUser);
-  const { image, name, position } = user;
+  const { name, position } = user;
   const followers = useSelector(getFollowers);
   const followings = useSelector(getFollowings);
+
+  const navigate = useNavigate();
 
   return (
     <div
       className={`${styles["profile-summary-container"]} ${className || ""}`}
     >
-      <div className={styles["profile-summary-header"]}>
-        <ProfileIcon
-          src={`/assets/${image}.jpg`}
-          alt="user profile"
-          size="large"
-        />
-      </div>
-      <p className={styles["profile-name"]}>{name}</p>
-      <p className={styles["profile-position"]}>{position}</p>
+      <ProfileIconHeader type="centered"/>
+      <ProfileNamePosition name={name} position={position} />
       <div className={styles["stats"]}>
         <p>Followers</p>
         <p>{followers.length}</p>
@@ -32,7 +28,7 @@ export default function ProfileSummaryHomePanel({ className }) {
         <p>Following</p>
         <p>{followings.length}</p>
       </div>
-      <p>View Profile</p>
+      <p onClick={()=>navigate("/profile")}>View Profile</p>
     </div>
   );
 }

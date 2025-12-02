@@ -1,0 +1,21 @@
+.activity-container {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.activity-section-title {
+  color: var(--color-brand--1);
+}
+
+.activity-buttons {
+  display: flex;
+  gap: var(--space-xxs);
+}
+
+.activity-scroll {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: var(--space-md);
+}

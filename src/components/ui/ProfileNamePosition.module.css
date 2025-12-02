@@ -1,0 +1,10 @@
+.profile-name {
+  margin-top: calc(var(--space-xxxl) / 2 + var(--space-sm));
+  font-size: larger;
+  font-weight: bolder;
+  color: var(--color-brand--1);
+}
+
+.profile-position {
+  font-weight: bold;
+}
