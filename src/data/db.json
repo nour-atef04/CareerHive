@@ -33,102 +33,6 @@
       "date": "2025-11-05T17:25:46.433Z",
       "likes": 0,
       "comments": []
-    },
-    {
-      "id": "1762364400135",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "This is my new project!",
-      "photo": null,
-      "date": "2025-11-05T17:40:00.135Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1762364666707",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "here!\n",
-      "photo": null,
-      "date": "2025-11-05T17:44:26.707Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1764243703545",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "Hello Guys!",
-      "photo": null,
-      "date": "2025-11-27T11:41:43.545Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1764626566233",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "Hello!\n",
-      "photo": null,
-      "date": "2025-12-01T22:02:46.233Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1764626620154",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "hello!\n",
-      "photo": null,
-      "date": "2025-12-01T22:03:40.154Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1764626663410",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "Hello!",
-      "photo": null,
-      "date": "2025-12-01T22:04:23.410Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": "1764626912661",
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "Hello!",
-      "photo": null,
-      "date": "2025-12-01T22:08:32.661Z",
-      "likes": 0,
-      "comments": []
-    },
-    {
-      "id": 1764701092761,
-      "authorId": "1",
-      "authorName": "Jessica William",
-      "authorImage": "jessica.william",
-      "authorPosition": "Data Scientist",
-      "text": "Hello!\n",
-      "photo": null,
-      "date": "2025-12-02T18:44:52.761Z",
-      "likes": 0,
-      "comments": []
     }
   ],
   "chats": [
@@ -148,7 +52,7 @@
         {
           "id": "1764699439688",
           "sender": "Jessica William",
-          "text": "Hey John! :)",
+          "text": "Hey John! :D",
           "timestamp": "2025-12-02T18:17:19.688Z"
         }
       ]

@@ -16,7 +16,7 @@ export const addNewPost = createAsyncThunk(
   "posts/addNewPost",
   async ({ text, photoBase64, user }) => {
     const newPost = {
-      id: Date.now(),
+      id: Date.now().toString(),
       authorId: user.id,
       authorName: user.name,
       authorImage: user.image,
@@ -38,6 +38,40 @@ export const addNewPost = createAsyncThunk(
   }
 );
 
+// delete post
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (postId) => {
+    await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: "DELETE",
+    });
+
+    return postId;
+  }
+);
+
+// edit post
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async ({ postId, newText }) => {
+    const res = await fetch(`http://localhost:3001/posts/${postId}`);
+    const post = await res.json();
+    const updatedPost = {
+      ...post,
+      date: new Date().toISOString(),
+      text: newText,
+    };
+
+    await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedPost),
+    });
+
+    return { postId, newText };
+  }
+);
+
 const initialState = {
   posts: [],
   loading: false,
@@ -46,12 +80,7 @@ const initialState = {
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {
-    deletePost(state, action) {
-      // payload is the post ID
-      state.posts = state.posts.filter((post) => post.id !== action.payload);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loadPosts.pending, (state) => {
@@ -63,11 +92,22 @@ const postsSlice = createSlice({
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts.unshift(action.payload);
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        const postId = action.payload;
+        state.posts = state.posts.filter((post) => post.id !== postId);
+      })
+      .addCase(editPost.fulfilled, (state, action) => {
+        const { postId, newText } = action.payload;
+        state.posts = state.posts.map((post) =>
+          post.id === postId
+            ? { ...post, text: newText, date: new Date().toISOString() }
+            : post
+        );
       });
   },
 });
 
-export const { deletePost } = postsSlice.actions;
 export default postsSlice.reducer;
 
 export const getPosts = (state) => state.posts.posts;

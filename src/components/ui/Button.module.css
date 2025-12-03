@@ -46,6 +46,7 @@
 .variant--disabled {
   background-color: var(--color-light--2);
   color: var(--color-light--1);
+  cursor: no-drop;
 }
 
 /* ===== SIZES ===== */
@@ -73,5 +74,3 @@
   --color-brand: var(--color-brand--2);
   --color-brand--hover: #eab657;
 }
-
-

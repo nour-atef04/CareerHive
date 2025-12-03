@@ -6,6 +6,8 @@ import { loadPosts } from "../../redux/slices/postsSlice";
 import { useEffect, useRef, useState } from "react";
 
 export default function Posts({ className, userId }) {
+  const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
+
   const { posts, loading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
@@ -46,7 +48,12 @@ export default function Posts({ className, userId }) {
       {!userId && <AddPost />}
       {!loading &&
         visiblePosts.map((post) => (
-          <Post key={post.id} post={post} postId={post.id} />
+          <Post
+            key={post.id}
+            post={post}
+            openOptionsPostId={openOptionsPostId}
+            setOpenOptionsPostId={setOpenOptionsPostId}
+          />
         ))}
 
       {/*Lazy-loading trigger*/}

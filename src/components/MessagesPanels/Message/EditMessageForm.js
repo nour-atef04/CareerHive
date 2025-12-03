@@ -26,7 +26,7 @@ export default function EditMessageForm({
         value={editedText}
         onChange={(e) => setEditedText(e.target.value)}
       />
-      {editedText !== children && (
+      {editedText.trim() !== children.trim() && editedText.trim() !== "" && (
         <Button type="submit" size="sm" className={styles["edit-submit-btn"]}>
           Ok
         </Button>

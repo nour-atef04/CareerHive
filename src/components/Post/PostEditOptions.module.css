@@ -1,0 +1,30 @@
+.edit-options-btn {
+  font-size: large;
+  font-weight: bold;
+  color: var(--color-light--2);
+  cursor: pointer;
+}
+
+.edit-options-btn:hover {
+  color: var(--color-brand--1);
+  font-weight: 800;
+}
+
+.options-container {
+  position: absolute;
+  right: var(--space-lg);
+  border: var(--border-style-default);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.218);
+  transform: translateY(5px);
+}
+
+.option {
+  padding: var(--space-sm);
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: var(--color-light--1);
+}
