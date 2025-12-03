@@ -31,9 +31,11 @@ export const toggleLikeAsync = createAsyncThunk(
 // add comment
 export const addCommentAsync = createAsyncThunk(
   "postUi/addComment",
-  async ({ postId, text, author }, { dispatch }) => {
+  async ({ postId, text, author, authorId }, { dispatch }) => {
     // optimistic update (instead of waiting for backend save)
-    dispatch(postUiSlice.actions.addComment({ postId, text, author }));
+    dispatch(
+      postUiSlice.actions.addComment({ postId, text, author, authorId })
+    );
 
     const res = await fetch(`http://localhost:3001/posts/${postId}`);
     const post = await res.json();
@@ -45,6 +47,7 @@ export const addCommentAsync = createAsyncThunk(
           id: Date.now(),
           text,
           author,
+          authorId,
         },
         ...post.comments,
       ],
@@ -115,14 +118,27 @@ const postUiSlice = createSlice({
       const postUi = state[id];
       postUi.openComments = !postUi.openComments;
     },
+    toggleCommentsOff(state, action) {
+      // payload is the post id
+      const id = action.payload;
+      const postUi = state[id];
+      postUi.openComments = false;
+    },
+    toggleCommentsOn(state, action) {
+      // payload is the post id
+      const id = action.payload;
+      const postUi = state[id];
+      postUi.openComments = true;
+    },
     addComment(state, action) {
       // payload is the comment object
-      const { postId, text, author } = action.payload;
+      const { postId, text, author, authorId } = action.payload;
       const postUi = state[postId];
       postUi.comments.unshift({
         id: Date.now(),
         text,
         author,
+        authorId,
       });
     },
     deleteComment(state, action) {
@@ -167,5 +183,10 @@ const postUiSlice = createSlice({
   },
 });
 
-export const { initPostState, toggleComments } = postUiSlice.actions;
+export const {
+  initPostState,
+  toggleComments,
+  toggleCommentsOff,
+  toggleCommentsOn,
+} = postUiSlice.actions;
 export default postUiSlice.reducer;

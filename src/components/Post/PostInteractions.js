@@ -5,7 +5,10 @@ import repost from "../../assets/repost.png";
 import send from "../../assets/send.png";
 import like2 from "../../assets/like2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleComments, toggleLikeAsync } from "../../redux/slices/postUiSlice";
+import {
+  toggleComments,
+  toggleLikeAsync,
+} from "../../redux/slices/postUiSlice";
 
 export default function PostInteractions({ postId }) {
   const dispatch = useDispatch();
@@ -20,7 +23,11 @@ export default function PostInteractions({ postId }) {
         <img src={liked ? like2 : like} alt="like post" />
         Like
       </div>
-      <div onClick={() => dispatch(toggleComments(postId))}>
+      <div
+        onClick={() => {
+          dispatch(toggleComments(postId));
+        }}
+      >
         <img src={comment} alt="comment on post" />
         Comment
       </div>

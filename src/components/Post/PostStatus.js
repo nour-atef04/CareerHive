@@ -14,7 +14,9 @@ export default function PostStatus({ postId, likes, comments }) {
       </div>
       <div
         className={styles["comment-count"]}
-        onClick={() => dispatch(toggleComments(postId))}
+        onClick={() => {
+          dispatch(toggleComments(postId));
+        }}
       >
         {comments.length} comments
       </div>

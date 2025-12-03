@@ -8,7 +8,7 @@ import { addCommentAsync } from "../../../redux/slices/postUiSlice";
 
 const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
   const user = useSelector(getUser);
-  const { image, name } = user;
+  const { id, image, name } = user;
   const [comment, setComment] = useState("");
 
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
         postId,
         text: comment,
         author: name,
+        authorId: id.toString(),
       })
     );
     setComment("");

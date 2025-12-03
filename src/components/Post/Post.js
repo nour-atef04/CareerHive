@@ -6,7 +6,11 @@ import PostStatus from "./PostStatus";
 import PostInteractions from "./PostInteractions";
 import PostCommentSection from "./Comments/PostCommentSection";
 import { useDispatch, useSelector } from "react-redux";
-import { initPostState } from "../../redux/slices/postUiSlice";
+import {
+  initPostState,
+  toggleCommentsOff,
+  toggleCommentsOn,
+} from "../../redux/slices/postUiSlice";
 import PostEditOptions from "./PostEditOptions";
 import { getUser } from "../../redux/slices/authSlice";
 import PostEditModal from "./PostEditModal";
@@ -15,6 +19,7 @@ export default function Post({
   post,
   openOptionsPostId,
   setOpenOptionsPostId,
+  commentedPostfilter,
 }) {
   const postId = post.id;
   const postUi = useSelector((state) => state.postUi[postId]);
@@ -34,14 +39,21 @@ export default function Post({
         comments: post.comments,
       })
     );
-  }, [dispatch, postId, post]);
+    commentedPostfilter
+      ? dispatch(toggleCommentsOn(postId))
+      : dispatch(toggleCommentsOff(postId));
+  }, [dispatch, postId, commentedPostfilter, post]);
 
   // focus input when comments open
   useEffect(() => {
-    if (postUi?.openComments && commentInputRef.current) {
+    if (
+      postUi?.openComments &&
+      commentInputRef.current &&
+      !commentedPostfilter
+    ) {
       commentInputRef.current.focus();
     }
-  }, [postUi?.openComments]);
+  }, [postUi?.openComments, commentedPostfilter]);
 
   if (!postUi) return null;
   return (
@@ -58,14 +70,22 @@ export default function Post({
         )}
       </div>
       <PostContent post={post} openOptionsPostId={openOptionsPostId} />
-      <PostStatus postId={postId} likes={postUi.likes} comments={postUi.comments} />
+      <PostStatus
+        postId={postId}
+        likes={postUi.likes}
+        comments={postUi.comments}
+      />
       <PostInteractions
         liked={postUi.liked}
         comments={postUi.comments}
         postId={postId}
       />
       {postUi.openComments && (
-        <PostCommentSection ref={commentInputRef} postId={postId} />
+        <PostCommentSection
+          commentedPostfilter={commentedPostfilter}
+          ref={commentInputRef}
+          postId={postId}
+        />
       )}
       {editPostId === postId && (
         <PostEditModal post={post} onClose={() => setEditPostId(null)} />

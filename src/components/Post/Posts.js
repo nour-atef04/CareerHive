@@ -5,7 +5,7 @@ import styles from "./Posts.module.css";
 import { loadPosts } from "../../redux/slices/postsSlice";
 import { useEffect, useRef, useState } from "react";
 
-export default function Posts({ className, userId }) {
+export default function Posts({ className, userId, commentedPostfilter }) {
   const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
 
   const { posts, loading } = useSelector((state) => state.posts);
@@ -19,9 +19,15 @@ export default function Posts({ className, userId }) {
     dispatch(loadPosts());
   }, [dispatch]);
 
-  const filteredPosts = userId
-    ? posts.filter((p) => p.authorId === userId)
-    : posts;
+  let filteredPosts = posts;
+
+  if (commentedPostfilter) {
+    // If filter prop exists -> ALWAYS use it
+    filteredPosts = posts.filter(commentedPostfilter);
+  } else if (userId) {
+    // Otherwise fallback to userId filtering
+    filteredPosts = posts.filter((p) => p.authorId === userId);
+  }
 
   // IntersectionObserver to load more posts
   useEffect(() => {
@@ -53,6 +59,7 @@ export default function Posts({ className, userId }) {
             post={post}
             openOptionsPostId={openOptionsPostId}
             setOpenOptionsPostId={setOpenOptionsPostId}
+            commentedPostfilter={commentedPostfilter}
           />
         ))}
 

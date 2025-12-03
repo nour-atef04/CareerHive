@@ -33,6 +33,14 @@ export default function ProfileActivitySection({ user }) {
           <Posts userId={user.id} />
         </div>
       )}
+      {activeTab === "comments" && (
+        <div className={styles["activity-scroll"]}>
+          <Posts
+            userId={user.id}
+            commentedPostfilter={(post) => post.comments.some((c) => c.authorId === user.id)}
+          />
+        </div>
+      )}
     </ProfileSection>
   );
 }
