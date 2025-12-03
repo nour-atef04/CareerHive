@@ -24,10 +24,12 @@ export default function Post({
   const [editPostId, setEditPostId] = useState(null);
 
   // intialize UI state for this post
+  // it ensures that when a post renders, its local UI state exists
   useEffect(() => {
     dispatch(
       initPostState({
         postId,
+        liked: post.liked,
         likes: post.likes,
         comments: post.comments,
       })
@@ -56,7 +58,7 @@ export default function Post({
         )}
       </div>
       <PostContent post={post} openOptionsPostId={openOptionsPostId} />
-      <PostStatus likes={postUi.likes} comments={postUi.comments} />
+      <PostStatus postId={postId} likes={postUi.likes} comments={postUi.comments} />
       <PostInteractions
         liked={postUi.liked}
         comments={postUi.comments}

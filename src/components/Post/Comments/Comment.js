@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import DeleteButton from "../../ui/DeleteButton";
 import styles from "./Comment.module.css";
-import { deleteComment } from "../../../redux/slices/postUiSlice";
+import { deleteCommentAsync } from "../../../redux/slices/postUiSlice";
 import CommentHeader from "./CommentHeader";
 import { getUser } from "../../../redux/slices/authSlice";
 import CommentContent from "./CommentContent";
@@ -14,7 +14,7 @@ export default function Comment({ comment, postId }) {
 
   function handleDelete() {
     // dispatch({ type: "delete_comment", payload: comment.id });
-    dispatch(deleteComment({ postId, commentId: comment.id }));
+    dispatch(deleteCommentAsync({ postId, commentId: comment.id }));
   }
 
   return (

@@ -7,7 +7,7 @@ export default function ProfileStats({
 }) {
   return (
     <div className={`${styles["profile-stats"]} ${className || ""}`}>
-      <span>{followingsCount} followers</span>
+      <span>{followersCount} followers</span>
       <span> • </span>
       <span>{followingsCount} followings</span>
     </div>

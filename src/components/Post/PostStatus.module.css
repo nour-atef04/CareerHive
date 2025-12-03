@@ -15,3 +15,12 @@
 .status img {
   width: var(--space-md);
 }
+
+.comment-count{
+  cursor: pointer;
+}
+
+.comment-count:hover{
+  color: var(--color-brand--1);
+  text-decoration: underline;
+}

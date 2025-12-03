@@ -4,7 +4,7 @@ import FormInput from "../../ui/FormInput";
 import ProfileIcon from "../../ui/ProfileIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../redux/slices/authSlice";
-import { addComment } from "../../../redux/slices/postUiSlice";
+import { addCommentAsync } from "../../../redux/slices/postUiSlice";
 
 const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
   const user = useSelector(getUser);
@@ -17,7 +17,7 @@ const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
     e.preventDefault();
     if (!comment.trim()) return;
     dispatch(
-      addComment({
+      addCommentAsync({
         postId,
         text: comment,
         author: name,

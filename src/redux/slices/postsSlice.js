@@ -25,6 +25,7 @@ export const addNewPost = createAsyncThunk(
       photo: photoBase64,
       date: new Date().toISOString(),
       likes: 0,
+      liked: false,
       comments: [],
     };
 
