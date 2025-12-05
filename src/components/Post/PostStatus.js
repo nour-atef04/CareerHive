@@ -1,15 +1,15 @@
 import styles from "./PostStatus.module.css";
-import like2 from "../../assets/like2.png";
 import { useDispatch } from "react-redux";
 import { toggleComments } from "../../redux/slices/postUiSlice";
+import { AiOutlineLike } from "react-icons/ai";
 
 export default function PostStatus({ postId, likes, comments }) {
   const dispatch = useDispatch();
 
   return (
     <div className={styles["status"]}>
-      <div>
-        <img src={like2} alt={`${likes} likes`} />
+      <div >
+        <AiOutlineLike />
         {likes} likes
       </div>
       <div

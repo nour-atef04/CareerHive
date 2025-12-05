@@ -1,7 +1,7 @@
 import Button from "../ui/Button";
 import Logo from "../Logo/Logo";
 import styles from "./NavBar.module.css";
-import ellipses from "../../assets/ellipses.png";
+import { IoIosMore } from "react-icons/io";
 import { useState } from "react";
 import NavBarItemsList from "./NavBarItemsList";
 import NavBarItem from "./NavBarItem";
@@ -19,11 +19,7 @@ export default function NavBar() {
         className={styles["show-more-button"]}
         onClick={() => setShowMenu(showMenu ? false : true)}
       >
-        <img
-          src={ellipses}
-          alt="show more"
-          className={styles["show-more-ellipses"]}
-        />
+        <IoIosMore style={{ fontSize: "large" }} />
       </Button>
     </div>
   );

@@ -19,7 +19,7 @@ export default function ProfileSummaryHomePanel({ className }) {
       className={`${styles["profile-summary-container"]} ${className || ""}`}
     >
       <ProfileIconHeader type="centered"/>
-      <ProfileNamePosition name={name} position={position} />
+      <ProfileNamePosition className={styles["name-position"]} name={name} position={position} />
       <div className={styles["stats"]}>
         <p>Followers</p>
         <p>{followers.length}</p>

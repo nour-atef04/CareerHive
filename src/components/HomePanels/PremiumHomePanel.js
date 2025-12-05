@@ -1,12 +1,12 @@
 import styles from "./PremiumHomePanel.module.css";
-import crown from "../../assets/crown.png";
+import { PiCrownSimpleFill } from "react-icons/pi";
 import Button from "../ui/Button";
 
 export default function PremiumHomePanel({ className }) {
   return (
     <div className={`${styles["premium-panel"]} ${className || ""}`}>
       <div className={styles["header"]}>
-        <img className={styles["crown"]} src={crown} alt="crown" />
+        <PiCrownSimpleFill style={{ fontSize: "larger", color: "orange" }} />
         <p>Unlock Your Full Potential</p>
       </div>
       <h2>CareerHive Premium</h2>
@@ -17,7 +17,9 @@ export default function PremiumHomePanel({ className }) {
         <li>✓ Interview Prep Tools</li>
         <li>✓ Learning Courses</li>
       </ul>
-      <Button variant="outline" color="brand2">Join Premium Now</Button>
+      <Button variant="outline" color="brand2">
+        Join Premium Now
+      </Button>
     </div>
   );
 }

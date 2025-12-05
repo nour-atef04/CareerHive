@@ -1,10 +1,10 @@
 import styles from "./PostInteractions.module.css";
-import like from "../../assets/like.png";
-import comment from "../../assets/comment.png";
-import repost from "../../assets/repost.png";
-import send from "../../assets/send.png";
-import like2 from "../../assets/like2.png";
 import { useDispatch, useSelector } from "react-redux";
+import { AiOutlineLike } from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
+import { FaRegComment } from "react-icons/fa";
+import { BiRepost } from "react-icons/bi";
+import { LuSend } from "react-icons/lu";
 import {
   toggleComments,
   toggleLikeAsync,
@@ -20,23 +20,27 @@ export default function PostInteractions({ postId }) {
         onClick={() => dispatch(toggleLikeAsync(postId))}
         className={liked ? styles["liked"] : ""}
       >
-        <img src={liked ? like2 : like} alt="like post" />
-        Like
+        {liked ? (
+          <AiFillLike style={{ fontSize: "larger" }} />
+        ) : (
+          <AiOutlineLike style={{ fontSize: "larger" }} />
+        )}
+        <span>Like</span>
       </div>
       <div
         onClick={() => {
           dispatch(toggleComments(postId));
         }}
       >
-        <img src={comment} alt="comment on post" />
-        Comment
+        <FaRegComment />
+        <span>Comment</span>
       </div>
       <div>
-        <img src={repost} alt="repost" />
+        <BiRepost style={{ fontSize: "large" }} />
         Repost
       </div>
       <div>
-        <img src={send} alt="send post" />
+        <LuSend />
         Send
       </div>
     </div>

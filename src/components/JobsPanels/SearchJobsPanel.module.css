@@ -1,0 +1,44 @@
+.search-job-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-lg);
+}
+
+.search-job-input {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.saved-jobs,
+.post-job {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: var(--space-md);
+  cursor: pointer;
+  position: relative;
+}
+
+.post-job{
+  border-top: var(--border-style-default);
+}
+
+.saved-jobs:hover,
+.post-job:hover {
+  background-color: var(--color-light--1);
+  border-radius: var(--border-radius-default);
+}
+
+@media (min-width: 900px) {
+  .search-job-input {
+    width: 85%;
+  }
+}

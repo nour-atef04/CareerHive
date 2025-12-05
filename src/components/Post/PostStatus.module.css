@@ -16,11 +16,15 @@
   width: var(--space-md);
 }
 
-.comment-count{
+.comment-count {
   cursor: pointer;
 }
 
-.comment-count:hover{
+.comment-count:hover {
   color: var(--color-brand--1);
   text-decoration: underline;
+}
+
+.likes {
+  color: rgb(0, 162, 255);
 }

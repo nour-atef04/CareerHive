@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: fit-content;
 }
 
 .profile-summary-container img {
@@ -41,4 +42,11 @@
 
 .profile-summary-container > p:last-of-type:hover {
   text-decoration: underline;
+}
+
+.name-position{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

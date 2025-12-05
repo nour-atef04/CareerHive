@@ -1,6 +1,6 @@
 import MessagePerson from "../MessagePerson";
 
-const MAX_PEOPLE = 9;
+const MAX_PEOPLE = 7;
 
 export default function PeopleList({
   followingList,

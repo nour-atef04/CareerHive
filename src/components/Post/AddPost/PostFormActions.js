@@ -1,6 +1,6 @@
 import Button from "../../ui/Button";
 import styles from "./PostFormActions.module.css";
-import importPhoto from "../../../assets/import-photo.png";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function PostFormActions({
   setPhoto,
@@ -19,7 +19,7 @@ export default function PostFormActions({
     <div className={styles["bottom-container"]}>
       <p onClick={() => setIsNewPostFormOpen(false)}>Hide</p>
       <label className={styles["photo-upload"]}>
-        <img src={importPhoto} alt="import" />
+        <MdOutlineAddPhotoAlternate style={{ fontSize: "large" }} />
         Add Photo
         <input
           type="file"

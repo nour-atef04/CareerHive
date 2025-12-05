@@ -1,6 +1,10 @@
 .nav-item {
   color: var(--color-dark--1);
   text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .active {
@@ -9,6 +13,3 @@
   font-weight: 600;
 }
 
-.item-name {
-  text-transform: capitalize;
-}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./ChatSearch.module.css";
+import FormInput from "../../ui/FormInput";
 
 export default function ChatSearch({ following, setFollowingList }) {
   const [searchChat, setSearchChat] = useState("");
@@ -16,7 +17,7 @@ export default function ChatSearch({ following, setFollowingList }) {
 
   return (
     <div className={styles["search"]}>
-      <input
+      <FormInput
         type="text"
         placeholder="Search chat"
         value={searchChat}

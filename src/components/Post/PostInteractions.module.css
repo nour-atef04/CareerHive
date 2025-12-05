@@ -20,10 +20,6 @@
   transition: 0.2s;
 }
 
-.interactions img {
-  width: var(--space-md);
-}
-
 .liked {
   color: rgb(0, 162, 255);
 }

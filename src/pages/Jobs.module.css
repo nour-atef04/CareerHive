@@ -1,0 +1,43 @@
+.main {
+  background-color: var(--color-light--1);
+  padding: var(--space-xl);
+  display: grid;
+  grid-template-columns: 350px 700px;
+  grid-template-rows: auto auto;
+  gap: var(--space-xl);
+  justify-content: center;
+  align-items: start; 
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl); 
+}
+
+.jobs-section {
+  align-self: start;
+  height: 1000px;
+}
+
+.profile-summary-section,
+.search-jobs-section,
+.jobs-section {
+  background-color: white;
+  border-radius: var(--border-radius-default);
+  border: var(--border-style-default);
+}
+
+@media(max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .left-column {
+    order: 1;
+  }
+  .jobs-section {
+    order: 2;
+  }
+}
+
