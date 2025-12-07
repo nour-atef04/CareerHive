@@ -1,0 +1,20 @@
+.job-item {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  text-decoration: none;
+}
+
+.job-name {
+  font-weight: bolder;
+  color: var(--color-brand--1);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.job-info {
+  font-size: smaller;
+  color: var(--color-dark--1);
+  
+}

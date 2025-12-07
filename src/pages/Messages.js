@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Messages.module.css";
 import PeoplePanel from "../components/MessagesPanels/PeoplePanel/PeoplePanel";
 import ChatPanel from "../components/MessagesPanels/ChatPanel/ChatPanel";
+import Panel from "../components/ui/Panel"
 
 export default function Messages() {
   const [showChat, setShowChat] = useState(false);
@@ -9,7 +10,7 @@ export default function Messages() {
 
   return (
     <main className={styles["main"]}>
-      <section className={styles["messages-page"]}>
+      <Panel className={styles["messages-page"]}>
         <PeoplePanel
           showChat={showChat}
           setShowChat={setShowChat}
@@ -20,7 +21,7 @@ export default function Messages() {
           setShowChat={setShowChat}
           chatPerson={chatPerson}
         />
-      </section>
+      </Panel>
     </main>
   );
 }

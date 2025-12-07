@@ -1,0 +1,8 @@
+.panel-title {
+  /* padding: var(--space-lg); */
+  /* border-bottom: var(--border-style-default); */
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-brand--1);
+}

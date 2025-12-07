@@ -1,3 +1,5 @@
+import Panel from "../ui/Panel";
+
 export default function TopJobsHomePanel({ className }) {
-  return <div className={className || ""}>Tob Jobs</div>;
+  return <Panel className={className || ""}>Tob Jobs</Panel>;
 }

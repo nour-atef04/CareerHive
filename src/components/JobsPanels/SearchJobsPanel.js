@@ -3,10 +3,11 @@ import { IoSearchOutline } from "react-icons/io5";
 import { FiBookmark } from "react-icons/fi";
 import { LuSquarePen } from "react-icons/lu";
 import styles from "./SearchJobsPanel.module.css";
+import Panel from "../ui/Panel";
 
-export default function SearchJobsPanels({ className }) {
+export default function SearchJobsPanels() {
   return (
-    <section className={`${styles["search-job-container"]} ${className || ""}`}>
+    <Panel className={styles["search-job-container"]}>
       <div className={styles["search-job-input"]}>
         <IoSearchOutline />
         <FormInput placeholder="Companies, location, or skills..." />
@@ -21,6 +22,6 @@ export default function SearchJobsPanels({ className }) {
         <LuSquarePen />
         Post a job
       </div>
-    </section>
+    </Panel>
   );
 }

@@ -14,6 +14,7 @@ import {
 import PostEditOptions from "./PostEditOptions";
 import { getUser } from "../../redux/slices/authSlice";
 import PostEditModal from "./PostEditModal";
+import Panel from "../ui/Panel";
 
 export default function Post({
   post,
@@ -57,7 +58,7 @@ export default function Post({
 
   if (!postUi) return null;
   return (
-    <div className={styles["post"]}>
+    <Panel className={styles["post"]}>
       <div className={styles["post-header"]}>
         <PostHeader post={post} />
         {post.authorId === user.id && (
@@ -90,6 +91,6 @@ export default function Post({
       {editPostId === postId && (
         <PostEditModal post={post} onClose={() => setEditPostId(null)} />
       )}
-    </div>
+    </Panel>
   );
 }

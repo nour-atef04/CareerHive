@@ -1,4 +1,5 @@
 import ProfileSummaryHomePanel from "../components/HomePanels/ProfileSummaryHomePanel";
+import JobsPanel from "../components/JobsPanels/JobsPanel";
 import SearchJobsPanels from "../components/JobsPanels/SearchJobsPanel";
 import styles from "./Jobs.module.css";
 
@@ -9,9 +10,9 @@ export default function Jobs() {
         <ProfileSummaryHomePanel
           className={styles["profile-summary-section"]}
         />
-        <SearchJobsPanels className={styles["search-jobs-section"]}/>
+        <SearchJobsPanels />
       </div>
-      <section className={styles["jobs-section"]}>Jobs</section>
+      <JobsPanel className={styles["jobs-section"]}/>
     </main>
   );
 }

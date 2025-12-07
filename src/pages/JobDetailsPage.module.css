@@ -3,18 +3,18 @@
   padding: var(--space-xl);
 }
 
-.messages-page {
+.panels {
   height: 80vh;
   width: 100%;
   display: flex;
 }
 
 @media (min-width: 1000px) {
-    .main{
-        display: flex;
-        justify-content: center;
-    }
-    .messages-page{
-        max-width: 80%;
-    }
+  .main {
+    display: flex;
+    justify-content: center;
+  }
+  .panels {
+    max-width: 80%;
+  }
 }

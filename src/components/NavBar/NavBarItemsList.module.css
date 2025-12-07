@@ -12,10 +12,11 @@
   }
 
   .navbar-list.show {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
     width: 10rem;
     line-height: 2rem;
-    flex-direction: column;
     position: absolute;
     top: 4.5rem;
     right: 2rem;

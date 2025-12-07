@@ -56,6 +56,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/jobs/:jobId",
+        lazy: async () => {
+          const { default: JobDetailsPage } = await import(
+            "./pages/JobDetailsPage"
+          );
+          return { Component: JobDetailsPage };
+        },
+      },
+      {
         path: "/messages",
         lazy: async () => {
           const { default: Messages } = await import("./pages/Messages");

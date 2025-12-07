@@ -1,3 +1,5 @@
+import Panel from "../ui/Panel";
+
 export default function MostViewedHomePanel({ className }) {
-  return <div className={className || ""}>Most Viewed</div>;
+  return <Panel className={className || ""}>Most Viewed</Panel>;
 }

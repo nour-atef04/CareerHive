@@ -1,0 +1,7 @@
+.jobs-container {
+  padding: var(--space-md);
+}
+
+.jobs-container > h3 {
+  color: var(--color-brand--1);
+}

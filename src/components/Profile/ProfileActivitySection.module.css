@@ -5,10 +5,6 @@
   gap: var(--space-xs);
 }
 
-.activity-section-title {
-  color: var(--color-brand--1);
-}
-
 .activity-buttons {
   display: flex;
   gap: var(--space-xxs);

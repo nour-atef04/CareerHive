@@ -5,6 +5,7 @@ import { getUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import ProfileIconHeader from "../ui/ProfileIconHeader";
 import ProfileNamePosition from "../ui/ProfileNamePosition";
+import Panel from "../ui/Panel";
 
 export default function ProfileSummaryHomePanel({ className }) {
   const user = useSelector(getUser);
@@ -15,11 +16,15 @@ export default function ProfileSummaryHomePanel({ className }) {
   const navigate = useNavigate();
 
   return (
-    <div
+    <Panel
       className={`${styles["profile-summary-container"]} ${className || ""}`}
     >
-      <ProfileIconHeader type="centered"/>
-      <ProfileNamePosition className={styles["name-position"]} name={name} position={position} />
+      <ProfileIconHeader type="centered" />
+      <ProfileNamePosition
+        className={styles["name-position"]}
+        name={name}
+        position={position}
+      />
       <div className={styles["stats"]}>
         <p>Followers</p>
         <p>{followers.length}</p>
@@ -28,7 +33,7 @@ export default function ProfileSummaryHomePanel({ className }) {
         <p>Following</p>
         <p>{followings.length}</p>
       </div>
-      <p onClick={()=>navigate("/profile")}>View Profile</p>
-    </div>
+      <p onClick={() => navigate("/profile")}>View Profile</p>
+    </Panel>
   );
 }

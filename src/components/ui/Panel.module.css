@@ -1,0 +1,9 @@
+.panel {
+  background-color: white;
+  border-radius: var(--border-radius-default);
+  border: var(--border-style-default);
+}
+
+.top-border {
+  border-top: 10px solid var(--color-brand--1);
+}

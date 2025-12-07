@@ -1,3 +1,5 @@
+import Panel from "../../ui/Panel";
+import PanelTitle from "../../ui/PanelTitle";
 import Suggestion from "./Suggestion";
 import styles from "./SuggestionsHomePanel.module.css";
 
@@ -38,16 +40,16 @@ const suggestions = [
 
 export default function SuggestionsHomePanel({ className }) {
   return (
-    <div className={`${styles["suggestions-container"]} ${className || ""}`}>
-      <h4 className={styles["panel-title"]}>Suggestions</h4>
+    <Panel className={`${styles["suggestions-container"]} ${className || ""}`}>
+      <PanelTitle className={styles["panel-title"]}>Suggestions</PanelTitle>
       {suggestions.map((suggestion, i) => (
         <Suggestion
-          className={styles["suggestion"]}
+          className={styles.suggestion}
           key={i}
           name={suggestion.name}
           position={suggestion.position}
         />
       ))}
-    </div>
+    </Panel>
   );
 }

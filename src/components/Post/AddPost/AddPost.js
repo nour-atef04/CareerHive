@@ -5,6 +5,7 @@ import AddPostForm from "./AddPostForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../redux/slices/authSlice";
 import { addNewPost } from "../../../redux/slices/postsSlice";
+import Panel from "../../ui/Panel";
 
 export default function AddPost() {
   const user = useSelector(getUser);
@@ -28,30 +29,32 @@ export default function AddPost() {
   }
 
   return (
-    <form className={styles["add-post-container"]} onSubmit={handleSubmit}>
-      {IsNewPostFormOpen ? (
-        <AddPostForm
-          setIsNewPostFormOpen={setIsNewPostFormOpen}
-          photo={photo}
-          setPhoto={setPhoto}
-          postText={postText}
-          setPostText={setPostText}
-        />
-      ) : (
-        <div className={styles["add-post"]}>
-          <ProfileIcon
-            src={`/assets/${image}.jpg`}
-            alt="user profile"
-            size="medium"
+    <form onSubmit={handleSubmit}>
+      <Panel className={styles["add-post-container"]} topBorder={true}>
+        {IsNewPostFormOpen ? (
+          <AddPostForm
+            setIsNewPostFormOpen={setIsNewPostFormOpen}
+            photo={photo}
+            setPhoto={setPhoto}
+            postText={postText}
+            setPostText={setPostText}
           />
-          <div
-            onClick={() => setIsNewPostFormOpen(true)}
-            className={styles["create-new-post"]}
-          >
-            Create New Post
+        ) : (
+          <div className={styles["add-post"]}>
+            <ProfileIcon
+              src={`/assets/${image}.jpg`}
+              alt="user profile"
+              size="medium"
+            />
+            <div
+              onClick={() => setIsNewPostFormOpen(true)}
+              className={styles["create-new-post"]}
+            >
+              Create New Post
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </Panel>
     </form>
   );
 }

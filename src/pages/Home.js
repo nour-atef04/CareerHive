@@ -10,9 +10,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <section className={styles["left-section"]}>
-        <ProfileSummaryHomePanel
-          className={styles["profile-summary-panel"]}
-        />
+        <ProfileSummaryHomePanel className={styles["profile-summary-panel"]} />
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />
       </section>
 

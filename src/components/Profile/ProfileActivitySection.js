@@ -3,6 +3,7 @@ import ProfileSection from "./ProfileSection";
 import Button from "../ui/Button";
 import Posts from "../Post/Posts";
 import { useState } from "react";
+import PanelTitle from "../ui/PanelTitle";
 
 export default function ProfileActivitySection({ user }) {
   const [activeTab, setActiveTab] = useState("posts");
@@ -10,7 +11,7 @@ export default function ProfileActivitySection({ user }) {
   return (
     <ProfileSection>
       <div className={styles["activity-container"]}>
-        <h3 className={styles["activity-section-title"]}>Activity</h3>
+        <PanelTitle type="h3">Activity</PanelTitle>
         <div className={styles["activity-buttons"]}>
           <Button
             size="sm"
@@ -37,7 +38,9 @@ export default function ProfileActivitySection({ user }) {
         <div className={styles["activity-scroll"]}>
           <Posts
             userId={user.id}
-            commentedPostfilter={(post) => post.comments.some((c) => c.authorId === user.id)}
+            commentedPostfilter={(post) =>
+              post.comments.some((c) => c.authorId === user.id)
+            }
           />
         </div>
       )}

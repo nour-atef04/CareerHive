@@ -1,8 +1,5 @@
 .post {
   padding: var(--space-lg);
-  background-color: white;
-  border-radius: var(--border-radius-default);
-  border: var(--border-style-default);
   color: var(--color-dark--1);
   font-size: smaller;
   display: flex;
