@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 import fakeJobs from "../components/JobsPanels/fakeJobs";
 import styles from "./JobDetailsPage.module.css";
 import { useState } from "react";
-import JobsList from "../components/JobsPanels/JobsList";
-import JobDetails from "../components/JobsPanels/JobDetails";
+import JobsListPanel from "../components/JobsPanels/JobsListPanel";
+import JobDetailsPanel from "../components/JobsPanels/JobDetailsPanel/JobDetailsPanel";
 import Panel from "../components/ui/Panel";
 
 export default function JobDetailsPage() {
@@ -11,19 +11,19 @@ export default function JobDetailsPage() {
   const job = fakeJobs.find((j) => j.id === Number(jobId));
 
   const [showJob, setShowJob] = useState(false);
-  const [jobDetails, setJobDetails] = useState(job);
 
   if (!job) return <p>Job not found</p>;
 
   return (
     <main className={styles["main"]}>
       <Panel className={styles["panels"]}>
-        <JobsList
+        <JobsListPanel
+          className={styles["jobs-list-panel"]}
           showJob={showJob}
           setShowJob={setShowJob}
-          onSetShowJob={setShowJob}
+          variant="details"
         />
-        <JobDetails />
+        <JobDetailsPanel showJob={showJob} setShowJob={setShowJob} job={job} />
       </Panel>
     </main>
   );

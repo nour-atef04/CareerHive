@@ -5,11 +5,7 @@ import { getFollowings } from "../../../redux/slices/followSlice";
 import ChatSearch from "./ChatSearch";
 import PeopleList from "./PeopleList";
 
-export default function PeoplePanel({
-  showChat,
-  setShowChat,
-  onSetChatPerson,
-}) {
+export default function PeoplePanel({ showChat, setShowChat }) {
   const following = useSelector(getFollowings);
   const [followingList, setFollowingList] = useState(following);
 
@@ -20,11 +16,7 @@ export default function PeoplePanel({
       }`}
     >
       <ChatSearch following={following} setFollowingList={setFollowingList} />
-      <PeopleList
-        followingList={followingList}
-        setShowChat={setShowChat}
-        onSetChatPerson={onSetChatPerson}
-      />
+      <PeopleList followingList={followingList} setShowChat={setShowChat} />
     </section>
   );
 }

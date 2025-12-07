@@ -6,14 +6,14 @@
   padding: var(--space-lg);
 }
 
-.search-job-input {
+/* .search-job-input {
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
-}
+} */
 
 .saved-jobs,
 .post-job {
@@ -37,8 +37,8 @@
   border-radius: var(--border-radius-default);
 }
 
-@media (min-width: 900px) {
+/* @media (min-width: 900px) {
   .search-job-input {
     width: 85%;
   }
-}
+} */

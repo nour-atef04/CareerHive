@@ -1,12 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import MessagePerson from "../MessagePerson";
 
 const MAX_PEOPLE = 7;
 
-export default function PeopleList({
-  followingList,
-  setShowChat,
-  onSetChatPerson,
-}) {
+export default function PeopleList({ followingList, setShowChat }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {followingList.slice(0, MAX_PEOPLE).map((person, i) => (
@@ -15,7 +14,7 @@ export default function PeopleList({
           name={person}
           onClick={() => {
             setShowChat(true);
-            onSetChatPerson(person);
+            navigate(`/messages/${encodeURIComponent(person)}`);
           }}
         />
       ))}

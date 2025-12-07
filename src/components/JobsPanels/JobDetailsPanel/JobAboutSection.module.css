@@ -1,0 +1,8 @@
+.about-title {
+  margin-top: var(--space-lg);
+}
+
+.about {
+  margin-top: var(--space-md);
+  font-size: smaller;
+}

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-md);
+}
+
+.search-job-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  background-color: var(--color-light--1);
+  width: 100%;
+  padding: var(--space-lg) 10%;
+  color: var(--color-brand--1);
+}
+
+@media (max-width: 600px) {
+  .details {
+    width: 100%;
+    border-radius: var(--border-radius-default);
+  }
+  .hidden {
+    display: none;
+  }
+}

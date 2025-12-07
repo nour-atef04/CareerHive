@@ -9,6 +9,11 @@
   display: flex;
 }
 
+.jobs-list-panel{
+  padding: 0 var(--space-md);
+  flex: 1;
+}
+
 @media (min-width: 1000px) {
   .main {
     display: flex;

@@ -3,10 +3,11 @@ import styles from "./Messages.module.css";
 import PeoplePanel from "../components/MessagesPanels/PeoplePanel/PeoplePanel";
 import ChatPanel from "../components/MessagesPanels/ChatPanel/ChatPanel";
 import Panel from "../components/ui/Panel"
+import { useParams } from "react-router-dom";
 
 export default function Messages() {
   const [showChat, setShowChat] = useState(false);
-  const [chatPerson, setChatPerson] = useState("John Doe");
+  const {chatPerson} = useParams();
 
   return (
     <main className={styles["main"]}>
@@ -14,7 +15,6 @@ export default function Messages() {
         <PeoplePanel
           showChat={showChat}
           setShowChat={setShowChat}
-          onSetChatPerson={setChatPerson}
         />
         <ChatPanel
           showChat={showChat}

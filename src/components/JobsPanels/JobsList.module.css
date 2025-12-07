@@ -1,9 +1,8 @@
-.jobs-list {
-  display: flex;
-  flex-direction: column;
-  margin-top: var(--space-md);
+.list > *:not(:last-child) {
+  border-bottom: var(--border-style-default);
 }
 
-.jobs-list > *:not(:last-child) {
-  border-bottom: var(--border-style-default);
+.list {
+  margin-right: auto;
+  width: 100%;
 }

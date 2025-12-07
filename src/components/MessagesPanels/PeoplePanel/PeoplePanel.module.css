@@ -6,7 +6,6 @@
   border-bottom-left-radius: inherit;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   padding: var(--space-lg) 0;
 }
 

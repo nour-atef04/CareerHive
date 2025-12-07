@@ -1,17 +1,13 @@
-import FormInput from "../ui/FormInput";
-import { IoSearchOutline } from "react-icons/io5";
 import { FiBookmark } from "react-icons/fi";
 import { LuSquarePen } from "react-icons/lu";
-import styles from "./SearchJobsPanel.module.css";
+import styles from "./JobsActionsPanel.module.css";
 import Panel from "../ui/Panel";
+// import JobSearchInput from "./JobSearchInput";
 
-export default function SearchJobsPanels() {
+export default function JobsActionsPanel() {
   return (
     <Panel className={styles["search-job-container"]}>
-      <div className={styles["search-job-input"]}>
-        <IoSearchOutline />
-        <FormInput placeholder="Companies, location, or skills..." />
-      </div>
+      {/* <JobSearchInput className={styles["search-job-input"]} /> */}
 
       <div className={styles["saved-jobs"]}>
         <FiBookmark />

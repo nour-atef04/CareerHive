@@ -16,7 +16,7 @@ export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const chat = useSelector((state) =>
-    selectChatByParticipants(state, user.name, chatPerson)
+    chatPerson ? selectChatByParticipants(state, user.name, chatPerson) : null
   );
 
   // load messages on mount
