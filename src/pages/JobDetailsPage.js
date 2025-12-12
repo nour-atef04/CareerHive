@@ -1,18 +1,39 @@
-import { useParams } from "react-router-dom";
-import fakeJobs from "../components/JobsPanels/fakeJobs";
+// import fakeJobs from "../components/JobsPanels/fakeJobs";
 import styles from "./JobDetailsPage.module.css";
 import { useState } from "react";
 import JobsListPanel from "../components/JobsPanels/JobsListPanel";
 import JobDetailsPanel from "../components/JobsPanels/JobDetailsPanel/JobDetailsPanel";
 import Panel from "../components/ui/Panel";
+import { useJobDetails } from "../hooks/useJobDetails";
 
 export default function JobDetailsPage() {
-  const { jobId } = useParams();
-  const job = fakeJobs.find((j) => j.id === Number(jobId));
+  const { job, isLoading, error } = useJobDetails();
 
   const [showJob, setShowJob] = useState(false);
 
-  if (!job) return <p>Job not found</p>;
+  if (isLoading) {
+    return (
+      <main className={styles["main"]}>
+        <p>Loading job details...</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className={styles["main"]}>
+        <p>Error loading jobs: {error.message}</p>
+      </main>
+    );
+  }
+
+  if (!job) {
+    return (
+      <main className={styles["main"]}>
+        <p>Job not found</p>
+      </main>
+    );
+  }
 
   return (
     <main className={styles["main"]}>

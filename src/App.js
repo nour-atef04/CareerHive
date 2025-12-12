@@ -8,6 +8,7 @@ import {
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar/NavBar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function ProtectedLayout() {
   return (
@@ -97,10 +98,21 @@ const router = createBrowserRouter([
   },
 ]);
 
+// SETTING UP REACT QUERY
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
+
 export default function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <QueryClientProvider client={queryClient}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </QueryClientProvider>
   );
 }
