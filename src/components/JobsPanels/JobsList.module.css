@@ -6,3 +6,19 @@
   margin-right: auto;
   width: 100%;
 }
+
+.loader{
+  margin: var(--space-md) 0;
+  margin-left: 50%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0;
+}
+
+
+

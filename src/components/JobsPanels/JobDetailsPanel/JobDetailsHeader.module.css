@@ -20,6 +20,13 @@
   border-bottom: var(--border-style-default);
 }
 
+.apply-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
 @media (max-width: 600px) {
   .back-button {
     display: inline;

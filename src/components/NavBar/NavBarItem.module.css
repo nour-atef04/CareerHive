@@ -7,10 +7,12 @@
   justify-content: center;
 }
 
+.list {
+  list-style: none;
+}
+
 .active {
   color: var(--color-brand--2);
   text-decoration: underline var(--color-brand--2);
   font-weight: 600;
 }
-
-

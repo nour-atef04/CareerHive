@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import styles from "./JobItem.module.css";
 
 export default function JobItem({ job, onClick }) {
-  const { _id, title, owner, locationAddress, type } = job;
+  const { _id, title, owner, type, locationAddress, location, descriptionBreakdown } =
+    job;
 
   return (
     <Link to={`/jobs/${_id}`} className={styles["job-item"]}>
@@ -11,7 +12,9 @@ export default function JobItem({ job, onClick }) {
       </p>
 
       <div className={styles["job-info"]}>
-        {owner.companyName} • {locationAddress} ({type}){" "}
+        {owner.companyName} •{" "}
+        {owner.locationAddress || locationAddress || location} ({type}) {" "}
+        {descriptionBreakdown && `• ${descriptionBreakdown.employmentType}`}
       </div>
     </Link>
   );

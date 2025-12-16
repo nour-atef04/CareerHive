@@ -1,8 +1,27 @@
-.about-title {
+.panel-title {
   margin-top: var(--space-lg);
 }
 
 .about {
   margin-top: var(--space-md);
   font-size: smaller;
+}
+
+.more-info {
+  margin: var(--space-md) 0;
+}
+
+.more-info > p {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.more-info > p > span:nth-of-type(1) {
+  font-weight: bold;
+  color: var(--color-brand--1);
+}
+
+.about > li {
+  margin-left: var(--space-lg);
+  margin-top: var(--space-xs);
 }

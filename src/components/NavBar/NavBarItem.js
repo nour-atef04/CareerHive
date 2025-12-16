@@ -3,7 +3,7 @@ import styles from "./NavBarItem.module.css";
 
 export default function NavBarItem({ page, children, icon }) {
   return (
-    <li>
+    <li className={styles.list}>
       <NavLink
         to={page}
         className={({ isActive }) =>
