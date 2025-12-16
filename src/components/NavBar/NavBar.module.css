@@ -1,18 +1,25 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   /* box-shadow: 0 2px 6px #344f6437; */
   border: var(--border-style-default);
+}
+
+.navbar-logo {
+  justify-self: start;
 }
 
 .show-more-button {
   display: none;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
   .show-more-button {
     display: inline;
     margin-right: 2rem;
+  }
+  .navbar {
+    justify-content: space-between;
   }
 }

@@ -11,7 +11,7 @@ export default function JobDetailsHeader({ setShowJob }) {
   if (isLoading) return <Loader />;
   if (error || !job) return <p>Job not found</p>;
 
-  const { title, owner, type, createdAt } = job;
+  const { title, owner, type, createdAt, url } = job;
 
   // compute relative date
   const timeAgo = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
@@ -22,6 +22,10 @@ export default function JobDetailsHeader({ setShowJob }) {
     diffHours < 24
       ? timeAgo.format(-diffHours, "hour")
       : timeAgo.format(-Math.floor(diffHours / 24), "day");
+
+  function handleExternalLink() {
+    window.open(url, "_blank");
+  }
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function JobDetailsHeader({ setShowJob }) {
           `• ${relative.charAt(0).toUpperCase() + relative.slice(1)}`}
       </div>
       <div className={styles["buttons"]}>
-        <Button className={styles["apply-btn"]}>
+        <Button className={styles["apply-btn"]} onClick={handleExternalLink}>
           Apply
           <BiLinkExternal />
         </Button>
