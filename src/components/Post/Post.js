@@ -5,12 +5,8 @@ import PostContent from "./PostContent";
 import PostStatus from "./PostStatus";
 import PostInteractions from "./PostInteractions";
 import PostCommentSection from "./Comments/PostCommentSection";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  initPostState,
-  toggleCommentsOff,
-  toggleCommentsOn,
-} from "../../redux/slices/postUiSlice";
+import { useSelector } from "react-redux";
+
 import PostEditOptions from "./PostEditOptions";
 import { getUser } from "../../redux/slices/authSlice";
 import PostEditModal from "./PostEditModal";
@@ -23,40 +19,22 @@ export default function Post({
   commentedPostfilter,
 }) {
   const postId = post.id;
-  const postUi = useSelector((state) => state.postUi[postId]);
-  const dispatch = useDispatch();
   const commentInputRef = useRef(null);
   const user = useSelector(getUser);
-  const [editPostId, setEditPostId] = useState(null);
 
-  // intialize UI state for this post
-  // it ensures that when a post renders, its local UI state exists
-  useEffect(() => {
-    dispatch(
-      initPostState({
-        postId,
-        liked: post.liked,
-        likes: post.likes,
-        comments: post.comments,
-      })
-    );
-    commentedPostfilter
-      ? dispatch(toggleCommentsOn(postId))
-      : dispatch(toggleCommentsOff(postId));
-  }, [dispatch, postId, commentedPostfilter, post]);
+  const [editPostId, setEditPostId] = useState(null);
+  const [likes, setLikes] = useState(post.likes);
+  const [comments, setComments] = useState(post.comments);
+  const [liked, setLiked] = useState(post.liked);
+  const [openComments, setOpenComments] = useState(!!commentedPostfilter);
 
   // focus input when comments open
   useEffect(() => {
-    if (
-      postUi?.openComments &&
-      commentInputRef.current &&
-      !commentedPostfilter
-    ) {
+    if (openComments && commentInputRef.current && !commentedPostfilter) {
       commentInputRef.current.focus();
     }
-  }, [postUi?.openComments, commentedPostfilter]);
+  }, [openComments, commentedPostfilter]);
 
-  if (!postUi) return null;
   return (
     <Panel className={styles["post"]}>
       <div className={styles["post-header"]}>
@@ -72,20 +50,26 @@ export default function Post({
       </div>
       <PostContent post={post} openOptionsPostId={openOptionsPostId} />
       <PostStatus
-        postId={postId}
-        likes={postUi.likes}
-        comments={postUi.comments}
+        likes={likes}
+        comments={comments}
+        toggleComments={() => setOpenComments((prev) => !prev)}
       />
       <PostInteractions
-        liked={postUi.liked}
-        comments={postUi.comments}
+        liked={liked}
+        likes={likes}
         postId={postId}
+        setLiked={setLiked}
+        setLikes={setLikes}
+        toggleComments={() => setOpenComments((prev) => !prev)}
       />
-      {postUi.openComments && (
+      {openComments && (
         <PostCommentSection
           commentedPostfilter={commentedPostfilter}
           ref={commentInputRef}
           postId={postId}
+          comments={comments}
+          setComments={setComments}
+          user={user}
         />
       )}
       {editPostId === postId && (

@@ -21,7 +21,14 @@
       "date": "2025-11-05T10:00:00Z",
       "likes": 13,
       "liked": true,
-      "comments": []
+      "comments": [
+        {
+          "id": 1766079368776,
+          "text": "wohoo!",
+          "authorId": "1",
+          "author": "Jessica William"
+        }
+      ]
     },
     {
       "id": "2",
@@ -36,10 +43,10 @@
       "liked": true,
       "comments": [
         {
-          "id": 1764970058860,
+          "id": 1766079359342,
           "text": "Hello! :)",
-          "author": "Jessica William",
-          "authorId": "1"
+          "authorId": "1",
+          "author": "Jessica William"
         }
       ]
     }

@@ -4,15 +4,19 @@ import ProfileIcon from "../ui/ProfileIcon";
 export default function PostHeader({ post }) {
   const { authorName, authorImage, authorPosition, date } = post;
 
-  // compute relative date
+  const postDate = new Date(date);
   const timeAgo = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-  const diffHours = Math.floor(
-    (Date.now() - new Date(date)) / (1000 * 60 * 60)
-  );
-  const relative =
-    diffHours < 24
-      ? timeAgo.format(-diffHours, "hour")
-      : timeAgo.format(-Math.floor(diffHours / 24), "day");
+
+  let relative;
+  if (!isNaN(postDate)) {
+    const diffHours = Math.floor((Date.now() - postDate) / (1000 * 60 * 60));
+    relative =
+      diffHours < 24
+        ? timeAgo.format(-diffHours, "hour")
+        : timeAgo.format(-Math.floor(diffHours / 24), "day");
+  } else {
+    relative = "unknown time";
+  }
 
   return (
     <div className={styles["header"]}>

@@ -4,30 +4,50 @@ import PhotoPreview from "./PhotoPreview";
 import PostFormActions from "./PostFormActions";
 
 export default function AddPostForm({
-  setIsNewPostFormOpen,
   postText,
   setPostText,
   photo,
   setPhoto,
+  onSubmit,
+  setIsNewPostFormOpen,
+  isSubmitting,
 }) {
   const [photoPreview, setPhotoPreview] = useState(null);
 
+  function handlePhoto(file) {
+    setPhoto(file);
+    setPhotoPreview(file ? URL.createObjectURL(file) : null);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit({ text: postText, photo });
+    setPhotoPreview(null);
+  }
+
+  function handleRemovePhoto() {
+    setPhoto(null);
+    setPhotoPreview(null);
+  }
+
   return (
-    <>
-      <PostInput setPostText={setPostText} postText={postText} />
+    <form onSubmit={handleSubmit}>
+      <PostInput postText={postText} setPostText={setPostText} />
       {photoPreview && (
         <PhotoPreview
-          setPhoto={setPhoto}
           photoPreview={photoPreview}
-          setPhotoPreview={setPhotoPreview}
+          onRemove={handleRemovePhoto}
         />
       )}
       <PostFormActions
+        postText={postText}
         setPhoto={setPhoto}
         setPhotoPreview={setPhotoPreview}
         setIsNewPostFormOpen={setIsNewPostFormOpen}
-        postText={postText}
+        onPhotoSelect={handlePhoto}
+        isSubmitting={isSubmitting}
+        photo={photo}
       />
-    </>
+    </form>
   );
 }

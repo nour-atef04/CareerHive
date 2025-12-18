@@ -2,28 +2,34 @@ import { useState, forwardRef } from "react";
 import styles from "./AddCommentInput.module.css";
 import FormInput from "../../ui/FormInput";
 import ProfileIcon from "../../ui/ProfileIcon";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../../redux/slices/authSlice";
-import { addCommentAsync } from "../../../redux/slices/postUiSlice";
+import { useCreateComment } from "../../../hooks/useCreateComment";
 
-const AddCommentInput = forwardRef(function AddCommentInput({ postId }, ref) {
-  const user = useSelector(getUser);
+const AddCommentInput = forwardRef(function AddCommentInput(
+  { postId, user, setComments },
+  ref
+) {
   const { id, image, name } = user;
   const [comment, setComment] = useState("");
-
-  const dispatch = useDispatch();
+  const createCommentMutation = useCreateComment();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!comment.trim()) return;
-    dispatch(
-      addCommentAsync({
-        postId,
-        text: comment,
-        author: name,
-        authorId: id.toString(),
-      })
-    );
+    const newComment = {
+      id: Date.now(),
+      text: comment,
+      authorId: id,
+      author: name,
+      postId,
+      date: new Date().toISOString(),
+    };
+
+    // optimistic local update
+    setComments((prev) => [...prev, newComment]);
+
+    // persist to backend
+    createCommentMutation.mutate(newComment);
+
     setComment("");
   }
 

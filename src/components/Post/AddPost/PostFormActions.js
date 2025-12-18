@@ -3,21 +3,26 @@ import styles from "./PostFormActions.module.css";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function PostFormActions({
+  postText,
+  onPhotoSelect,
   setPhoto,
   setPhotoPreview,
+  photo,
   setIsNewPostFormOpen,
-  postText,
+  isSubmitting,
 }) {
+  const isDisabled = !postText.trim() && !photo;
+
   function handlePhotoChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-      setPhoto(file); // keep the file for backend
-      setPhotoPreview(URL.createObjectURL(file)); // for UI
+    if (e.target.files && e.target.files[0]) {
+      onPhotoSelect(e.target.files[0]);
     }
   }
+
   return (
     <div className={styles["bottom-container"]}>
       <p onClick={() => setIsNewPostFormOpen(false)}>Hide</p>
+
       <label className={styles["photo-upload"]}>
         <MdOutlineAddPhotoAlternate style={{ fontSize: "large" }} />
         Add Photo
@@ -28,14 +33,15 @@ export default function PostFormActions({
           onChange={handlePhotoChange}
         />
       </label>
+
       <Button
         className={styles["post-button"]}
-        variant={postText === "" && !postText.trim() ? "disabled" : "filled"}
+        variant={isDisabled || isSubmitting ? "disabled" : "filled"}
         type="submit"
         size="md"
         color="brand2"
       >
-        Post
+        {isSubmitting ? "Posting..." : "Post"}
       </Button>
     </div>
   );

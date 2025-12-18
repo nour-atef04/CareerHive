@@ -1,25 +1,36 @@
 import styles from "./PostInteractions.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { LuSend } from "react-icons/lu";
-import {
-  toggleComments,
-  toggleLikeAsync,
-} from "../../redux/slices/postUiSlice";
+import { useEditPost } from "../../hooks/useEditPost";
 
-export default function PostInteractions({ postId }) {
-  const dispatch = useDispatch();
-  const liked = useSelector((state) => state.postUi[postId]?.liked);
+export default function PostInteractions({
+  postId,
+  liked,
+  setLiked,
+  likes,
+  setLikes,
+  toggleComments,
+}) {
+  const editMutation = useEditPost();
+
+  function handleLike() {
+    setLiked(!liked);
+    setLikes(likes + (liked ? -1 : 1));
+
+    editMutation.mutate({
+      postId,
+      toggleLike: true,
+      currentLiked: liked,
+      currentLikes: likes,
+    });
+  }
 
   return (
     <div className={styles["interactions"]}>
-      <div
-        onClick={() => dispatch(toggleLikeAsync(postId))}
-        className={liked ? styles["liked"] : ""}
-      >
+      <div onClick={handleLike} className={liked ? styles["liked"] : ""}>
         {liked ? (
           <AiFillLike style={{ fontSize: "larger" }} />
         ) : (
@@ -27,11 +38,7 @@ export default function PostInteractions({ postId }) {
         )}
         <span>Like</span>
       </div>
-      <div
-        onClick={() => {
-          dispatch(toggleComments(postId));
-        }}
-      >
+      <div onClick={toggleComments}>
         <FaRegComment />
         <span>Comment</span>
       </div>

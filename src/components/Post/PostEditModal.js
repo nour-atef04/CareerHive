@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { editPost } from "../../redux/slices/postsSlice";
 import styles from "./PostEditModal.module.css";
 import Button from "../ui/Button";
+import { useEditPost } from "../../hooks/useEditPost";
 
 export default function PostEditModal({ post, onClose }) {
-  const dispatch = useDispatch();
   const [newText, setNewText] = useState(post.text);
   const textareaRef = useRef(null);
+  const editMutation = useEditPost();
 
   // Autofocus on textarea when modal opens
   useEffect(() => {
@@ -15,8 +14,7 @@ export default function PostEditModal({ post, onClose }) {
   }, []);
 
   function handleSave() {
-    // console.log({ postId: post.id, newText });
-    dispatch(editPost({ postId: post.id, newText }));
+    editMutation.mutate({ postId: post.id, newText });
     onClose();
   }
 

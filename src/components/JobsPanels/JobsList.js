@@ -8,13 +8,12 @@ import { filterJobs } from "./filterJobs";
 
 export default function JobsList({ setShowJob, keyword, page, setPage }) {
   const navigate = useNavigate();
-  
 
   const pageSize = 8; // Jobs per page
 
   const { data, isLoading, isError, error, isFetching } = useJobs({
     page: 1,
-    limit: 100, // Fetch more for filtering
+    limit: 1000, // Fetch more for filtering
   });
 
   if (isLoading) return <Loader className={styles["loader"]} />;

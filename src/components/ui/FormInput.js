@@ -1,14 +1,10 @@
 import styles from "./FormInput.module.css";
+import { forwardRef } from "react";
 
-export default function FormInput({
-  type = "text",
-  placeholder,
-  value,
-  onChange,
-  autoComplete,
-  className,
-  ref,
-}) {
+const FormInput = forwardRef(function FormInput(
+  { type = "text", placeholder, value, onChange, autoComplete, className },
+  ref
+) {
   if (type === "textarea") {
     return (
       <textarea
@@ -34,4 +30,6 @@ export default function FormInput({
       required
     />
   );
-}
+});
+
+export default FormInput;

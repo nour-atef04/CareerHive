@@ -1,14 +1,13 @@
-import { useDispatch } from "react-redux";
 import styles from "./PostEditOptions.module.css";
-import { deletePost } from "../../redux/slices/postsSlice";
+import { useDeletePost } from "../../hooks/useDeletePost";
 
 export default function PostEditOptions({
   post,
   openOptionsPostId,
   setOpenOptionsPostId,
-  setEditPostId
+  setEditPostId,
 }) {
-  const dispatch = useDispatch();
+  const deleteMutation = useDeletePost();
 
   function handleOptionsClick() {
     if (openOptionsPostId === post.id) setOpenOptionsPostId(null);
@@ -16,7 +15,7 @@ export default function PostEditOptions({
   }
 
   function DeletePost() {
-    dispatch(deletePost(post.id));
+    deleteMutation.mutate(post.id);
   }
 
   return (

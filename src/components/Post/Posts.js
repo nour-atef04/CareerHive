@@ -1,23 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
 import AddPost from "./AddPost/AddPost";
 import styles from "./Posts.module.css";
-import { loadPosts } from "../../redux/slices/postsSlice";
 import { useEffect, useRef, useState } from "react";
+import { usePosts } from "../../hooks/usePosts";
+import Loader from "../ui/Loader";
 
 export default function Posts({ className, userId, commentedPostfilter }) {
   const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
 
-  const { posts, loading } = useSelector((state) => state.posts);
-  const dispatch = useDispatch();
+  const { data: posts = [], isLoading } = usePosts();
+  console.log(posts);
 
   // local state for lazy loading of posts
   const [visibleCount, setVisibleCount] = useState(5);
   const loadMoreRef = useRef(null);
-
-  useEffect(() => {
-    dispatch(loadPosts());
-  }, [dispatch]);
 
   let filteredPosts = posts;
 
@@ -52,7 +48,7 @@ export default function Posts({ className, userId, commentedPostfilter }) {
   return (
     <div className={`${styles["posts"]} ${className || ""}`}>
       {!userId && <AddPost />}
-      {!loading &&
+      {!isLoading &&
         visiblePosts.map((post) => (
           <Post
             key={post.id}
@@ -66,7 +62,7 @@ export default function Posts({ className, userId, commentedPostfilter }) {
       {/*Lazy-loading trigger*/}
       {userId && visibleCount < filteredPosts.length && (
         <div ref={loadMoreRef} className={styles["load-more-trigger"]}>
-          Loading...
+          <Loader />
         </div>
       )}
     </div>

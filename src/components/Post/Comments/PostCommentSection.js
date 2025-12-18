@@ -1,48 +1,35 @@
-// TODO: REFACTOR
-
 import { forwardRef } from "react";
 import AddCommentInput from "./AddCommentInput";
 import Comment from "./Comment";
-import { usePost } from "../../../context/PostContext";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getUser } from "../../../redux/slices/authSlice";
 
 const PostCommentSection = forwardRef(function PostCommentSection(
-  { postId, commentedPostfilter },
+  { comments, postId, commentedPostfilter, setComments, user },
   ref
 ) {
-  const postUi = useSelector((state) => state.postUi[postId]);
-  const { userId: profileUserParam } = useParams();
-  const loggedInUser = useSelector(getUser);
-
-  const profileUserId =
-    profileUserParam === "me" ? loggedInUser.id : Number(profileUserParam);
-
-  // if not intialized yet
-  if (!postUi) return null;
-
-  // Sort so that PROFILE USER'S comments appear first
-  const sortedComments = [...postUi.comments].sort((a, b) => {
+  // Sort PROFILE USER comments first if needed
+  const sortedComments = [...comments].sort((a, b) => {
+    if (!commentedPostfilter) return 0;
+    const profileUserId = commentedPostfilter.userId;
     const aIsProfileUser = a.authorId === profileUserId;
     const bIsProfileUser = b.authorId === profileUserId;
-
     if (aIsProfileUser && !bIsProfileUser) return -1;
     if (!aIsProfileUser && bIsProfileUser) return 1;
-
     return 0;
   });
 
   return (
     <>
-      <AddCommentInput ref={ref} postId={postId} />
+      <AddCommentInput
+        ref={ref}
+        postId={postId}
+        setComments={setComments}
+        user={user}
+      />
       {sortedComments.map((comment) => (
-        <Comment key={comment.id} comment={comment} postId={postId} />
+        <Comment key={comment.id} comment={comment} postId={postId} setComments={setComments}/>
       ))}
     </>
   );
 });
 
 export default PostCommentSection;
-
-

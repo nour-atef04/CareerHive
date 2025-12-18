@@ -13,6 +13,7 @@ import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 
 export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
+
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const chat = useSelector((state) =>
@@ -51,6 +52,8 @@ export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
       })
     );
   }
+
+  if (!chatPerson) return <div></div>;
 
   return (
     <section
