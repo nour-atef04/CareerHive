@@ -4,7 +4,7 @@ import styles from "./Comment.module.css";
 import CommentHeader from "./CommentHeader";
 import { getUser } from "../../../redux/slices/authSlice";
 import CommentContent from "./CommentContent";
-import { useDeleteComment } from "../../../hooks/useDeleteComment";
+import { useDeleteComment } from "../../../hooks/usePosts";
 
 export default function Comment({ comment, postId, setComments }) {
   const deleteCommentMutation = useDeleteComment();

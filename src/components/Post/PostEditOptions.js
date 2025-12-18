@@ -1,5 +1,5 @@
 import styles from "./PostEditOptions.module.css";
-import { useDeletePost } from "../../hooks/useDeletePost";
+import { useDeletePost } from "../../hooks/usePosts";
 
 export default function PostEditOptions({
   post,

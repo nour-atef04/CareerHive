@@ -5,7 +5,7 @@ import AddPostForm from "./AddPostForm";
 import { useSelector } from "react-redux";
 import { getUser } from "../../../redux/slices/authSlice";
 import Panel from "../../ui/Panel";
-import { useCreatePost } from "../../../hooks/useCreatePost";
+import { useCreatePost } from "../../../hooks/usePosts";
 
 export default function AddPost() {
   const user = useSelector(getUser);

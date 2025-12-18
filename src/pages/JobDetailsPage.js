@@ -4,7 +4,7 @@ import { useState } from "react";
 import JobsListPanel from "../components/JobsPanels/JobsListPanel";
 import JobDetailsPanel from "../components/JobsPanels/JobDetailsPanel/JobDetailsPanel";
 import Panel from "../components/ui/Panel";
-import { useJobDetails } from "../hooks/useJobDetails";
+import { useJobDetails } from "../hooks/useJobs";
 
 export default function JobDetailsPage() {
   const { job, isLoading, error } = useJobDetails();

@@ -1,8 +1,7 @@
 import Button from "../../ui/Button";
 import MessageOptions from "./MessageOptions";
 import styles from "./DeleteConfirmation.module.css";
-import { useDispatch } from "react-redux";
-import { deleteMessage } from "../../../redux/slices/chatsSlice";
+import { useDeleteMessage } from "../../../hooks/useChats";
 
 export default function DeleteConfirmation({
   chatId,
@@ -13,7 +12,7 @@ export default function DeleteConfirmation({
   setHovered,
   setIsEditing,
 }) {
-  const dispatch = useDispatch();
+  const { mutate: deleteMessage, isLoading: isDeleting } = useDeleteMessage();
 
   return (
     <span className={styles["options-box"]}>
@@ -34,10 +33,19 @@ export default function DeleteConfirmation({
 
             <Button
               size="sm"
+              disabled={isDeleting}
               onClick={() => {
-                dispatch(deleteMessage({ chatId, messageId }));
-                setLockOptionsOpen(false);
-                setHovered(false);
+                // dispatch(deleteMessage({ chatId, messageId }));
+                deleteMessage(
+                  { chatId, messageId },
+                  {
+                    onSuccess: () => {
+                      setLockOptionsOpen(false);
+                      setHovered(false);
+                      setDeleteConfirmation(false);
+                    },
+                  }
+                );
               }}
             >
               Delete

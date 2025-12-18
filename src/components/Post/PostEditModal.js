@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./PostEditModal.module.css";
 import Button from "../ui/Button";
-import { useEditPost } from "../../hooks/useEditPost";
+import { useEditPost } from "../../hooks/usePosts";
 
 export default function PostEditModal({ post, onClose }) {
   const [newText, setNewText] = useState(post.text);

@@ -2,7 +2,7 @@ import PanelTitle from "../../ui/PanelTitle";
 import styles from "./JobDetailsHeader.module.css";
 import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
-import { useJobDetails } from "../../../hooks/useJobDetails";
+import { useJobDetails } from "../../../hooks/useJobs";
 import { BiLinkExternal } from "react-icons/bi";
 
 export default function JobDetailsHeader({ setShowJob }) {

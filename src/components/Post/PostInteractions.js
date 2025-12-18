@@ -4,7 +4,7 @@ import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { LuSend } from "react-icons/lu";
-import { useEditPost } from "../../hooks/useEditPost";
+import { useEditPost } from "../../hooks/usePosts";
 
 export default function PostInteractions({
   postId,

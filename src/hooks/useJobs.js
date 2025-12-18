@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 export function useJobs({
   page = 1,
@@ -51,3 +52,22 @@ export function useJobs({
 }
 
 // curl --location 'https://api.joinrise.io/api/v1/jobs/public?limit=20&sortedBy=createdAt&sort=des&page=1'
+
+export function useJobDetails() {
+  const { jobId } = useParams();
+
+  const { data, isLoading, error } = useJobs({
+    keywords: "",
+    location: "",
+    page: 1,
+    limit: 100,
+  });
+
+  const jobs = data?.result?.jobs ?? [];
+  console.log("JOBS", jobs);
+
+  // Find the specific job using the ID from the URL params
+  const job = jobs.find((j) => j._id === jobId);
+
+  return { job, isLoading, error };
+}

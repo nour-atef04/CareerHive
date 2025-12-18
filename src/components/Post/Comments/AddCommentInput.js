@@ -2,7 +2,7 @@ import { useState, forwardRef } from "react";
 import styles from "./AddCommentInput.module.css";
 import FormInput from "../../ui/FormInput";
 import ProfileIcon from "../../ui/ProfileIcon";
-import { useCreateComment } from "../../../hooks/useCreateComment";
+import { useCreateComment } from "../../../hooks/usePosts";
 
 const AddCommentInput = forwardRef(function AddCommentInput(
   { postId, user, setComments },

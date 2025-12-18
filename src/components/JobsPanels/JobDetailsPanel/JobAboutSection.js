@@ -1,4 +1,4 @@
-import { useJobDetails } from "../../../hooks/useJobDetails";
+import { useJobDetails } from "../../../hooks/useJobs";
 import Loader from "../../ui/Loader";
 import PanelTitle from "../../ui/PanelTitle";
 import styles from "./JobAboutSection.module.css";

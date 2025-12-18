@@ -1,9 +1,8 @@
-import { useDispatch } from "react-redux";
-import { editMessage } from "../../../redux/slices/chatsSlice";
 import { useState } from "react";
 import FormInput from "../../ui/FormInput";
 import Button from "../../ui/Button";
 import styles from "./EditMessageForm.module.css";
+import { useEditMessage } from "../../../hooks/useChats";
 
 export default function EditMessageForm({
   chatId,
@@ -12,13 +11,22 @@ export default function EditMessageForm({
   children,
 }) {
   const [editedText, setEditedText] = useState(children); // for the edit message controlled input element
-  const dispatch = useDispatch();
+
+  const { mutate: editMessage, isLoading: isEditing } = useEditMessage();
 
   function handleEditSubmit(e) {
     e.preventDefault();
-    setIsEditing(false);
-    dispatch(editMessage({ chatId, messageId, newText: editedText }));
+    // dispatch(editMessage({ chatId, messageId, newText: editedText }));
+    editMessage(
+      { chatId, messageId, newText: editedText },
+      {
+        onSuccess: () => setIsEditing(false),
+      }
+    );
   }
+
+  const isChanged =
+    editedText.trim() !== children.trim() && editedText.trim() !== "";
 
   return (
     <form onSubmit={handleEditSubmit} className={styles["edit-form"]}>
@@ -26,8 +34,13 @@ export default function EditMessageForm({
         value={editedText}
         onChange={(e) => setEditedText(e.target.value)}
       />
-      {editedText.trim() !== children.trim() && editedText.trim() !== "" && (
-        <Button type="submit" size="sm" className={styles["edit-submit-btn"]}>
+      {isChanged && (
+        <Button
+          type="submit"
+          size="sm"
+          disable={isEditing}
+          className={styles["edit-submit-btn"]}
+        >
           Ok
         </Button>
       )}
