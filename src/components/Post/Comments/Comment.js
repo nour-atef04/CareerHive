@@ -1,15 +1,17 @@
-import {useSelector } from "react-redux";
+// import {useSelector } from "react-redux";
 import DeleteButton from "../../ui/DeleteButton";
 import styles from "./Comment.module.css";
 import CommentHeader from "./CommentHeader";
-import { getUser } from "../../../redux/slices/authSlice";
+// import { getUser } from "../../../redux/slices/authSlice";
 import CommentContent from "./CommentContent";
 import { useDeleteComment } from "../../../hooks/usePosts";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Comment({ comment, postId, setComments }) {
   const deleteCommentMutation = useDeleteComment();
 
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const {currentUser: user} = useAuth();
   const isMine = user.name === comment.author;
 
   function handleDelete() {

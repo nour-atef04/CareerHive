@@ -5,12 +5,13 @@ import PostContent from "./PostContent";
 import PostStatus from "./PostStatus";
 import PostInteractions from "./PostInteractions";
 import PostCommentSection from "./Comments/PostCommentSection";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 import PostEditOptions from "./PostEditOptions";
-import { getUser } from "../../redux/slices/authSlice";
+// import { getUser } from "../../redux/slices/authSlice";
 import PostEditModal from "./PostEditModal";
 import Panel from "../ui/Panel";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Post({
   post,
@@ -20,7 +21,8 @@ export default function Post({
 }) {
   const postId = post.id;
   const commentInputRef = useRef(null);
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const {currentUser : user} = useAuth();
 
   const [editPostId, setEditPostId] = useState(null);
   const [likes, setLikes] = useState(post.likes);

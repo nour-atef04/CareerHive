@@ -6,18 +6,21 @@ import FormInput from "../ui/FormInput";
 import styles from "./FormPanel.module.css";
 import Logo from "../Logo/Logo";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../context/AuthContext";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/slices/authSlice";
+import { useAuth } from "../../context/AuthContext";
+import { useUsers } from "../../hooks/useUsers";
+// import { useDispatch, useSelector } from "react-redux";
+// import { loginUser } from "../../redux/slices/authSlice";
 
 export default function FormPanel() {
   // pre-fill for dev purposes
   const [email, setEmail] = useState("jessica.william@example.com");
   const [password, setPassword] = useState("qwerty12345");
-  // const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, login } = useAuth();
 
-  const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const {data: users} = useUsers();
+
+  // const dispatch = useDispatch();
+  // const { isAuthenticated } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
@@ -28,7 +31,8 @@ export default function FormPanel() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    // dispatch(loginUser({ email, password }));
+    login(email, password, users, () => navigate("/dashboard"));
   }
 
   return (

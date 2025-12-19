@@ -1,11 +1,13 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import FormInput from "../../ui/FormInput";
 import ProfileIcon from "../../ui/ProfileIcon";
-import { getUser } from "../../../redux/slices/authSlice";
+// import { getUser } from "../../../redux/slices/authSlice";
 import styles from "./PostInput.module.css";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function PostInput({ postText, setPostText }) {
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const {currentUser : user} = useAuth();
   const { image } = user;
 
   return (

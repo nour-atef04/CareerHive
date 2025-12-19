@@ -1,19 +1,21 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import styles from "./ProfileSummaryHomePanel.module.css";
-import { getFollowers, getFollowings } from "../../redux/slices/followSlice";
-import { getUser } from "../../redux/slices/authSlice";
+// import { getFollowers, getFollowings } from "../../redux/slices/followSlice";
+// import { getUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import ProfileIconHeader from "../ui/ProfileIconHeader";
 import ProfileNamePosition from "../ui/ProfileNamePosition";
 import Panel from "../ui/Panel";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProfileSummaryHomePanel({ className }) {
-  const user = useSelector(getUser);
-  const { name, position } = user;
-  const followers = useSelector(getFollowers);
-  const followings = useSelector(getFollowings);
-
+  // const user = useSelector(getUser);
   const navigate = useNavigate();
+  const { currentUser: user } = useAuth();
+  if (!user) return null;
+  const { name, position, followers = [], followings = [] } = user || {};
+  // const followers = useSelector(getFollowers);
+  // const followings = useSelector(getFollowings);
 
   return (
     <Panel

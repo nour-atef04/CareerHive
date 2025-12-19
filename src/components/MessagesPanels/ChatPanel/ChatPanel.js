@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import styles from "./ChatPanel.module.css";
 import NewMessageForm from "../NewMessageForm";
-import { useSelector } from "react-redux";
-import { getUser } from "../../../redux/slices/authSlice";
+import { useAuth } from "../../../context/AuthContext";
+// import { useSelector } from "react-redux";
+// import { getUser } from "../../../redux/slices/authSlice";
 // import {
 //   createChat,
 //   loadChats,
@@ -18,7 +19,8 @@ import {
 } from "../../../hooks/useChats";
 
 export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const { currentUser: user } = useAuth();
   // const chat = useSelector((state) =>
   //   chatPerson ? selectChatByParticipants(state, user.name, chatPerson) : null
   // );

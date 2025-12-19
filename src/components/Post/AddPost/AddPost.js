@@ -2,13 +2,15 @@ import ProfileIcon from "../../ui/ProfileIcon";
 import styles from "./AddPost.module.css";
 import { useState } from "react";
 import AddPostForm from "./AddPostForm";
-import { useSelector } from "react-redux";
-import { getUser } from "../../../redux/slices/authSlice";
+// import { useSelector } from "react-redux";
+// import { getUser } from "../../../redux/slices/authSlice";
 import Panel from "../../ui/Panel";
 import { useCreatePost } from "../../../hooks/usePosts";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function AddPost() {
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const { currentUser: user } = useAuth();
   const { image } = user;
   const [IsNewPostFormOpen, setIsNewPostFormOpen] = useState(false);
   const [postText, setPostText] = useState("");

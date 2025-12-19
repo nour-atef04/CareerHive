@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import ProfileIcon from "./ProfileIcon";
 import styles from "./ProfileIconHeader.module.css";
-import { useSelector } from "react-redux";
-import { getUser } from "../../redux/slices/authSlice";
+import { useAuth } from "../../context/AuthContext";
+// import { useSelector } from "react-redux";
+// import { getUser } from "../../redux/slices/authSlice";
 
 export default function ProfileIconHeader({ type }) {
   const navigate = useNavigate();
 
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const { currentUser: user } = useAuth();
   const { image } = user;
 
   const className = {

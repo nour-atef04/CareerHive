@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useAuth } from "../../../context/AuthContext";
 import ProfileIcon from "../../ui/ProfileIcon";
 import styles from "./CommentHeader.module.css";
-import { getUser } from "../../../redux/slices/authSlice";
+// import { getUser } from "../../../redux/slices/authSlice";
 
 export default function CommentHeader() {
-  const user = useSelector(getUser);
+  // const user = useSelector(getUser);
+  const { currentUser: user } = useAuth();
   const { name, image, position } = user;
   return (
     <div className={styles["commenter-header"]}>
