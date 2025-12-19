@@ -17,14 +17,6 @@ export function usePosts() {
   });
 }
 
-export function useCreateComment() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createComment,
-    onSuccess: () => queryClient.invalidateQueries(["posts"]),
-  });
-}
-
 export function useCreatePost() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -35,11 +27,27 @@ export function useCreatePost() {
   });
 }
 
+export function useCreateComment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createComment,
+    onSuccess: (updatedPost) => {
+      queryClient.setQueryData(["posts"], (oldPosts = []) =>
+        oldPosts.map((p) => (p.id === updatedPost.id ? updatedPost : p))
+      );
+    },
+  });
+}
+
 export function useDeleteComment() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteComment,
-    onSuccess: () => queryClient.invalidateQueries(["posts"]),
+    onSuccess: (updatedPost) => {
+      queryClient.setQueryData(["posts"], (oldPosts = []) =>
+        oldPosts.map((p) => (p.id === updatedPost.id ? updatedPost : p))
+      );
+    },
   });
 }
 
@@ -47,7 +55,10 @@ export function useDeletePost() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deletePost,
-    onSuccess: () => queryClient.invalidateQueries(["posts"]),
+    onSuccess: (postId) => {
+      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries(["posts"], postId);
+    },
   });
 }
 
@@ -55,6 +66,9 @@ export function useEditPost() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updatePost,
-    onSuccess: () => queryClient.invalidateQueries(["posts"]),
+    onSuccess: (postId) => {
+      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries(["posts"], postId);
+    },
   });
 }

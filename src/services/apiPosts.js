@@ -51,37 +51,38 @@ export async function deletePost(postId) {
   return res.json();
 }
 
-export async function createComment({
-  id,
-  postId,
-  text,
-  authorId,
-  author,
-}) {
+export async function createComment({ id, postId, text, authorId, author }) {
   const res = await fetch(`http://localhost:3001/posts/${postId}`);
   const post = await res.json();
-  const updatedComments = [
-    ...post.comments,
-    { id, text, authorId, author },
-  ];
+
+  const updatedPost = {
+    ...post,
+    comments: [...post.comments, { id, text, authorId, author }],
+  };
+
   await fetch(`http://localhost:3001/posts/${postId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ comments: updatedComments }),
+    body: JSON.stringify({ comments: updatedPost.comments }),
   });
-  if (!res.ok) throw new Error("Failed to add comment.");
-  return res.json();
+
+  return updatedPost;
 }
 
 export async function deleteComment({ postId, commentId }) {
   const res = await fetch(`http://localhost:3001/posts/${postId}`);
   const post = await res.json();
-  const updatedComments = post.comments.filter((c) => c.id !== commentId);
+
+  const updatedPost = {
+    ...post,
+    comments: post.comments.filter((c) => c.id !== commentId),
+  };
+
   await fetch(`http://localhost:3001/posts/${postId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ comments: updatedComments }),
+    body: JSON.stringify({ comments: updatedPost.comments }),
   });
-  if (!res.ok) throw new Error("Failed to delete comment.");
-  return res.json();
+
+  return updatedPost;
 }

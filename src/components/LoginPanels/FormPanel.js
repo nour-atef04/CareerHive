@@ -32,7 +32,7 @@ export default function FormPanel() {
   async function handleSubmit(e) {
     e.preventDefault();
     // dispatch(loginUser({ email, password }));
-    login(email, password, users, () => navigate("/dashboard"));
+    login(email, password, users, () => navigate("/home"));
   }
 
   return (

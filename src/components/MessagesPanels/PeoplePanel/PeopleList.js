@@ -3,18 +3,18 @@ import MessagePerson from "../MessagePerson";
 
 const MAX_PEOPLE = 7;
 
-export default function PeopleList({ followingList, setShowChat }) {
+export default function PeopleList({ followings, setShowChat }) {
   const navigate = useNavigate();
 
   return (
     <>
-      {followingList.slice(0, MAX_PEOPLE).map((person, i) => (
+      {followings.slice(0, MAX_PEOPLE).map((person) => (
         <MessagePerson
-          key={i}
-          name={person}
+          key={person.id}
+          name={person.name}
           onClick={() => {
             setShowChat(true);
-            navigate(`/messages/${encodeURIComponent(person)}`);
+            navigate(`/messages/${person.id}`);
           }}
         />
       ))}

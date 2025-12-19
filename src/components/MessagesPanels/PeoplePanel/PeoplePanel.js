@@ -1,16 +1,21 @@
-import { useState } from "react";
 import styles from "./PeoplePanel.module.css";
-// import { useSelector } from "react-redux";
-// import { getFollowings } from "../../../redux/slices/followSlice";
 import ChatSearch from "./ChatSearch";
 import PeopleList from "./PeopleList";
 import { useAuth } from "../../../context/AuthContext";
+import { useUserFollowings } from "../../../hooks/useUsers";
+import { useEffect, useState } from "react";
+import Loader from "../../ui/Loader";
 
 export default function PeoplePanel({ showChat, setShowChat }) {
-  // const following = useSelector(getFollowings);
   const { currentUser: user } = useAuth();
-  const { name, position, followers = [], followings = [] } = user || {};
-  const [followingList, setFollowingList] = useState(followings);
+  const { data: followings = [], isLoading } = useUserFollowings(user.id);
+
+  const [filteredFollowings, setFilteredFollowings] = useState(followings);
+  useEffect(() => {
+    setFilteredFollowings(followings);
+  }, [setFilteredFollowings, followings]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <section
@@ -18,8 +23,11 @@ export default function PeoplePanel({ showChat, setShowChat }) {
         showChat && styles["hide-people"]
       }`}
     >
-      <ChatSearch following={followings} setFollowingList={setFollowingList} />
-      <PeopleList followingList={followingList} setShowChat={setShowChat} />
+      <ChatSearch
+        followingsList={followings}
+        setFilteredFollowings={setFilteredFollowings}
+      />
+      <PeopleList followings={filteredFollowings} setShowChat={setShowChat} />
     </section>
   );
 }

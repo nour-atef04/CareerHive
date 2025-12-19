@@ -14,10 +14,18 @@ export async function fetchChatById(chatId) {
   return res.json();
 }
 
-export async function sendMessage({ chatId, sender, text }) {
+export async function fetchChatByParticipantsId( userId1, userId2 ) {
+  const chats = await fetchChats();
+  return chats.find(
+    (c) =>
+      c.participantsIds.includes(userId1) && c.participantsIds.includes(userId2)
+  );
+}
+
+export async function sendMessage({ chatId, senderId, text }) {
   const newMessage = {
     id: Date.now().toString(),
-    sender,
+    senderId,
     text,
     timestamp: new Date().toISOString(),
   };
@@ -40,17 +48,17 @@ export async function sendMessage({ chatId, sender, text }) {
   });
 }
 
-export async function createChat({ sender, receiver, text }) {
+export async function createChat({ senderId, receiverId, text }) {
   const newMessage = {
     id: Date.now().toString(),
-    sender,
+    senderId,
     text,
     timestamp: new Date().toISOString(),
   };
 
   const newChat = {
     id: Date.now().toString(),
-    participants: [sender, receiver],
+    participants: [senderId, receiverId],
     messages: [newMessage],
   };
 

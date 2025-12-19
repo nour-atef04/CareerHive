@@ -6,7 +6,27 @@
       "password": "qwerty12345",
       "name": "Jessica William",
       "image": "jessica.william",
-      "position": "Data Scientist"
+      "position": "Data Scientist",
+      "followingIds": [
+        "2"
+      ],
+      "followerIds": [
+        "2"
+      ]
+    },
+    {
+      "id": "2",
+      "email": "john.doe@example.com",
+      "password": "qwerty12345",
+      "name": "John Doe",
+      "image": "john.doe",
+      "position": "Tech Enthusiast",
+      "followingIds": [
+        "1"
+      ],
+      "followerIds": [
+        "1"
+      ]
     }
   ],
   "posts": [
@@ -16,7 +36,7 @@
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
       "authorPosition": "Data Scientist",
-      "text": "Excited to start a new project!",
+      "text": "Excited to start a new project!!\n",
       "photo": null,
       "date": "2025-11-05T10:00:00Z",
       "likes": 13,
@@ -41,71 +61,28 @@
       "date": "2025-11-05T17:25:46.433Z",
       "likes": 1,
       "liked": true,
-      "comments": [
-        {
-          "id": 1766104246721,
-          "text": "wohoo!",
-          "authorId": "1",
-          "author": "Jessica William"
-        }
-      ]
+      "comments": []
     }
   ],
   "chats": [
     {
       "id": "1",
-      "participants": [
-        "Jessica William",
-        "John Doe"
+      "participantsIds": [
+        "1",
+        "2"
       ],
       "messages": [
         {
           "id": "1700000000001",
-          "sender": "John Doe",
+          "senderId": "2",
           "text": "Hey Jessica!",
           "timestamp": "2025-11-01T10:05:00Z"
         },
         {
-          "id": "1766100760793",
-          "sender": "Jessica William",
-          "text": "Hey! :) <3",
-          "timestamp": "2025-12-18T23:32:40.793Z"
-        }
-      ]
-    },
-    {
-      "id": "1764676490317",
-      "participants": [
-        "Jessica William",
-        "person2"
-      ],
-      "messages": [
-        {
-          "id": "1764676490317",
-          "sender": "Jessica William",
-          "text": "Hello!",
-          "timestamp": "2025-12-02T11:54:50.317Z"
-        },
-        {
-          "id": "1764676493200",
-          "sender": "Jessica William",
-          "text": ":)",
-          "timestamp": "2025-12-02T11:54:53.200Z"
-        }
-      ]
-    },
-    {
-      "id": "1764693418155",
-      "participants": [
-        "Jessica William",
-        "person3"
-      ],
-      "messages": [
-        {
-          "id": "1764693418155",
-          "sender": "Jessica William",
-          "text": "Hi :)",
-          "timestamp": "2025-12-02T16:36:58.155Z"
+          "id": "1766163958213",
+          "senderId": "1",
+          "text": "Hey John!🥰",
+          "timestamp": "2025-12-19T17:05:58.213Z"
         }
       ]
     }

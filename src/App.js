@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/messages/:chatPerson",
+        path: "/messages/:chatPersonId",
         lazy: async () => {
           const { default: Messages } = await import("./pages/Messages");
           return { Component: Messages };

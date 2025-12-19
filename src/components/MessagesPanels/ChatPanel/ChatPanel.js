@@ -2,41 +2,28 @@ import { useEffect, useRef } from "react";
 import styles from "./ChatPanel.module.css";
 import NewMessageForm from "../NewMessageForm";
 import { useAuth } from "../../../context/AuthContext";
-// import { useSelector } from "react-redux";
-// import { getUser } from "../../../redux/slices/authSlice";
-// import {
-//   createChat,
-//   loadChats,
-//   selectChatByParticipants,
-//   sendMessage,
-// } from "../../../redux/slices/chatsSlice";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import {
-  useChats,
+  useChatByParticipantsId,
   useCreateChat,
   useSendMessage,
 } from "../../../hooks/useChats";
+import Loader from "../../ui/Loader";
+import { useUser } from "../../../hooks/useUsers";
 
-export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
-  // const user = useSelector(getUser);
+export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
-  // const chat = useSelector((state) =>
-  //   chatPerson ? selectChatByParticipants(state, user.name, chatPerson) : null
-  // );
-  const { data: chats = [] } = useChats();
-  const chat = chats.find(
-    (c) =>
-      c.participants.includes(user.name) && c.participants.includes(chatPerson)
+
+  const { data: chat, isLoading: isChatLoading } = useChatByParticipantsId(
+    user.id,
+    chatPersonId
   );
+
+  const { data: chatPerson, isLoading: isUserLoading } = useUser(chatPersonId);
+
   const createChat = useCreateChat();
   const sendMessage = useSendMessage();
-
-  // // load messages on mount
-  // useEffect(() => {
-  //   dispatch(loadChats());
-  // }, [dispatch]);
-
   const chatRef = useRef(null);
 
   // scroll to bottom when messages change
@@ -46,37 +33,22 @@ export default function ChatPanel({ chatPerson, showChat, setShowChat }) {
 
   async function handleAddNewMessage(text) {
     if (!chat) {
-      // dispatch(
-      //   createChat({
-      //     sender: user.name,
-      //     receiver: chatPerson,
-      //     text,
-      //   })
-      // );
-      // return;
       await createChat.mutateAsync({
-        sender: user.name,
-        receiver: chatPerson,
+        senderId: user.id,
+        receiverId: chatPersonId,
         text,
       });
       return;
     }
-
-    // dispatch(
-    //   sendMessage({
-    //     chatId: chat.id,
-    //     sender: user.name,
-    //     text,
-    //   })
-    // );
     sendMessage.mutate({
       chatId: chat.id,
-      sender: user.name,
+      senderId: user.id,
       text,
     });
   }
 
-  if (!chatPerson) return <div></div>;
+  if (!chatPersonId) return <div></div>;
+  if (isChatLoading || isUserLoading) return <Loader />;
 
   return (
     <section

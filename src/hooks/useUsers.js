@@ -1,11 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchUsers, updateUser } from "../services/apiUsers";
+import { fetchFollowings, fetchUser, fetchUsers, updateUser } from "../services/apiUsers";
 import { useAuth } from "../context/AuthContext";
 
+// fetch lists
 export function useUsers() {
   return useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
+  });
+}
+
+// fetch one profile
+export function useUser(userId) {
+  const { currentUser } = useAuth();
+
+  return useQuery({
+    queryKey: ["users", userId],
+    queryFn: async ({ queryKey }) => {
+      const [, id] = queryKey; // unpack userId from queryKey
+      if (id === "me") return currentUser; // return current user directly
+      return fetchUser(id);
+    },
+    enabled: !!userId,
+  });
+}
+
+export function useUserFollowings(userId) {
+  return useQuery({
+    queryKey: ["users", userId],
+    queryFn: () => fetchFollowings(userId),
+    enabled: !!userId,
   });
 }
 
@@ -15,14 +39,18 @@ export function useFollowUser() {
 
   return useMutation({
     mutationFn: (userIdToFollow) => {
-      const newFollowings = [...(currentUser.following || []), userIdToFollow];
-      return updateUser({ ...currentUser, following: newFollowings });
+      const newFollowings = [
+        ...(currentUser.followingIds || []),
+        userIdToFollow,
+      ];
+      return updateUser({ ...currentUser, followingIds: newFollowings });
     },
     onSuccess: (updatedUser) => {
       // update query cache (optimistic update)
       queryClient.setQueryData(["users"], (oldUsers) =>
         oldUsers.map((u) => (u.id === updatedUser.id ? updatedUser : u))
       );
+      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
       setCurrentUser(updatedUser);
     },
   });
@@ -34,15 +62,16 @@ export function useUnfollowUser() {
 
   return useMutation({
     mutationFn: (userIdToUnfollow) => {
-      const newFollowings = (currentUser.following || []).filter(
+      const newFollowings = (currentUser.followingIds || []).filter(
         (id) => id !== userIdToUnfollow
       );
-      return updateUser({ ...currentUser, following: newFollowings });
+      return updateUser({ ...currentUser, followingIds: newFollowings });
     },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(["users"], (oldUsers) =>
         oldUsers.map((u) => (u.id === updatedUser.id ? updatedUser : u))
       );
+      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
       setCurrentUser(updatedUser);
     },
   });

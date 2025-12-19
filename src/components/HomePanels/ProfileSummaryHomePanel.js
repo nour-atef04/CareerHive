@@ -13,7 +13,7 @@ export default function ProfileSummaryHomePanel({ className }) {
   const navigate = useNavigate();
   const { currentUser: user } = useAuth();
   if (!user) return null;
-  const { name, position, followers = [], followings = [] } = user || {};
+  const { name, position, followerIds, followingIds } = user || {};
   // const followers = useSelector(getFollowers);
   // const followings = useSelector(getFollowings);
 
@@ -29,11 +29,11 @@ export default function ProfileSummaryHomePanel({ className }) {
       />
       <div className={styles["stats"]}>
         <p>Followers</p>
-        <p>{followers.length}</p>
+        <p>{followerIds.length}</p>
       </div>
       <div className={styles["stats"]}>
         <p>Following</p>
-        <p>{followings.length}</p>
+        <p>{followingIds.length}</p>
       </div>
       <p onClick={() => navigate("/profile")}>View Profile</p>
     </Panel>

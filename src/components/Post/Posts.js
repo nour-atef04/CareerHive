@@ -9,7 +9,7 @@ export default function Posts({ className, userId, commentedPostfilter }) {
   const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
 
   const { data: posts = [], isLoading } = usePosts();
-  console.log(posts);
+  // console.log(posts);
 
   // local state for lazy loading of posts
   const [visibleCount, setVisibleCount] = useState(5);
