@@ -8,10 +8,12 @@
       "image": "jessica.william",
       "position": "Data Scientist",
       "followingIds": [
-        "2"
+        "2",
+        "3"
       ],
       "followerIds": [
-        "2"
+        "2",
+        "4"
       ]
     },
     {
@@ -27,6 +29,38 @@
       "followerIds": [
         "1"
       ]
+    },
+    {
+      "id": "3",
+      "email": "julia.esteve@example.com",
+      "password": "qwerty12345",
+      "name": "Julia Esteve",
+      "image": "julia.esteve",
+      "position": "Software Engineer",
+      "followingIds": [],
+      "followerIds": [
+        "1"
+      ]
+    },
+    {
+      "id": "4",
+      "email": "dereck.oswald@example.com",
+      "password": "qwerty12345",
+      "name": "Dereck Oswald",
+      "image": "dereck.oswald",
+      "position": "Marketing Director",
+      "followingIds": [],
+      "followerIds": []
+    },
+    {
+      "id": "5",
+      "email": "sarah.wilson@example.com",
+      "password": "qwerty12345",
+      "name": "Sarah Wilson",
+      "image": "sarah.wilson",
+      "position": "CS student",
+      "followingIds": [],
+      "followerIds": []
     }
   ],
   "posts": [
@@ -36,19 +70,12 @@
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
       "authorPosition": "Data Scientist",
-      "text": "Excited to start a new project!!\n",
+      "text": "Excited to start a new project!! <3\n",
       "photo": null,
       "date": "2025-11-05T10:00:00Z",
       "likes": 13,
       "liked": true,
-      "comments": [
-        {
-          "id": 1766098375295,
-          "text": "wohoo!",
-          "authorId": "1",
-          "author": "Jessica William"
-        }
-      ]
+      "comments": []
     },
     {
       "id": "2",
@@ -61,14 +88,7 @@
       "date": "2025-11-05T17:25:46.433Z",
       "likes": 1,
       "liked": true,
-      "comments": [
-        {
-          "id": 1766230479448,
-          "text": "WOHOO",
-          "authorId": "1",
-          "author": "Jessica William"
-        }
-      ]
+      "comments": []
     }
   ],
   "chats": [
@@ -90,6 +110,21 @@
           "senderId": "1",
           "text": "Hey John!🥰",
           "timestamp": "2025-12-19T17:05:58.213Z"
+        }
+      ]
+    },
+    {
+      "id": "1766249533979",
+      "participantsIds": [
+        "1",
+        "3"
+      ],
+      "messages": [
+        {
+          "id": "1766249533979",
+          "senderId": "1",
+          "text": "Hi Julia! :)",
+          "timestamp": "2025-12-20T16:52:13.979Z"
         }
       ]
     }

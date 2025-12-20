@@ -1,31 +1,26 @@
 import styles from "./Suggestion.module.css";
 import Button from "../../ui/Button";
+import PersonLi from "../../ui/PersonLi";
 import { useState } from "react";
 import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
 
-export default function Suggestion({ className, suggestion }) {
-  const { id, name, position } = suggestion;
-  const [followed, setFollowed] = useState(false);
+export default function Suggestion({ className, isFollowing, suggestion }) {
+  const [followed, setFollowed] = useState(isFollowing);
   const followUser = useFollowUser();
   const unfollowUser = useUnfollowUser();
 
   function handleFollow() {
     if (!followed) {
       setFollowed(true);
-      followUser.mutate(id);
+      followUser.mutate(suggestion.id);
     } else {
       setFollowed(false);
-      unfollowUser.mutate(id);
+      unfollowUser.mutate(suggestion.id);
     }
   }
 
   return (
-    <div className={`${className || ""} ${styles["suggestion"]}`}>
-      <div className={styles["icon"]}></div>
-      <div className={styles["info"]}>
-        <p className={styles["name"]}>{name}</p>
-        <p className={styles["position"]}>{position}</p>
-      </div>
+    <PersonLi person={suggestion} className={styles.person}>
       <Button
         onClick={handleFollow}
         size="sm"
@@ -34,6 +29,6 @@ export default function Suggestion({ className, suggestion }) {
       >
         {followed ? "−" : "+"}
       </Button>
-    </div>
+    </PersonLi>
   );
 }

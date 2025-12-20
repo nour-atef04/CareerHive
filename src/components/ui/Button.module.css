@@ -50,6 +50,12 @@
   cursor: no-drop;
 }
 
+.variant--disabled-dark {
+  background-color: var(--color-brand);
+  color: var(--color-light--1);
+  cursor: no-drop;
+}
+
 /* ===== SIZES ===== */
 .size--sm {
   padding: 0.2rem 0.5rem;

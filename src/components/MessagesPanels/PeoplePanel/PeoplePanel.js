@@ -17,6 +17,8 @@ export default function PeoplePanel({ showChat, setShowChat }) {
 
   if (isLoading) return <Loader />;
 
+  console.log(followings);
+
   return (
     <section
       className={`${styles["people-section"]} ${

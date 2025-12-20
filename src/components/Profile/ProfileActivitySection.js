@@ -15,14 +15,16 @@ export default function ProfileActivitySection({ user }) {
         <div className={styles["activity-buttons"]}>
           <Button
             size="sm"
-            variant={activeTab === "posts" ? "filled" : "outline-dark"}
+            variant={activeTab === "posts" ? "disabled-dark" : "outline-dark"}
             onClick={() => setActiveTab("posts")}
           >
             Posts
           </Button>
           <Button
             size="sm"
-            variant={activeTab === "comments" ? "filled" : "outline-dark"}
+            variant={
+              activeTab === "comments" ? "disabled-dark" : "outline-dark"
+            }
             onClick={() => setActiveTab("comments")}
           >
             Comments

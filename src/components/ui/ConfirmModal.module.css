@@ -1,0 +1,16 @@
+.modal{
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm)
+}
+
+.actions {
+  margin-top: var(--space-md);
+  display: flex;
+  gap: var(--space-md);
+}
+
+.actions > button{
+  flex: 1;
+}
+

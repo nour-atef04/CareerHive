@@ -5,6 +5,7 @@ import { useJobs } from "../../hooks/useJobs";
 import Loader from "../ui/Loader";
 import Button from "../ui/Button";
 import { filterJobs } from "./filterJobs";
+import List from "../ui/List";
 
 export default function JobsList({ setShowJob, keyword, page, setPage }) {
   const navigate = useNavigate();
@@ -29,17 +30,16 @@ export default function JobsList({ setShowJob, keyword, page, setPage }) {
   const start = (page - 1) * pageSize;
   const paginatedJobs = filteredJobs.slice(start, start + pageSize);
 
-  if (filteredJobs.length === 0) return <p>No jobs found.</p>;
-
-  // console.log(filteredJobs);
-
   return (
     <>
-      <div className={styles["list"]}>
-        {paginatedJobs.map((job) => (
+      <List
+        items={paginatedJobs}
+        className={styles["list"]}
+        keyExtractor={(job) => job._id}
+        emptyMessage="No jobs found."
+        renderItem={(job) => (
           <JobItem
             job={job}
-            key={job._id}
             onClick={() => {
               setShowJob?.(true);
               navigate(`/jobs/${encodeURIComponent(job._id)}`, {
@@ -47,8 +47,8 @@ export default function JobsList({ setShowJob, keyword, page, setPage }) {
               });
             }}
           />
-        ))}
-      </div>
+        )}
+      />
 
       {/* Pagination controls */}
       <div className={styles["pagination"]}>

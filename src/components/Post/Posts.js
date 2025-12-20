@@ -45,6 +45,9 @@ export default function Posts({ className, userId, commentedPostfilter }) {
     ? filteredPosts.slice(0, visibleCount)
     : filteredPosts;
 
+  if (filteredPosts.length === 0)
+    return <div className={styles["no-posts"]}>No posts yet.</div>;
+
   return (
     <div className={`${styles["posts"]} ${className || ""}`}>
       {!userId && <AddPost />}

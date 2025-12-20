@@ -1,62 +1,36 @@
+import { useAuth } from "../../../context/AuthContext";
+import { useUsers } from "../../../hooks/useUsers";
 import Panel from "../../ui/Panel";
 import PanelTitle from "../../ui/PanelTitle";
 import Suggestion from "./Suggestion";
 import styles from "./SuggestionsHomePanel.module.css";
-
-const suggestions = [
-  {
-    id: "10",
-    name: "Julia Esteve",
-    position: "Software Engineer",
-  },
-  {
-    id: "11",
-    name: "Dereck Oswald",
-    position: "Marketing Director",
-  },
-  {
-    id: "12",
-    name: "Enid Fletcher",
-    position: "Data Engineer",
-  },
-  {
-    id: "13",
-    name: "Martin Sandford",
-    position: "Accounting Specialist",
-  },
-  {
-    id: "14",
-    name: "Julia Esteve",
-    position: "Software Engineer",
-  },
-  {
-    id: "15",
-    name: "Dereck Oswald",
-    position: "Marketing Director",
-  },
-  {
-    id: "16",
-    name: "Enid Fletcher",
-    position: "Data Engineer",
-  },
-  {
-    id: "17",
-    name: "Martin Sandford",
-    position: "Accounting Specialist",
-  },
-];
+import Loader from "../../ui/Loader";
+import List from "../../ui/List";
 
 export default function SuggestionsHomePanel({ className }) {
+  const { currentUser } = useAuth();
+  const { data: users = [], isLoading } = useUsers();
+
+  if (!currentUser || isLoading) return <Loader />;
+
+  const suggestions = users
+    .filter((user) => user.id !== currentUser.id)
+    .slice(0, 5);
+
   return (
     <Panel className={`${styles["suggestions-container"]} ${className || ""}`}>
       <PanelTitle className={styles["panel-title"]}>Suggestions</PanelTitle>
-      {suggestions.map((suggestion, i) => (
-        <Suggestion
-          className={styles.suggestion}
-          key={i}
-          suggestion={suggestion}
-        />
-      ))}
+      <List
+        items={suggestions}
+        className={styles.list}
+        keyExtractor={(user) => user.id}
+        renderItem={(suggestion) => (
+          <Suggestion
+            suggestion={suggestion}
+            isFollowing={currentUser.followingIds?.includes(suggestion.id)}
+          />
+        )}
+      />
     </Panel>
   );
 }

@@ -2,4 +2,9 @@
   margin-top: var(--space-sm);
   font-size: small;
   font-weight: light;
+  cursor: pointer;
+}
+
+.profile-stats:hover{
+  text-decoration: underline;
 }

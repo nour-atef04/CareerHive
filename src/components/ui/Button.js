@@ -5,7 +5,7 @@ export default function Button({
   type = "button",
   onClick,
   className,
-  variant = "filled", // "filled" | "outline" | "outline-dark" | "disabled"
+  variant = "filled", // "filled" | "outline" | "outline-dark" | "disabled" | "disabled-dark"
   size = "md", // "sm" | "md" | "lg"
   color = "brand1", // "brand1" | "brand2"
 }) {
@@ -20,7 +20,7 @@ export default function Button({
       className={`${styles.button} ${variantClass} ${sizeClass} ${colorClass} ${
         className || ""
       }`}
-      disabled={variant === "disabled"}
+      disabled={variant === "disabled" || variant === "disabled-dark"}
     >
       {children}
     </button>

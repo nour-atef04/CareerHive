@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   fetchFollowings,
+  fetchFollowers,
   fetchUser,
   fetchUsers,
   followUser,
@@ -33,8 +34,16 @@ export function useUser(userId) {
 
 export function useUserFollowings(userId) {
   return useQuery({
-    queryKey: ["users", userId],
+    queryKey: ["users", userId, "followings"],
     queryFn: () => fetchFollowings(userId),
+    enabled: !!userId,
+  });
+}
+
+export function useUserFollowers(userId) {
+  return useQuery({
+    queryKey: ["users", userId, "followers"],
+    queryFn: () => fetchFollowers(userId),
     enabled: !!userId,
   });
 }
@@ -54,7 +63,7 @@ export function useFollowUser() {
 
       // refetch followings list
       queryClient.invalidateQueries({
-        queryKey: ["users", updatedUser.id],
+        queryKey: ["users", updatedUser.id, "followings"],
       });
 
       // refetch users list
@@ -81,7 +90,7 @@ export function useUnfollowUser() {
 
       // refetch followings list
       queryClient.invalidateQueries({
-        queryKey: ["users", updatedUser.id],
+        queryKey: ["users", updatedUser.id, "followings"],
       });
 
       // refetch users list

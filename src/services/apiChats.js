@@ -58,7 +58,7 @@ export async function createChat({ senderId, receiverId, text }) {
 
   const newChat = {
     id: Date.now().toString(),
-    participants: [senderId, receiverId],
+    participantsIds: [senderId, receiverId],
     messages: [newMessage],
   };
 

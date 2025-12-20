@@ -12,7 +12,6 @@
 .people-section > *:not(:last-child) {
   border-bottom: var(--border-style-default);
   padding-bottom: var(--space-md);
-  margin-bottom: var(--space-md);
 }
 
 @media (max-width: 600px) {
