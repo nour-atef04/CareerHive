@@ -12,16 +12,6 @@ export default function PeopleList({ followings, setShowChat }) {
 
   return (
     <>
-      {/* {followings?.slice(0, MAX_PEOPLE).map((person) => (
-        <MessagePerson
-          key={person.id}
-          name={person.name}
-          onClick={() => {
-            setShowChat(true);
-            navigate(`/messages/${person.id}`);
-          }}
-        />
-      ))} */}
       <List
         items={people}
         className={styles.list}

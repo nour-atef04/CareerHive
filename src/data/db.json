@@ -8,8 +8,7 @@
       "image": "jessica.william",
       "position": "Data Scientist",
       "followingIds": [
-        "2",
-        "3"
+        "2"
       ],
       "followerIds": [
         "2",
@@ -38,9 +37,7 @@
       "image": "julia.esteve",
       "position": "Software Engineer",
       "followingIds": [],
-      "followerIds": [
-        "1"
-      ]
+      "followerIds": []
     },
     {
       "id": "4",

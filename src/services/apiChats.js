@@ -2,10 +2,32 @@
 // Redux async thunks + local form state
 // to React Query + React Hook Form
 
+import { fetchUsers } from "./apiUsers";
+
 export async function fetchChats() {
   const res = await fetch("http://localhost:3001/chats");
   if (!res.ok) throw new Error("Failed to fetch chats.");
   return res.json();
+}
+
+export async function fetchUsersChats(currentUserId) {
+  const chats = await fetchChats();
+  const allUsers = await fetchUsers();
+
+  // get all participants except current user
+  // flatMap to do this [2, 3, 4] instead of this [[2, 3], [4]]
+  const participants = chats.flatMap((chat) =>
+    chat.participantsIds.filter((id) => id !== currentUserId)
+  );
+
+  // Remove duplicates
+  const uniqueParticipantIds = [...new Set(participants)];
+
+  // Map IDs to full user objects
+  // .filter(Boolean) to remove undefined entries
+  return uniqueParticipantIds
+    .map((id) => allUsers.find((u) => u.id === id))
+    .filter(Boolean);
 }
 
 export async function fetchChatById(chatId) {
@@ -14,7 +36,7 @@ export async function fetchChatById(chatId) {
   return res.json();
 }
 
-export async function fetchChatByParticipantsId( userId1, userId2 ) {
+export async function fetchChatByParticipantsId(userId1, userId2) {
   const chats = await fetchChats();
   return chats.find(
     (c) =>

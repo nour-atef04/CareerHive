@@ -6,6 +6,7 @@ import {
   fetchChatById,
   fetchChatByParticipantsId,
   fetchChats,
+  fetchUsersChats,
   sendMessage,
 } from "../services/apiChats";
 
@@ -21,6 +22,13 @@ export function useChatById(chatId) {
     queryKey: ["chats", chatId],
     queryFn: () => fetchChatById(chatId),
     enabled: !!chatId, // !! to convert to boolean, without "enabled" react query might do GET/chats/undefined, which's bad
+  });
+}
+
+export function useUsersChats(currentUserId) {
+  return useQuery({
+    queryKey: ["chats", currentUserId],
+    queryFn: () => fetchUsersChats(currentUserId),
   });
 }
 
