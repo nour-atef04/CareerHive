@@ -54,8 +54,7 @@ export default function SuggestionsHomePanel({ className }) {
         <Suggestion
           className={styles.suggestion}
           key={i}
-          name={suggestion.name}
-          position={suggestion.position}
+          suggestion={suggestion}
         />
       ))}
     </Panel>

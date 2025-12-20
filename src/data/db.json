@@ -61,7 +61,14 @@
       "date": "2025-11-05T17:25:46.433Z",
       "likes": 1,
       "liked": true,
-      "comments": []
+      "comments": [
+        {
+          "id": 1766230479448,
+          "text": "WOHOO",
+          "authorId": "1",
+          "author": "Jessica William"
+        }
+      ]
     }
   ],
   "chats": [

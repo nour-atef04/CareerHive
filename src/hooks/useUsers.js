@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchFollowings, fetchUser, fetchUsers, updateUser } from "../services/apiUsers";
+import {
+  fetchFollowings,
+  fetchUser,
+  fetchUsers,
+  followUser,
+  unfollowUser,
+} from "../services/apiUsers";
 import { useAuth } from "../context/AuthContext";
 
 // fetch lists
@@ -38,20 +44,23 @@ export function useFollowUser() {
   const { currentUser, setCurrentUser } = useAuth();
 
   return useMutation({
-    mutationFn: (userIdToFollow) => {
-      const newFollowings = [
-        ...(currentUser.followingIds || []),
-        userIdToFollow,
-      ];
-      return updateUser({ ...currentUser, followingIds: newFollowings });
-    },
+    mutationFn: (userIdToFollow) => followUser(currentUser.id, userIdToFollow),
     onSuccess: (updatedUser) => {
-      // update query cache (optimistic update)
-      queryClient.setQueryData(["users"], (oldUsers) =>
-        oldUsers.map((u) => (u.id === updatedUser.id ? updatedUser : u))
-      );
-      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
+      // update auth context
       setCurrentUser(updatedUser);
+
+      // update cached current user
+      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
+
+      // refetch followings list
+      queryClient.invalidateQueries({
+        queryKey: ["users", updatedUser.id],
+      });
+
+      // refetch users list
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
     },
   });
 }
@@ -61,18 +70,24 @@ export function useUnfollowUser() {
   const { currentUser, setCurrentUser } = useAuth();
 
   return useMutation({
-    mutationFn: (userIdToUnfollow) => {
-      const newFollowings = (currentUser.followingIds || []).filter(
-        (id) => id !== userIdToUnfollow
-      );
-      return updateUser({ ...currentUser, followingIds: newFollowings });
-    },
+    mutationFn: (userIdToUnfollow) =>
+      unfollowUser(currentUser.id, userIdToUnfollow),
     onSuccess: (updatedUser) => {
-      queryClient.setQueryData(["users"], (oldUsers) =>
-        oldUsers.map((u) => (u.id === updatedUser.id ? updatedUser : u))
-      );
-      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
+      // update auth context
       setCurrentUser(updatedUser);
+
+      // update cached current user
+      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
+
+      // refetch followings list
+      queryClient.invalidateQueries({
+        queryKey: ["users", updatedUser.id],
+      });
+
+      // refetch users list
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
     },
   });
 }

@@ -1,27 +1,22 @@
 import styles from "./Suggestion.module.css";
 import Button from "../../ui/Button";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import {
-//   addFollowing,
-//   deleteFollowing,
-// } from "../../../redux/slices/followSlice";
-// import { useAuth } from "../../../context/AuthContext";
+import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
 
-export default function Suggestion({ className, name, position }) {
+export default function Suggestion({ className, suggestion }) {
+  const { id, name, position } = suggestion;
   const [followed, setFollowed] = useState(false);
-  // const { dispatch } = useAuth();
+  const followUser = useFollowUser();
+  const unfollowUser = useUnfollowUser();
 
   function handleFollow() {
-    // if (!followed) {
-    //   setFollowed(true);
-    //   // dispatch({ type: "add_following", payload: name });
-    //   dispatch(addFollowing(name));
-    // } else {
-    //   setFollowed(false);
-    //   // dispatch({ type: "delete_following", payload: name });
-    //   dispatch(deleteFollowing(name));
-    // }
+    if (!followed) {
+      setFollowed(true);
+      followUser.mutate(id);
+    } else {
+      setFollowed(false);
+      unfollowUser.mutate(id);
+    }
   }
 
   return (

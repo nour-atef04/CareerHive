@@ -27,13 +27,38 @@ export async function fetchFollowings(userId) {
   return followings;
 }
 
-// for follow/unfollow
-export async function updateUser(updatedUser) {
-  const res = await fetch(`${USERS_API}/${updatedUser.id}`, {
+export async function followUser(currentUserId, userIdToFollow) {
+  const resUser = await fetch(`${USERS_API}/${currentUserId}`);
+  if (!resUser.ok) throw new Error("Failed to fetch current user.");
+  const user = await resUser.json();
+
+  const updatedFollowingsIds = [...(user.followingIds || []), userIdToFollow];
+
+  const resUpdate = await fetch(`${USERS_API}/${currentUserId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedUser),
+    body: JSON.stringify({ ...user, followingIds: updatedFollowingsIds }),
   });
-  if (!res.ok) throw new Error("Failed to update user.");
-  return res.json();
+
+  if (!resUpdate.ok) throw new Error("Failed to follow user.");
+  return resUpdate.json();
+}
+
+export async function unfollowUser(currentUserId, userIdToUnfollow) {
+  const resUser = await fetch(`${USERS_API}/${currentUserId}`);
+  if (!resUser.ok) throw new Error("Failed to fetch current user.");
+  const user = await resUser.json();
+
+  const updatedFollowingIds = (user.followingIds || []).filter(
+    (id) => id !== userIdToUnfollow
+  );
+
+  const resUpdate = await fetch(`${USERS_API}/${currentUserId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...user, followingIds: updatedFollowingIds }),
+  });
+
+  if (!resUpdate.ok) throw new Error("Failed to follow user.");
+  return resUpdate.json();
 }
