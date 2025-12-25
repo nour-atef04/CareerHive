@@ -2,6 +2,10 @@
   background-color: white;
   border-radius: var(--border-radius-default);
   border: var(--border-style-default);
+  display: flex; 
+  flex-direction: column;
+  height: fit-content;
+  overflow: auto;
 }
 
 .top-border {

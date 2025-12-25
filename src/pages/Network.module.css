@@ -6,5 +6,5 @@
   gap: var(--space-xl);
   justify-content: center;
   align-items: center;
-  height: 89vh;
+  overflow: auto;
 }
