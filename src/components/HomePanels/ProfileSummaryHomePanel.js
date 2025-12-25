@@ -9,13 +9,13 @@ export default function ProfileSummaryHomePanel({ className }) {
   const navigate = useNavigate();
   const { currentUser: user } = useAuth();
   if (!user) return null;
-  const { name, position, followerIds, followingIds } = user || {};
+  const { name, image, position, followerIds, followingIds } = user || {};
 
   return (
     <Panel
       className={`${styles["profile-summary-container"]} ${className || ""}`}
     >
-      <ProfileIconHeader type="centered" />
+      <ProfileIconHeader userImage={image} type="centered" />
       <ProfileNamePosition
         className={styles["name-position"]}
         name={name}

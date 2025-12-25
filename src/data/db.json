@@ -8,7 +8,8 @@
       "image": "jessica.william",
       "position": "Data Scientist",
       "followingIds": [
-        "2"
+        "2",
+        "4"
       ],
       "followerIds": [
         "2",
@@ -47,40 +48,12 @@
       "image": "dereck.oswald",
       "position": "Marketing Director",
       "followingIds": [],
-      "followerIds": []
+      "followerIds": [
+        "1"
+      ]
     },
     {
       "id": "5",
-      "email": "sarah.wilson@example.com",
-      "password": "qwerty12345",
-      "name": "Sarah Wilson",
-      "image": "sarah.wilson",
-      "position": "CS student",
-      "followingIds": [],
-      "followerIds": []
-    },
-    {
-      "id": "6",
-      "email": "sarah.wilson@example.com",
-      "password": "qwerty12345",
-      "name": "Sarah Wilson",
-      "image": "sarah.wilson",
-      "position": "CS student",
-      "followingIds": [],
-      "followerIds": []
-    },
-    {
-      "id": "7",
-      "email": "sarah.wilson@example.com",
-      "password": "qwerty12345",
-      "name": "Sarah Wilson",
-      "image": "sarah.wilson",
-      "position": "CS student",
-      "followingIds": [],
-      "followerIds": []
-    },
-    {
-      "id": "8",
       "email": "sarah.wilson@example.com",
       "password": "qwerty12345",
       "name": "Sarah Wilson",

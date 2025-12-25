@@ -19,6 +19,7 @@ export default function PeopleList({ followings, setShowChat }) {
         renderItem={(person) => (
           <MessagePerson
             key={person.id}
+            image={person.image}
             name={person.name}
             onClick={() => {
               setShowChat(true);

@@ -1,8 +1,11 @@
 import styles from "./PostHeader.module.css";
 import ProfileIcon from "../ui/ProfileIcon";
+import { useNavigate } from "react-router-dom";
 
 export default function PostHeader({ post }) {
-  const { authorName, authorImage, authorPosition, date } = post;
+  const navigate = useNavigate();
+
+  const { authorId, authorName, authorImage, authorPosition, date } = post;
 
   const postDate = new Date(date);
   const timeAgo = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
@@ -24,6 +27,7 @@ export default function PostHeader({ post }) {
         src={`/assets/${authorImage}.jpg`}
         alt={authorName}
         size="medium"
+        onClick={() => navigate(`/profile/${authorId}`)}
       />
       <div>
         <h3 className={styles["name"]}>{authorName}</h3>

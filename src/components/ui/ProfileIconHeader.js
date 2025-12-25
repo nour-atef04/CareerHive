@@ -1,12 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import ProfileIcon from "./ProfileIcon";
 import styles from "./ProfileIconHeader.module.css";
-import { useAuth } from "../../context/AuthContext";
 
-export default function ProfileIconHeader({ type }) {
+export default function ProfileIconHeader({ type, userImage }) {
   const navigate = useNavigate();
-  const { currentUser: user } = useAuth();
-  const { image } = user;
 
   const className = {
     centered: "centered",
@@ -21,7 +18,7 @@ export default function ProfileIconHeader({ type }) {
       onClick={() => navigate("/profile")}
     >
       <ProfileIcon
-        src={`/assets/${image}.jpg`}
+        src={`/assets/${userImage}.jpg`}
         alt="user profile"
         size="large"
         onClick={() => navigate("/profile")}

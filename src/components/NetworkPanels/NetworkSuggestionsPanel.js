@@ -1,6 +1,6 @@
 import Panel from "../ui/Panel";
 import PanelTitle from "../ui/PanelTitle";
-import styles from "./NetworkSuggestions.module.css";
+import styles from "./NetworkSuggestionsPanel.module.css";
 import ProfileIconHeader from "../ui/ProfileIconHeader";
 import { useUsers } from "../../hooks/useUsers";
 import ProfileNamePosition from "../ui/ProfileNamePosition";
@@ -21,7 +21,7 @@ export default function NetworkSuggestions() {
           {users.map((user) => (
             <div className={styles["suggestion"]}>
               <Panel className={styles["suggestion-card"]}>
-                <ProfileIconHeader type="centered" />
+                <ProfileIconHeader userImage={user.image} type="centered" />
                 <div className={styles["suggestion-body"]}>
                   <ProfileNamePosition
                     className={styles["profile-info"]}

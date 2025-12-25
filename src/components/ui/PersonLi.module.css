@@ -4,13 +4,6 @@
   gap: var(--space-sm);
 }
 
-.icon {
-  height: var(--space-xl);
-  width: var(--space-xl);
-  border-radius: 50%;
-  background-color: var(--color-brand--1);
-}
-
 .info {
   flex: 1;
 }

@@ -4,7 +4,7 @@ import Button from "../ui/Button";
 import List from "../ui/List";
 import Loader from "../ui/Loader";
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useFollowUser,
   useUnfollowUser,
@@ -16,6 +16,8 @@ import PersonLi from "../ui/PersonLi";
 import ConfirmModal from "../ui/ConfirmModal";
 
 export default function ProfileStatsModal({ onClose }) {
+  const navigate = useNavigate();
+
   const [section, setSection] = useState("followers");
   const [confirmUnfollowUser, setConfirmUnfollowUser] = useState(null);
 
@@ -81,19 +83,28 @@ export default function ProfileStatsModal({ onClose }) {
               const followed = currentUser.followingIds?.includes(user.id);
 
               return (
-                <PersonLi className={styles.person} person={user}>
-                  <Button
-                    onClick={() =>
-                      followed
-                        ? setConfirmUnfollowUser(user)
-                        : followUser.mutate(user.id)
-                    }
-                    size="sm"
-                    variant={followed ? "filled" : "outline-dark"}
-                    className={styles["follow-btn"]}
-                  >
-                    {followed ? "−" : "+"}
-                  </Button>
+                <PersonLi
+                  className={styles.person}
+                  person={user}
+                  onClick={() => {
+                    onClose();
+                    navigate(`/profile/${user.id}`);
+                  }}
+                >
+                  {user.id !== currentUser.id && (
+                    <Button
+                      onClick={() =>
+                        followed
+                          ? setConfirmUnfollowUser(user)
+                          : followUser.mutate(user.id)
+                      }
+                      size="sm"
+                      variant={followed ? "filled" : "outline-dark"}
+                      className={styles["follow-btn"]}
+                    >
+                      {followed ? "−" : "+"}
+                    </Button>
+                  )}
                 </PersonLi>
               );
             }}

@@ -5,12 +5,19 @@ import ProfileStats from "./ProfileStats";
 import ProfileSection from "./ProfileSection";
 
 export default function ProfileHeader({ user }) {
-  const { name, position, followerIds = [], followingIds = [] } = user || {};
+  const {
+    name,
+    image,
+    position,
+    followerIds = [],
+    followingIds = [],
+  } = user || {};
   const followersCount = followerIds.length;
   const followingsCount = followingIds.length;
+  
   return (
     <ProfileSection>
-      <ProfileIconHeader type={"left"} />
+      <ProfileIconHeader userImage={image} type={"left"} />
       <ProfileNamePosition
         className={styles["profile-name"]}
         name={name}
