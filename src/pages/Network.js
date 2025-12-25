@@ -1,3 +1,10 @@
+import RequestsPanel from "../components/NetworkPanels/RequestsPanel";
+import styles from "./Network.module.css";
+
 export default function Network() {
-  return <h1>Network</h1>;
+  return (
+    <main className={styles.main}>
+      <RequestsPanel />
+    </main>
+  );
 }

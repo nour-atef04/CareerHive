@@ -1,0 +1,7 @@
+.requests-list {
+  margin-top: var(--space-md);
+}
+
+.person {
+  padding: var(--space-md);
+}

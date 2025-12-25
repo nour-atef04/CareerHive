@@ -1,0 +1,31 @@
+.requests-container {
+  padding: var(--space-md);
+  width: 80%;
+}
+
+.all {
+  height: 88%;
+  overflow: auto;
+}
+
+@media (min-width: 1200px) {
+  .requests-container {
+    padding: var(--space-md);
+    width: 50%;
+  }
+}
+
+.show-more {
+  font-weight: 100;
+  font-size: small;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.show-more:hover {
+  text-decoration: underline;
+}
+
+.requests-title {
+  padding: 0 var(--space-xs);
+}

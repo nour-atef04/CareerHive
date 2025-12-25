@@ -1,0 +1,10 @@
+.main {
+  background-color: var(--color-light--1);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  justify-content: center;
+  align-items: center;
+  height: 89vh;
+}

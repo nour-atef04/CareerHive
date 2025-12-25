@@ -12,7 +12,7 @@
       ],
       "followerIds": [
         "2",
-        "4"
+        "3"
       ]
     },
     {
@@ -51,6 +51,36 @@
     },
     {
       "id": "5",
+      "email": "sarah.wilson@example.com",
+      "password": "qwerty12345",
+      "name": "Sarah Wilson",
+      "image": "sarah.wilson",
+      "position": "CS student",
+      "followingIds": [],
+      "followerIds": []
+    },
+    {
+      "id": "6",
+      "email": "sarah.wilson@example.com",
+      "password": "qwerty12345",
+      "name": "Sarah Wilson",
+      "image": "sarah.wilson",
+      "position": "CS student",
+      "followingIds": [],
+      "followerIds": []
+    },
+    {
+      "id": "7",
+      "email": "sarah.wilson@example.com",
+      "password": "qwerty12345",
+      "name": "Sarah Wilson",
+      "image": "sarah.wilson",
+      "position": "CS student",
+      "followingIds": [],
+      "followerIds": []
+    },
+    {
+      "id": "8",
       "email": "sarah.wilson@example.com",
       "password": "qwerty12345",
       "name": "Sarah Wilson",
