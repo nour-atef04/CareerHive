@@ -1,21 +1,30 @@
 import { useAuth } from "../../../context/AuthContext";
-import { useUsers } from "../../../hooks/useUsers";
+import { useUserSuggestions } from "../../../hooks/useUsers";
 import Panel from "../../ui/Panel";
 import PanelTitle from "../../ui/PanelTitle";
 import Suggestion from "./Suggestion";
 import styles from "./SuggestionsHomePanel.module.css";
 import Loader from "../../ui/Loader";
 import List from "../../ui/List";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function SuggestionsHomePanel({ className }) {
   const { currentUser } = useAuth();
-  const { data: users = [], isLoading } = useUsers();
+  const {
+    data: suggestions = {},
+    isLoading,
+    refetch,
+  } = useUserSuggestions(currentUser?.id);
+
+  const location = useLocation();
+
+  // refetch when the user navigates back to the page
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch]);
 
   if (!currentUser || isLoading) return <Loader />;
-
-  const suggestions = users
-    .filter((user) => user.id !== currentUser.id)
-    .slice(0, 5);
 
   return (
     <Panel className={`${styles["suggestions-container"]} ${className || ""}`}>

@@ -7,7 +7,8 @@ export default function List({
   className,
   emptyMessage = "Nothing to show",
 }) {
-  if (!items.length) return <p>{emptyMessage}</p>;
+
+  if (!items.length) return <p className={styles.empty}>{emptyMessage}</p>;
 
   return (
     <div className={`${styles.list} ${className || ""}`}>

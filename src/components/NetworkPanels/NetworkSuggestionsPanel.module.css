@@ -25,25 +25,10 @@
 }
 
 /* to make the last row justified to the start */
-.suggestions-list::after{
+.suggestions-list::after {
   content: "";
   flex: 1 0 200px;
   max-width: 200px;
   visibility: hidden;
 }
 
-.suggestion-card {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-}
-
-.suggestion-body {
-  text-align: center;
-  padding-bottom: var(--space-md);
-}
-
-.profile-info {
-  font-size: small;
-  font-weight: lighter;
-}

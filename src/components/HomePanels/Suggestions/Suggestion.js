@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
 
 export default function Suggestion({ className, isFollowing, suggestion }) {
+  console.log(suggestion);
   const [followed, setFollowed] = useState(isFollowing);
   const followUser = useFollowUser();
   const unfollowUser = useUnfollowUser();
@@ -12,10 +13,16 @@ export default function Suggestion({ className, isFollowing, suggestion }) {
   function handleFollow() {
     if (!followed) {
       setFollowed(true);
-      followUser.mutate(suggestion.id);
+      followUser.mutate({
+        userIdToFollow: suggestion.id,
+        userName: suggestion.name,
+      });
     } else {
       setFollowed(false);
-      unfollowUser.mutate(suggestion.id);
+      unfollowUser.mutate({
+        userIdToUnfollow: suggestion.id,
+        userName: suggestion.name,
+      });
     }
   }
 

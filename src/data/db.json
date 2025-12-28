@@ -9,6 +9,7 @@
       "position": "Data Scientist",
       "followingIds": [
         "2",
+        "3",
         "4"
       ],
       "followerIds": [
@@ -38,7 +39,9 @@
       "image": "julia.esteve",
       "position": "Software Engineer",
       "followingIds": [],
-      "followerIds": []
+      "followerIds": [
+        "1"
+      ]
     },
     {
       "id": "4",
@@ -70,7 +73,7 @@
       "authorName": "Jessica William",
       "authorImage": "jessica.william",
       "authorPosition": "Data Scientist",
-      "text": "Excited to start a new project!! <3\n",
+      "text": "Excited to start a new project!! <3 :)\n\n",
       "photo": null,
       "date": "2025-11-05T10:00:00Z",
       "likes": 13,

@@ -1,0 +1,25 @@
+.suggestion-card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+.suggestion-body {
+  text-align: center;
+}
+
+.profile-info {
+  font-size: small;
+  font-weight: lighter;
+}
+
+.btn {
+  margin: var(--space-md);
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xxs);
+}

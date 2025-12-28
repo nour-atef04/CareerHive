@@ -1,3 +1,9 @@
 .list > * + * {
   border-top: var(--border-style-default);
 }
+
+.empty {
+  text-align: center;
+  margin: var(--space-md);
+  margin-bottom: var(--space-xxl);
+}

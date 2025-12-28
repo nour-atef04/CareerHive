@@ -7,6 +7,7 @@ import {
   fetchPosts,
   updatePost,
 } from "../services/apiPosts";
+import toast from "react-hot-toast";
 
 export function usePosts() {
   return useQuery({
@@ -23,6 +24,10 @@ export function useCreatePost() {
     mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries(["posts"]);
+      toast.success("Successfully added your post!");
+    },
+    onError: (error) => {
+      toast.error("Error adding your post: " + error.message);
     },
   });
 }
@@ -58,6 +63,10 @@ export function useDeletePost() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries(["posts"]);
       queryClient.invalidateQueries(["posts"], postId);
+      toast.success("Successfully deleted your post!");
+    },
+    onError: (error) => {
+      toast.error("Error deleting your post: " + error.message);
     },
   });
 }
@@ -69,6 +78,10 @@ export function useEditPost() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries(["posts"]);
       queryClient.invalidateQueries(["posts"], postId);
+      toast.success("Successfully edited your post!");
+    },
+    onError: (error) => {
+      toast.error("Error editing your post: " + error.message);
     },
   });
 }

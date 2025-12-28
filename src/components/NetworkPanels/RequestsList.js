@@ -29,7 +29,10 @@ export default function RequestsList({
               onClick={() =>
                 followed
                   ? setConfirmUnfollowUser(user)
-                  : followUser.mutate(user.id)
+                  : followUser.mutate({
+                      userIdToFollow: user.id,
+                      userName: user.name,
+                    })
               }
               size="sm"
               variant={followed ? "filled" : "outline-dark"}

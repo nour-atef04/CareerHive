@@ -8,6 +8,7 @@ import {
   unfollowUser,
 } from "../services/apiUsers";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 // fetch lists
 export function useUsers() {
@@ -53,8 +54,9 @@ export function useFollowUser() {
   const { currentUser, setCurrentUser } = useAuth();
 
   return useMutation({
-    mutationFn: (userIdToFollow) => followUser(currentUser.id, userIdToFollow),
-    onSuccess: (updatedUser) => {
+    mutationFn: ({ userIdToFollow }) =>
+      followUser(currentUser.id, userIdToFollow),
+    onSuccess: (updatedUser, { userName }) => {
       // update auth context
       setCurrentUser(updatedUser);
 
@@ -70,6 +72,12 @@ export function useFollowUser() {
       queryClient.invalidateQueries({
         queryKey: ["users"],
       });
+
+      // display notification
+      toast.success(`You are now following ${userName}`);
+    },
+    onError: (error, { userName }) => {
+      toast.error(`Error following ${userName}: ${error.message}`);
     },
   });
 }
@@ -79,9 +87,9 @@ export function useUnfollowUser() {
   const { currentUser, setCurrentUser } = useAuth();
 
   return useMutation({
-    mutationFn: (userIdToUnfollow) =>
+    mutationFn: ({ userIdToUnfollow }) =>
       unfollowUser(currentUser.id, userIdToUnfollow),
-    onSuccess: (updatedUser) => {
+    onSuccess: (updatedUser, { userName }) => {
       // update auth context
       setCurrentUser(updatedUser);
 
@@ -97,6 +105,52 @@ export function useUnfollowUser() {
       queryClient.invalidateQueries({
         queryKey: ["users"],
       });
+
+      // display notification
+      toast.success(`You have unfollowed ${userName}`);
     },
+    onError: (error, { userName }) => {
+      toast.error(`Error unfollowing ${userName}: ${error.message}`);
+    },
+  });
+}
+
+export function useUserSuggestions(userId) {
+  const { currentUser } = useAuth();
+
+  return useQuery({
+    queryKey: ["users", userId, "suggestions"],
+    queryFn: async () => {
+      // fetch all users
+      const allUsers = await fetchUsers();
+
+      // fetch all followings of current user
+      const followingIds = currentUser.followingIds || [];
+
+      const suggestions = allUsers
+        // filter so that suggestions don't include current user or followings
+        .filter(
+          (user) =>
+            user.id !== currentUser.id && !followingIds.includes(user.id)
+        )
+
+        // mutuals = some of the followerIds of the suggested user are in current user's followingIds
+        .map((user) => {
+          const mutuals = (user.followerIds || []).filter((id) =>
+            followingIds.includes(id)
+          ).length;
+          return { ...user, score: mutuals };
+        })
+
+        // sort based on the top 5 suggestions
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+      return suggestions;
+    },
+    enabled: !!userId && !!currentUser,
+    refetchOnWindowFocus: false, // don't refetch when user switches tabs
+    refetchOnMount: false, // don't refetch when component mounts
+    staleTime: Infinity, // keep data fresh forever (but i'll manually refetch when user navigates back to the page)
   });
 }

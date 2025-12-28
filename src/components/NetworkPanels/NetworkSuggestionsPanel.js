@@ -1,13 +1,27 @@
 import Panel from "../ui/Panel";
 import PanelTitle from "../ui/PanelTitle";
 import styles from "./NetworkSuggestionsPanel.module.css";
-import ProfileIconHeader from "../ui/ProfileIconHeader";
-import { useUsers } from "../../hooks/useUsers";
-import ProfileNamePosition from "../ui/ProfileNamePosition";
+import { useUserSuggestions } from "../../hooks/useUsers";
 import Loader from "../ui/Loader";
+import NetworkSuggestion from "./NetworkSuggestion";
+import { useAuth } from "../../context/AuthContext";
+import List from "../ui/List";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function NetworkSuggestions() {
-  const { data: users, isLoading: isLoadingUsers } = useUsers();
+  const { currentUser } = useAuth();
+  const { data: suggestions = {}, isLoading: isLoadingUsers, refetch } =
+    useUserSuggestions(currentUser?.id);
+
+  const location = useLocation();
+
+  // refetch when the user navigates back to the page
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch]);
+
+  if (!currentUser || isLoadingUsers) return <Loader />;
 
   return (
     <Panel className={styles["suggestions-container"]}>
@@ -17,22 +31,12 @@ export default function NetworkSuggestions() {
       {isLoadingUsers ? (
         <Loader />
       ) : (
-        <div className={styles["suggestions-list"]}>
-          {users.map((user) => (
-            <div className={styles["suggestion"]}>
-              <Panel className={styles["suggestion-card"]}>
-                <ProfileIconHeader userImage={user.image} type="centered" />
-                <div className={styles["suggestion-body"]}>
-                  <ProfileNamePosition
-                    className={styles["profile-info"]}
-                    name={user.name}
-                    position={user.position}
-                  />
-                </div>
-              </Panel>
-            </div>
-          ))}
-        </div>
+        <List
+          items={suggestions}
+          className={styles["suggestions-list"]}
+          keyExtractor={(user) => user.id}
+          renderItem={(user) => <NetworkSuggestion user={user} />}
+        />
       )}
     </Panel>
   );

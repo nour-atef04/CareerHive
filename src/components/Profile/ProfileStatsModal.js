@@ -96,7 +96,10 @@ export default function ProfileStatsModal({ onClose }) {
                       onClick={() =>
                         followed
                           ? setConfirmUnfollowUser(user)
-                          : followUser.mutate(user.id)
+                          : followUser.mutate({
+                              userIdToFollow: user.id,
+                              userName: user.name,
+                            })
                       }
                       size="sm"
                       variant={followed ? "filled" : "outline-dark"}
@@ -118,7 +121,10 @@ export default function ProfileStatsModal({ onClose }) {
           confirmLabel="Unfollow"
           onCancel={() => setConfirmUnfollowUser(null)}
           onConfirm={() => {
-            unfollowUser.mutate(confirmUnfollowUser.id);
+            unfollowUser.mutate({
+              userIdToUnfollow: confirmUnfollowUser.id,
+              userName: confirmUnfollowUser.name,
+            });
             setConfirmUnfollowUser(null);
           }}
         />

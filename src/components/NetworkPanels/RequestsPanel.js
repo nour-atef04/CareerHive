@@ -56,7 +56,7 @@ export default function RequestsPanel() {
           confirmLabel="Unfollow"
           onCancel={() => setConfirmUnfollowUser(null)}
           onConfirm={() => {
-            unfollowUser.mutate(confirmUnfollowUser.id);
+            unfollowUser.mutate({userIdToUnfollow: confirmUnfollowUser.id, userName: confirmUnfollowUser.name});
             setConfirmUnfollowUser(null);
           }}
         />
