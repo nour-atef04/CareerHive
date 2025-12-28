@@ -14,10 +14,14 @@ export default function ProfileHeader({ user }) {
   } = user || {};
   const followersCount = followerIds.length;
   const followingsCount = followingIds.length;
-  
+
   return (
     <ProfileSection>
-      <ProfileIconHeader userImage={image} type={"left"} />
+      <ProfileIconHeader
+        src={`/assets/${image}.jpg`}
+        alt={`${name}'s profile`}
+        type={"left"}
+      />
       <ProfileNamePosition
         className={styles["profile-name"]}
         name={name}

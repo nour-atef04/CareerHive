@@ -15,7 +15,11 @@ export default function ProfileSummaryHomePanel({ className }) {
     <Panel
       className={`${styles["profile-summary-container"]} ${className || ""}`}
     >
-      <ProfileIconHeader userImage={image} type="centered" />
+      <ProfileIconHeader
+        type="centered"
+        src={`/assets/${image}.jpg`}
+        alt={`${name}'s profile`}
+      />
       <ProfileNamePosition
         className={styles["name-position"]}
         name={name}

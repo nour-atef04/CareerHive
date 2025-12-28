@@ -7,8 +7,11 @@ import styles from "./NetworkSuggestion.module.css";
 import { FaMinus } from "react-icons/fa6";
 import { useState } from "react";
 import { useFollowUser, useUnfollowUser } from "../../hooks/useUsers";
+import { useNavigate } from "react-router-dom";
 
 export default function NetworkSuggestion({ user }) {
+  const navigate = useNavigate();
+
   const [followedUser, setFollowedUser] = useState(false);
   const { mutate: followUser, isLoading: isFollowingUser } = useFollowUser();
   const { mutate: unFollowUser, isLoading: isUnfollowingUser } =
@@ -27,7 +30,12 @@ export default function NetworkSuggestion({ user }) {
   return (
     <div className={styles["suggestion"]}>
       <Panel className={styles["suggestion-card"]}>
-        <ProfileIconHeader userImage={user.image} type="centered" />
+        <ProfileIconHeader
+          src={`/assets/${user.image}.jpg`}
+          alt={`${user.name}'s profile`}
+          type="centered"
+          onClick={() => navigate(`/profile/${user.id}`)}
+        />
         <div className={styles["suggestion-body"]}>
           <ProfileNamePosition
             className={styles["profile-info"]}

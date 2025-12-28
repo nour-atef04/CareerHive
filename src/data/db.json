@@ -10,7 +10,8 @@
       "followingIds": [
         "2",
         "3",
-        "4"
+        "4",
+        "5"
       ],
       "followerIds": [
         "2",
@@ -38,7 +39,9 @@
       "name": "Julia Esteve",
       "image": "julia.esteve",
       "position": "Software Engineer",
-      "followingIds": [],
+      "followingIds": [
+        "1"
+      ],
       "followerIds": [
         "1"
       ]
@@ -63,7 +66,9 @@
       "image": "sarah.wilson",
       "position": "CS student",
       "followingIds": [],
-      "followerIds": []
+      "followerIds": [
+        "1"
+      ]
     }
   ],
   "posts": [

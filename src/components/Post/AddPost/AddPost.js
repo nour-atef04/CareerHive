@@ -7,9 +7,12 @@ import AddPostForm from "./AddPostForm";
 import Panel from "../../ui/Panel";
 import { useCreatePost } from "../../../hooks/usePosts";
 import { useAuth } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AddPost() {
   // const user = useSelector(getUser);
+
+  const navigate = useNavigate();
   const { currentUser: user } = useAuth();
   const { image } = user;
   const [IsNewPostFormOpen, setIsNewPostFormOpen] = useState(false);
@@ -76,6 +79,7 @@ export default function AddPost() {
       ) : (
         <div className={styles["add-post"]}>
           <ProfileIcon
+            onClick={() => navigate("/profile")}
             src={`/assets/${image}.jpg`}
             alt="user profile"
             size="medium"

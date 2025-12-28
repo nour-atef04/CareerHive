@@ -2,8 +2,12 @@ import { useNavigate } from "react-router-dom";
 import ProfileIcon from "./ProfileIcon";
 import styles from "./ProfileIconHeader.module.css";
 
-export default function ProfileIconHeader({ type, userImage }) {
+export default function ProfileIconHeader({ type, src, alt, onClick }) {
   const navigate = useNavigate();
+
+  function handleClick() {
+    navigate("/profile");
+  }
 
   const className = {
     centered: "centered",
@@ -15,13 +19,12 @@ export default function ProfileIconHeader({ type, userImage }) {
       className={`${styles["profile-summary-header"]} ${
         styles[className[type]]
       }`}
-      onClick={() => navigate("/profile")}
+      onClick={onClick || handleClick}
     >
       <ProfileIcon
-        src={`/assets/${userImage}.jpg`}
-        alt="user profile"
+        src={src}
+        alt={alt}
         size="large"
-        onClick={() => navigate("/profile")}
       />
     </div>
   );

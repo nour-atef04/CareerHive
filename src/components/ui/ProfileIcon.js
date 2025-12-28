@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import styles from "./ProfileIcon.module.css";
 
 export default function ProfileIcon({
@@ -9,6 +8,7 @@ export default function ProfileIcon({
   onClick,
 }) {
   let sizeClassName;
+  console.log(onClick)
 
   switch (size) {
     case "small":
@@ -24,11 +24,6 @@ export default function ProfileIcon({
       sizeClassName = "";
   }
 
-  const navigate = useNavigate();
-  function handleNavigate() {
-    navigate("/profile");
-  }
-
   return (
     <img
       src={src}
@@ -36,7 +31,7 @@ export default function ProfileIcon({
       className={`${styles["profile-icon"]} ${className || ""} ${
         styles[sizeClassName]
       }`}
-      onClick={onClick || handleNavigate}
+      onClick={onClick || null}
     />
   );
 }
