@@ -6,7 +6,7 @@ import {
   deletePost,
   fetchPosts,
   updatePost,
-} from "../services/apiPosts";
+} from "../services-with-supabase/apiPosts";
 import toast from "react-hot-toast";
 
 export function usePosts(followingIds) {

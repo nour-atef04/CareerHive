@@ -8,7 +8,7 @@ import {
   fetchChats,
   fetchUsersChats,
   sendMessage,
-} from "../services/apiChats";
+} from "../services-with-supabase/apiChats";
 
 export function useChats() {
   return useQuery({

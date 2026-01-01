@@ -6,7 +6,7 @@ import {
   fetchUsers,
   followUser,
   unfollowUser,
-} from "../services/apiUsers";
+} from "../services-with-supabase/apiUsers";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
