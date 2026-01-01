@@ -21,8 +21,7 @@
 }
 
 .premium-panel,
-.top-jobs-panel,
-.most-viewed-panel {
+.top-jobs-panel {
   margin-bottom: var(--space-md);
 }
 

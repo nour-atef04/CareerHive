@@ -29,17 +29,22 @@ export default function SuggestionsHomePanel({ className }) {
   return (
     <Panel className={`${styles["suggestions-container"]} ${className || ""}`}>
       <PanelTitle className={styles["panel-title"]}>Suggestions</PanelTitle>
-      <List
-        items={suggestions}
-        className={styles.list}
-        keyExtractor={(user) => user.id}
-        renderItem={(suggestion) => (
-          <Suggestion
-            suggestion={suggestion}
-            isFollowing={currentUser.followingIds?.includes(suggestion.id)}
-          />
-        )}
-      />
+
+      {(!currentUser || isLoading) && <Loader className={styles.loader} />}
+
+      {currentUser && !isLoading && (
+        <List
+          items={suggestions}
+          className={styles.list}
+          keyExtractor={(user) => user.id}
+          renderItem={(suggestion) => (
+            <Suggestion
+              suggestion={suggestion}
+              isFollowing={currentUser.followingIds?.includes(suggestion.id)}
+            />
+          )}
+        />
+      )}
     </Panel>
   );
 }

@@ -1,9 +1,8 @@
-import MostViewedHomePanel from "../components/HomePanels/MostViewedHomePanel";
 import Posts from "../components/Post/Posts";
 import PremiumHomePanel from "../components/HomePanels/PremiumHomePanel";
 import ProfileSummaryHomePanel from "../components/HomePanels/ProfileSummaryHomePanel";
 import SuggestionsHomePanel from "../components/HomePanels/Suggestions/SuggestionsHomePanel";
-import TopJobsHomePanel from "../components/HomePanels/TopJobsHomePanel";
+import TopJobsHomePanel from "../components/HomePanels/TopJobs/TopJobsHomePanel";
 import styles from "./Home.module.css";
 import { useAuth } from "../context/AuthContext";
 import { useMemo } from "react";
@@ -23,15 +22,11 @@ export default function Home() {
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />
       </section>
 
-      <Posts
-        className={styles["posts-panel"]}
-        followingIds={feedAuthorIds}
-      />
+      <Posts className={styles["posts-panel"]} followingIds={feedAuthorIds} />
 
       <section className={styles["right-section"]}>
         <PremiumHomePanel className={styles["premium-panel"]} />
         <TopJobsHomePanel className={styles["top-jobs-panel"]} />
-        <MostViewedHomePanel className={styles["most-viewed-panel"]} />
       </section>
     </main>
   );

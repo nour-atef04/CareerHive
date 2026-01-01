@@ -6,6 +6,10 @@
   padding: var(--space-lg);
 }
 
+.job {
+  font-size: 0.9rem;
+}
+
 .loader {
   margin-left: 40%;
   margin-bottom: var(--space-lg);

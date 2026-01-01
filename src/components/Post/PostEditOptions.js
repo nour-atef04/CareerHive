@@ -1,5 +1,7 @@
 import styles from "./PostEditOptions.module.css";
 import { useDeletePost } from "../../hooks/usePosts";
+import { FaPencil } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
 
 export default function PostEditOptions({
   post,
@@ -29,10 +31,10 @@ export default function PostEditOptions({
             className={styles["option"]}
             onClick={() => setEditPostId(post.id)}
           >
-            🖊️ Edit Post
+            <FaPencil /> Edit Post
           </div>
           <div className={styles["option"]} onClick={() => DeletePost()}>
-            🗑️ Delete Post
+            <FaTrash /> Delete Post
           </div>
         </div>
       )}
