@@ -68,10 +68,10 @@ export function useFollowUser() {
         queryKey: ["users", updatedUser.id, "followings"],
       });
 
-      // refetch users list
-      queryClient.invalidateQueries({
-        queryKey: ["users"],
-      });
+      // // refetch users list
+      // queryClient.invalidateQueries({
+      //   queryKey: ["users"],
+      // });
 
       // display notification
       toast.success(`You are now following ${userName}`);
@@ -102,9 +102,9 @@ export function useUnfollowUser() {
       });
 
       // refetch users list
-      queryClient.invalidateQueries({
-        queryKey: ["users"],
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["users"],
+      // });
 
       // display notification
       toast.success(`You have unfollowed ${userName}`);

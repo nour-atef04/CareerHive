@@ -8,7 +8,6 @@ export default function ProfileIcon({
   onClick,
 }) {
   let sizeClassName;
-  console.log(onClick)
 
   switch (size) {
     case "small":

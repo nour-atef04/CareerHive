@@ -2,10 +2,11 @@
 // Redux async thunks + local form state
 // to React Query + React Hook Form
 
-export async function fetchPosts() {
+export async function fetchPosts(followingIds) {
   const res = await fetch("http://localhost:3001/posts");
   if (!res.ok) throw new Error("Failed to fetch posts.");
-  return res.json();
+  const posts = await res.json();
+  return posts.filter((post) => followingIds.includes(post.authorId));
 }
 
 export async function createPost(newPost) {

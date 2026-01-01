@@ -3,23 +3,24 @@ import Button from "../../ui/Button";
 import PersonLi from "../../ui/PersonLi";
 import { useState } from "react";
 import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
+import Spinner from "../../ui/Spinner";
 
 export default function Suggestion({ className, isFollowing, suggestion }) {
-  console.log(suggestion);
   const [followed, setFollowed] = useState(isFollowing);
-  const followUser = useFollowUser();
-  const unfollowUser = useUnfollowUser();
+  const { mutate: followUser, isLoading: isFollowingUser } = useFollowUser();
+  const { mutate: unfollowUser, isLoading: isUnfollowingUser } =
+    useUnfollowUser();
 
   function handleFollow() {
     if (!followed) {
       setFollowed(true);
-      followUser.mutate({
+      followUser({
         userIdToFollow: suggestion.id,
         userName: suggestion.name,
       });
     } else {
       setFollowed(false);
-      unfollowUser.mutate({
+      unfollowUser({
         userIdToUnfollow: suggestion.id,
         userName: suggestion.name,
       });
@@ -34,7 +35,18 @@ export default function Suggestion({ className, isFollowing, suggestion }) {
         variant={followed ? "filled" : "outline-dark"}
         className={styles["follow-btn"]}
       >
-        {followed ? "−" : "+"}
+        {/* {followed ? "−" : "+"} */}
+        {followed ? (
+          isFollowingUser ? (
+            <Spinner size="small" color="white" />
+          ) : (
+            "-"
+          )
+        ) : isUnfollowingUser ? (
+          <Spinner size="small" color="var(--color-brand--1)" />
+        ) : (
+          "+"
+        )}
       </Button>
     </PersonLi>
   );

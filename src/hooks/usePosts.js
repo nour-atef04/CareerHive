@@ -9,10 +9,10 @@ import {
 } from "../services/apiPosts";
 import toast from "react-hot-toast";
 
-export function usePosts() {
+export function usePosts(followingIds) {
   return useQuery({
     queryKey: ["posts"],
-    queryFn: fetchPosts,
+    queryFn: () => fetchPosts(followingIds),
     select: (posts) =>
       [...posts].sort((a, b) => new Date(b.date) - new Date(a.date)),
   });

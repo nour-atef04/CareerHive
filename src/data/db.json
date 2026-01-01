@@ -8,10 +8,9 @@
       "image": "jessica.william",
       "position": "Data Scientist",
       "followingIds": [
-        "2",
         "3",
-        "4",
-        "5"
+        "2",
+        "4"
       ],
       "followerIds": [
         "2",
@@ -66,9 +65,7 @@
       "image": "sarah.wilson",
       "position": "CS student",
       "followingIds": [],
-      "followerIds": [
-        "1"
-      ]
+      "followerIds": []
     }
   ],
   "posts": [
@@ -83,7 +80,14 @@
       "date": "2025-11-05T10:00:00Z",
       "likes": 13,
       "liked": true,
-      "comments": []
+      "comments": [
+        {
+          "id": 1767228633932,
+          "text": "proud of you! :D",
+          "authorId": "3",
+          "author": "Julia Esteve"
+        }
+      ]
     },
     {
       "id": "2",
@@ -96,7 +100,34 @@
       "date": "2025-11-05T17:25:46.433Z",
       "likes": 1,
       "liked": true,
-      "comments": []
+      "comments": [
+        {
+          "id": 1767228506037,
+          "text": "hello! :)",
+          "authorId": "1",
+          "author": "Jessica William"
+        }
+      ]
+    },
+    {
+      "id": "1767229680470",
+      "authorId": "3",
+      "authorName": "Julia Esteve",
+      "authorImage": "julia.esteve",
+      "authorPosition": "Software Engineer",
+      "text": "Hello! Just joined :D",
+      "photo": null,
+      "date": "2026-01-01T01:08:00.470Z",
+      "likes": 0,
+      "liked": false,
+      "comments": [
+        {
+          "id": 1767229723101,
+          "text": "Hi Julia, welcome! :D",
+          "authorId": "1",
+          "author": "Jessica William"
+        }
+      ]
     }
   ],
   "chats": [
@@ -133,6 +164,12 @@
           "senderId": "1",
           "text": "Hi Julia! :)",
           "timestamp": "2025-12-20T16:52:13.979Z"
+        },
+        {
+          "id": "1767228620258",
+          "senderId": "3",
+          "text": "hey jessica <3",
+          "timestamp": "2026-01-01T00:50:20.258Z"
         }
       ]
     }

@@ -5,10 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import { usePosts } from "../../hooks/usePosts";
 import Loader from "../ui/Loader";
 
-export default function Posts({ className, userId, commentedPostfilter }) {
+export default function Posts({
+  className,
+  userId,
+  commentedPostfilter,
+  followingIds,
+}) {
   const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
 
-  const { data: posts = [], isLoading } = usePosts();
+  const { data: posts = [], isLoading } = usePosts(followingIds);
   // console.log(posts);
 
   // local state for lazy loading of posts

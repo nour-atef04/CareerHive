@@ -14,9 +14,14 @@ export async function fetchUsersChats(currentUserId) {
   const chats = await fetchChats();
   const allUsers = await fetchUsers();
 
+  // only chats that include current user
+  const userChats = chats.filter((chat) =>
+    chat.participantsIds.includes(currentUserId)
+  );
+
   // get all participants except current user
   // flatMap to do this [2, 3, 4] instead of this [[2, 3], [4]]
-  const participants = chats.flatMap((chat) =>
+  const participants = userChats.flatMap((chat) =>
     chat.participantsIds.filter((id) => id !== currentUserId)
   );
 

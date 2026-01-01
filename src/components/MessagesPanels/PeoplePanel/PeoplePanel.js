@@ -9,10 +9,17 @@ import Loader from "../../ui/Loader";
 
 export default function PeoplePanel({ showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
+
+  // console.log(user.id);
+
   const { data: followings = [], isLoadingFollowings } = useUserFollowings(
     user.id
   );
+
   const { data: usersChats = [], isLoadingChats } = useUsersChats(user.id);
+
+  // console.log(usersChats);
+  // console.log(followings);
 
   const [peopleToShow, setPeopleToShow] = useState([]);
   const [filteredPeople, setFilteredPeople] = useState([]);
