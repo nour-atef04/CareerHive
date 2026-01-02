@@ -13,7 +13,7 @@ export default function Posts({
 }) {
   const [openOptionsPostId, setOpenOptionsPostId] = useState(null);
 
-  const { data: posts = [], isLoading } = usePosts(followingIds);
+  const { data: posts = [], isLoading } = usePosts(followingIds, userId);
   // console.log(posts);
 
   // local state for lazy loading of posts

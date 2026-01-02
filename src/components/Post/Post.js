@@ -25,8 +25,8 @@ export default function Post({
   const {currentUser : user} = useAuth();
 
   const [editPostId, setEditPostId] = useState(null);
-  const [likes, setLikes] = useState(post.likes);
-  const [comments, setComments] = useState(post.comments);
+  const [likes, setLikes] = useState(post.postLikes.length);
+  const [comments, setComments] = useState(post.postComments);
   const [liked, setLiked] = useState(post.liked);
   const [openComments, setOpenComments] = useState(!!commentedPostfilter);
 

@@ -12,7 +12,7 @@ export default function Comment({ comment, postId, setComments }) {
 
   // const user = useSelector(getUser);
   const {currentUser: user} = useAuth();
-  const isMine = user.name === comment.author;
+  const isMine = user.id === comment.authorId;
 
   function handleDelete() {
     setComments((prev) => prev.filter((c) => c.id !== comment.id));
@@ -22,7 +22,7 @@ export default function Comment({ comment, postId, setComments }) {
   return (
     <div className={styles["comment-container"]}>
       <div className={styles["comment"]}>
-        <CommentHeader />
+        <CommentHeader comment={comment} />
         <CommentContent comment={comment} />
       </div>
       {isMine && <DeleteButton onClick={handleDelete} />}

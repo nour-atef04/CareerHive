@@ -4,12 +4,21 @@ import ProfileIconHeader from "../ui/ProfileIconHeader";
 import ProfileNamePosition from "../ui/ProfileNamePosition";
 import Panel from "../ui/Panel";
 import { useAuth } from "../../context/AuthContext";
+import Loader from "../ui/Loader";
+import { useUserFollowers, useUserFollowings } from "../../hooks/useUsers";
 
 export default function ProfileSummaryHomePanel({ className }) {
   const navigate = useNavigate();
-  const { currentUser: user } = useAuth();
-  if (!user) return null;
-  const { name, image, position, followerIds, followingIds } = user || {};
+  const { currentUser } = useAuth();
+  const { name, image, position } = currentUser;
+
+  const userId = currentUser?.id;
+
+  const { data: followingIds = [], isLoading: isLoadingFollowings } =
+    useUserFollowings(userId);
+
+  const { data: followerIds = [], isLoading: isLoadingFollowers } =
+    useUserFollowers(userId);
 
   return (
     <Panel
@@ -27,11 +36,11 @@ export default function ProfileSummaryHomePanel({ className }) {
       />
       <div className={styles["stats"]}>
         <p>Followers</p>
-        <p>{followerIds.length}</p>
+        {!isLoadingFollowers ? <p>{followerIds.length}</p> : <Loader />}
       </div>
       <div className={styles["stats"]}>
         <p>Following</p>
-        <p>{followingIds.length}</p>
+        {!isLoadingFollowings ? <p>{followingIds.length}</p> : <Loader />}
       </div>
       <p onClick={() => navigate("/profile")}>View Profile</p>
     </Panel>

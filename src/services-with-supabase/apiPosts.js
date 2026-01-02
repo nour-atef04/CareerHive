@@ -1,94 +1,113 @@
-export async function fetchPosts(followingIds) {
-      const res = await fetch("http://localhost:3001/posts");
-      if (!res.ok) throw new Error("Failed to fetch posts.");
-      const posts = await res.json();
-      return posts.filter((post) => followingIds.includes(post.authorId));
-}
+import supabase from "./supabase";
 
-// import supabase from "./supabase";
+export async function fetchPosts(followingIds = [], currentUserId) {
+  if (!followingIds.length) return []; // no followings, return empty array
 
-// export async function fetchPosts() {
-//   const { data, error } = await supabase.from("posts").select("*");
-//   if (error) throw error;
-//   console.log(data);
-//   return data;
-// }
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select(
+      `
+      *,
+      post_comments(*),
+      post_likes(userId)
+    `
+    )
+    .in("authorId", followingIds);
 
-export async function createPost(newPost) {
-  const res = await fetch("http://localhost:3001/posts", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newPost),
-  });
-
-  if (!res.ok) throw new Error("Failed to create post.");
-  return res.json();
-}
-
-export async function updatePost({
-  postId,
-  newText,
-  toggleLike,
-  currentLiked,
-  currentLikes,
-}) {
-  const body = {};
-
-  if (newText !== undefined) body.text = newText;
-  if (toggleLike !== undefined) {
-    body.liked = !currentLiked;
-    body.likes = currentLikes + (currentLiked ? -1 : 1);
+  if (error) {
+    throw new Error("Failed to fetch posts.");
   }
 
-  const res = await fetch(`http://localhost:3001/posts/${postId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+  console.log(posts);
+
+  return posts.map((post) => {
+    const postComments = post.post_comments || [];
+    const postLikes = post.post_likes || [];
+
+    return {
+      ...post,
+      postComments,
+      postLikes,
+      liked: postLikes.some((like) => like.user_id === currentUserId), // check if current user liked it
+    };
   });
-  if (!res.ok) throw new Error("Failed to update post.");
-  return res.json();
+}
+
+export async function createPost(newPost) {
+  console.log(newPost);
+  let { error } = await supabase.from("posts").insert([newPost]);
+  if (error) throw new Error("Failed to add post.");
+}
+
+export async function updatePost({ userId, postId, newText, toggleLike }) {
+  if (newText !== undefined) {
+    const { error } = await supabase
+      .from("posts")
+      .update({ text: newText })
+      .eq("id", postId)
+      .select();
+
+    if (error) throw new Error("Failed to update post");
+  }
+
+  if (toggleLike !== undefined) {
+    const { data: isLiked, error: isLikedError } = await supabase
+      .from("post_likes")
+      .select("*")
+      .eq("userId", userId)
+      .eq("postId", postId);
+
+    if (isLiked) {
+      // delete like
+
+      const { error: deleteLikeError } = await supabase
+        .from("post_likes")
+        .delete()
+        .eq("userId", userId)
+        .eq("postId", postId);
+
+      if (deleteLikeError) throw new Error("Failed to like post.");
+    } else {
+      // insert like
+
+      const { error: createLikeError } = await supabase
+        .from("post_likes")
+        .insert([
+          {
+            postId,
+            userId,
+          },
+        ]);
+
+      if (createLikeError) throw new Error("Failed to like post.");
+    }
+
+    if (isLikedError) throw new Error("Failed to like post.");
+  }
 }
 
 export async function deletePost(postId) {
-  const res = await fetch(`http://localhost:3001/posts/${postId}`, {
-    method: "DELETE",
-  });
-  if (!res.ok) throw new Error("Failed to delete post.");
-  return res.json();
+  const { error } = await supabase.from("posts").delete().eq("id", postId);
+  if(error) throw new Error("Failed to delete post.")
 }
 
-export async function createComment({ id, postId, text, authorId, author }) {
-  const res = await fetch(`http://localhost:3001/posts/${postId}`);
-  const post = await res.json();
+export async function createComment({ postId, text, authorId }) {
+  let { error } = await supabase.from("post_comments").insert([
+    {
+      postId,
+      text,
+      authorId,
+    },
+  ]);
 
-  const updatedPost = {
-    ...post,
-    comments: [...post.comments, { id, text, authorId, author }],
-  };
-
-  await fetch(`http://localhost:3001/posts/${postId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ comments: updatedPost.comments }),
-  });
-
-  return updatedPost;
+  if (error) throw new Error("Failed to create comment.");
 }
 
-export async function deleteComment({ postId, commentId }) {
-  const res = await fetch(`http://localhost:3001/posts/${postId}`);
-  const post = await res.json();
+export async function deleteComment({ commentId }) {
+  const { error } = await supabase
+    .from("post_comments")
+    .delete()
+    .eq("commentId", commentId);
 
-  const updatedPost = {
-    ...post,
-    comments: post.comments.filter((c) => c.id !== commentId),
-  };
-
-  await fetch(`http://localhost:3001/posts/${postId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ comments: updatedPost.comments }),
-  });
-
-  return updatedPost;
+  if (error) throw new Error("Failed to create comment.");
 }

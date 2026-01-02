@@ -3,11 +3,12 @@ import styles from "./PostEditModal.module.css";
 import Button from "../ui/Button";
 import { useEditPost } from "../../hooks/usePosts";
 import Modal from "../ui/Modal";
+import toast from "react-hot-toast";
 
 export default function PostEditModal({ post, onClose }) {
   const [newText, setNewText] = useState(post.text);
   const textareaRef = useRef(null);
-  const editMutation = useEditPost();
+  const { mutate: editMutation } = useEditPost();
 
   // Autofocus on textarea when modal opens
   useEffect(() => {
@@ -15,8 +16,18 @@ export default function PostEditModal({ post, onClose }) {
   }, []);
 
   function handleSave() {
-    editMutation.mutate({ postId: post.id, newText });
-    onClose();
+    editMutation(
+      { postId: post.id, newText },
+      {
+        onSuccess: () => {
+          toast.success("Post updated successfully!");
+          onClose();
+        },
+        onError: () => {
+          toast.error("Failed to update post.");
+        },
+      }
+    );
   }
 
   const isDisabled =

@@ -5,6 +5,7 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { LuSend } from "react-icons/lu";
 import { useEditPost } from "../../hooks/usePosts";
+import { useAuth } from "../../context/AuthContext";
 
 export default function PostInteractions({
   postId,
@@ -16,15 +17,16 @@ export default function PostInteractions({
 }) {
   const editMutation = useEditPost();
 
+  const { currentUser } = useAuth();
+
   function handleLike() {
     setLiked(!liked);
     setLikes(likes + (liked ? -1 : 1));
 
     editMutation.mutate({
+      userId: currentUser.id,
       postId,
-      toggleLike: true,
-      currentLiked: liked,
-      currentLikes: likes,
+      toggleLike: true
     });
   }
 

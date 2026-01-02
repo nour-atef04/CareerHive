@@ -1,10 +1,7 @@
 import styles from "./RequestsPanel.module.css";
 import Panel from "../ui/Panel";
 import PanelTitle from "../ui/PanelTitle";
-import {
-  useUnfollowUser,
-  useUserFollowers,
-} from "../../hooks/useUsers";
+import { useUnfollowUser, useUserFollowers } from "../../hooks/useUsers";
 import { useAuth } from "../../context/AuthContext";
 import Loader from "../ui/Loader";
 import { useState } from "react";
@@ -15,13 +12,16 @@ const MAX_PEOPLE = 6;
 
 export default function RequestsPanel() {
   const { currentUser } = useAuth();
-  const { data: followers = [], isLoading: isLoadingFollowers } =
+  const { data: followerIds = [], isLoading: isLoadingFollowers } =
     useUserFollowers(currentUser.id);
+
+  console.log(followerIds);
+
   const [confirmUnfollowUser, setConfirmUnfollowUser] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const unfollowUser = useUnfollowUser();
 
-  const isLessThanMax = followers.length < MAX_PEOPLE;
+  const isLessThanMax = followerIds.length < MAX_PEOPLE;
 
   return (
     <Panel
@@ -43,7 +43,7 @@ export default function RequestsPanel() {
         <Loader />
       ) : (
         <RequestsList
-          followers={followers}
+          followerIds={followerIds}
           setConfirmUnfollowUser={setConfirmUnfollowUser}
           showAll={showAll}
           MAX_PEOPLE={MAX_PEOPLE}
@@ -56,7 +56,10 @@ export default function RequestsPanel() {
           confirmLabel="Unfollow"
           onCancel={() => setConfirmUnfollowUser(null)}
           onConfirm={() => {
-            unfollowUser.mutate({userIdToUnfollow: confirmUnfollowUser.id, userName: confirmUnfollowUser.name});
+            unfollowUser.mutate({
+              userIdToUnfollow: confirmUnfollowUser.id,
+              userName: confirmUnfollowUser.name,
+            });
             setConfirmUnfollowUser(null);
           }}
         />

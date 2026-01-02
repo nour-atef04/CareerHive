@@ -6,14 +6,19 @@ import TopJobsHomePanel from "../components/HomePanels/TopJobs/TopJobsHomePanel"
 import styles from "./Home.module.css";
 import { useAuth } from "../context/AuthContext";
 import { useMemo } from "react";
+import { useUserFollowings } from "../hooks/useUsers";
+import Loader from "../components/ui/Loader";
 
 export default function Home() {
   const { currentUser } = useAuth();
+  const userId = currentUser?.id;
+  const { data: followingIds = [], isLoading } = useUserFollowings(userId);
+  // console.log(userId + followingIds);
 
   // useMemo since react query won't refetch if the array ref doesn't change locally
   const feedAuthorIds = useMemo(() => {
-    return Array.from(new Set([...currentUser.followingIds, currentUser.id]));
-  }, [currentUser.followingIds, currentUser.id]);
+    return Array.from(new Set([...followingIds, userId]));
+  }, [followingIds, userId]);
 
   return (
     <main className={styles.main}>
@@ -22,8 +27,11 @@ export default function Home() {
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />
       </section>
 
-      <Posts className={styles["posts-panel"]} followingIds={feedAuthorIds} />
-
+      {!isLoading ? (
+        <Posts className={styles["posts-panel"]} followingIds={feedAuthorIds} />
+      ) : (
+        <Loader />
+      )}
       <section className={styles["right-section"]}>
         <PremiumHomePanel className={styles["premium-panel"]} />
         <TopJobsHomePanel className={styles["top-jobs-panel"]} />

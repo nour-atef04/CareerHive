@@ -13,8 +13,8 @@ export default function NetworkSuggestion({ user }) {
   const navigate = useNavigate();
 
   const [followedUser, setFollowedUser] = useState(false);
-  const { mutate: followUser, isLoading: isFollowingUser } = useFollowUser();
-  const { mutate: unFollowUser, isLoading: isUnfollowingUser } =
+  const { mutate: followUser } = useFollowUser();
+  const { mutate: unFollowUser } =
     useUnfollowUser();
 
   function handleClick(user) {

@@ -1,19 +1,19 @@
 // import { useSelector } from "react-redux";
-import { useAuth } from "../../../context/AuthContext";
+import { useUser } from "../../../hooks/useUsers";
 import ProfileIcon from "../../ui/ProfileIcon";
 import styles from "./CommentHeader.module.css";
 // import { getUser } from "../../../redux/slices/authSlice";
 
-export default function CommentHeader() {
-  // const user = useSelector(getUser);
-  const { currentUser: user } = useAuth();
-  const { name, image, position } = user;
+export default function CommentHeader({ comment }) {
+  const authorId = comment?.authorId;
+  const { data: user = {} } = useUser(authorId);
+
   return (
     <div className={styles["commenter-header"]}>
-      <ProfileIcon src={`/assets/${image}.jpg`} alt="user" size="small" />
+      <ProfileIcon src={`/assets/${user.image}.jpg`} alt="user" size="small" />
       <div>
-        <p className={styles["name"]}>{name}</p>
-        <p>{position}</p>
+        <p className={styles["name"]}>{user.name}</p>
+        <p>{user.position}</p>
       </div>
     </div>
   );

@@ -26,8 +26,14 @@ export function useUser(userId) {
     queryKey: ["users", userId],
     queryFn: async ({ queryKey }) => {
       const [, id] = queryKey; // unpack userId from queryKey
-      if (id === "me") return currentUser; // return current user directly
-      return fetchUser(id);
+      if (id === "me") {
+        // console.log("ME");
+        return currentUser;
+      } // return current user directly
+      // return fetchUser(id);
+      const profile = await fetchUser(id);
+      // console.log(profile);
+      return profile;
     },
     enabled: !!userId,
   });
@@ -51,27 +57,16 @@ export function useUserFollowers(userId) {
 
 export function useFollowUser() {
   const queryClient = useQueryClient();
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
 
   return useMutation({
     mutationFn: ({ userIdToFollow }) =>
       followUser(currentUser.id, userIdToFollow),
-    onSuccess: (updatedUser, { userName }) => {
-      // update auth context
-      setCurrentUser(updatedUser);
-
-      // update cached current user
-      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
-
+    onSuccess: (_, { userName }) => {
       // refetch followings list
       queryClient.invalidateQueries({
-        queryKey: ["users", updatedUser.id, "followings"],
+        queryKey: ["users", currentUser.id, "followings"],
       });
-
-      // // refetch users list
-      // queryClient.invalidateQueries({
-      //   queryKey: ["users"],
-      // });
 
       // display notification
       toast.success(`You are now following ${userName}`);
@@ -84,27 +79,16 @@ export function useFollowUser() {
 
 export function useUnfollowUser() {
   const queryClient = useQueryClient();
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
 
   return useMutation({
     mutationFn: ({ userIdToUnfollow }) =>
       unfollowUser(currentUser.id, userIdToUnfollow),
-    onSuccess: (updatedUser, { userName }) => {
-      // update auth context
-      setCurrentUser(updatedUser);
-
-      // update cached current user
-      queryClient.setQueryData(["users", updatedUser.id], updatedUser);
-
+    onSuccess: (_, { userName }) => {
       // refetch followings list
       queryClient.invalidateQueries({
-        queryKey: ["users", updatedUser.id, "followings"],
+        queryKey: ["users", currentUser.id, "followings"],
       });
-
-      // refetch users list
-      // queryClient.invalidateQueries({
-      //   queryKey: ["users"],
-      // });
 
       // display notification
       toast.success(`You have unfollowed ${userName}`);
@@ -116,7 +100,8 @@ export function useUnfollowUser() {
 }
 
 export function useUserSuggestions(userId) {
-  const { currentUser } = useAuth();
+  const { data: followingIds, isLoading: isFollowingsLoading } =
+    useUserFollowings(userId);
 
   return useQuery({
     queryKey: ["users", userId, "suggestions"],
@@ -124,19 +109,23 @@ export function useUserSuggestions(userId) {
       // fetch all users
       const allUsers = await fetchUsers();
 
-      // fetch all followings of current user
-      const followingIds = currentUser.followingIds || [];
+      // filter out current user and already-followed uses
+      const candidates = allUsers.filter(
+        (user) => user.id !== userId && !followingIds.includes(user.id)
+      );
 
-      const suggestions = allUsers
-        // filter so that suggestions don't include current user or followings
-        .filter(
-          (user) =>
-            user.id !== currentUser.id && !followingIds.includes(user.id)
-        )
+      // fetch followers for all candidates in parallel
+      const followersMap = await Promise.all(
+        candidates.map(async (user) => {
+          const followerIds = await fetchFollowers(user.id);
+          return { user, followerIds };
+        })
+      );
 
-        // mutuals = some of the followerIds of the suggested user are in current user's followingIds
-        .map((user) => {
-          const mutuals = (user.followerIds || []).filter((id) =>
+      // compute mutuals and sort
+      const suggestions = followersMap
+        .map(({ user, followerIds }) => {
+          const mutuals = followerIds.filter((id) =>
             followingIds.includes(id)
           ).length;
           return { ...user, score: mutuals };
@@ -148,7 +137,7 @@ export function useUserSuggestions(userId) {
 
       return suggestions;
     },
-    enabled: !!userId && !!currentUser,
+    enabled: !!userId && !isFollowingsLoading,
     refetchOnWindowFocus: false, // don't refetch when user switches tabs
     refetchOnMount: false, // don't refetch when component mounts
     staleTime: Infinity, // keep data fresh forever (but i'll manually refetch when user navigates back to the page)

@@ -9,12 +9,15 @@ import {
 } from "../services-with-supabase/apiPosts";
 import toast from "react-hot-toast";
 
-export function usePosts(followingIds) {
+export function usePosts(followingIds, currentUserId) {
   return useQuery({
     queryKey: ["posts"],
-    queryFn: () => fetchPosts(followingIds),
+    queryFn: () => fetchPosts(followingIds, currentUserId),
     select: (posts) =>
-      [...posts].sort((a, b) => new Date(b.date) - new Date(a.date)),
+      [...posts].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      ),
+    enabled: !!followingIds && followingIds.length > 0,
   });
 }
 
@@ -78,10 +81,6 @@ export function useEditPost() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries(["posts"]);
       queryClient.invalidateQueries(["posts"], postId);
-      toast.success("Successfully edited your post!");
-    },
-    onError: (error) => {
-      toast.error("Error editing your post: " + error.message);
-    },
+    }
   });
 }

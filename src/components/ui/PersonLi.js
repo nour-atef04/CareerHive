@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./PersonLi.module.css";
 import ProfileIcon from "./ProfileIcon";
+import { useUser } from "../../hooks/useUsers";
 
 export default function PersonLi({
   className,
@@ -8,11 +9,12 @@ export default function PersonLi({
   children = "",
   onClick,
 }) {
-  const { id, name, image, position } = person;
+  const { data: user = {} } = useUser(person);
+  const { name, image, position } = user;
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate(`/profile/${id}`);
+    navigate(`/profile/${person}`);
   }
 
   return (

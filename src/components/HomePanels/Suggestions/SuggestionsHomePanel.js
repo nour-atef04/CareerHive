@@ -24,8 +24,6 @@ export default function SuggestionsHomePanel({ className }) {
     refetch();
   }, [location.pathname, refetch]);
 
-  if (!currentUser || isLoading) return <Loader />;
-
   return (
     <Panel className={`${styles["suggestions-container"]} ${className || ""}`}>
       <PanelTitle className={styles["panel-title"]}>Suggestions</PanelTitle>

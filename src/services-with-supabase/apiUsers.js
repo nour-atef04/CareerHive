@@ -1,144 +1,70 @@
-const USERS_API = "http://localhost:3001/users";
+import supabase from "./supabase";
 
 export async function fetchUsers() {
-  const res = await fetch(USERS_API);
-  if (!res.ok) throw new Error("Failed to fetch users.");
-  return res.json();
+  let { data: profiles, error } = await supabase.from("profiles").select("*");
+  if (error) throw new Error("Failed to fetch users.");
+  return profiles;
+}
+
+export async function signIn(email, password) {
+  const { data: user, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) throw new Error("Failed to sign in.");
+  return user.user;
 }
 
 export async function fetchUser(userId) {
-  const res = await fetch(`${USERS_API}/${userId}`);
-  if (!res.ok) throw new Error("Failed to fetch user");
-  return res.json();
+  let { data: profile, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) throw new Error("Failed to fetch user.");
+  return profile;
 }
 
 export async function fetchFollowings(userId) {
-  const resUser = await fetch(`${USERS_API}/${userId}`);
-  if (!resUser.ok) throw new Error("Failed to fetch user");
-  const user = await resUser.json();
+  let { data, error } = await supabase
+    .from("follows")
+    .select("*")
+    .eq("followerId", userId);
+  if (error) throw new Error("Failed to fetch user followings.");
 
-  // fetch all users and filter by followingIds
-  // TO DO: backend provides /users/:id/followings
-  const resAll = await fetch(USERS_API);
-  if (!resAll.ok) throw new Error("Failed to fetch users");
-  const allUsers = await resAll.json();
-
-  // console.log(allUsers);
-
-  const followings = allUsers.filter((u) =>
-    (user.followingIds || []).includes(u.id)
-  );
-  return followings;
+  const followingIds = data.map((row) => row.followingId);
+  return followingIds;
 }
 
 export async function fetchFollowers(userId) {
-  const resUser = await fetch(`${USERS_API}/${userId}`);
-  if (!resUser.ok) throw new Error("Failed to fetch user");
-  const user = await resUser.json();
+  let { data, error } = await supabase
+    .from("follows")
+    .select("*")
+    .eq("followingId", userId);
+  if (error) throw new Error("Failed to fetch user followers.");
 
-  // fetch all users and filter by followerIds
-  // TO DO: backend provides /users/:id/followers
-  const resAll = await fetch(USERS_API);
-  if (!resAll.ok) throw new Error("Failed to fetch users");
-  const allUsers = await resAll.json();
-
-  // console.log(allUsers);
-
-  const followers = allUsers.filter((u) =>
-    (user.followerIds || []).includes(u.id)
-  );
-  return followers;
+  const followerIds = data.map((row) => row.followerId);
+  return followerIds;
 }
 
 export async function followUser(currentUserId, userIdToFollow) {
-  // fetch current user
-  const resUser = await fetch(`${USERS_API}/${currentUserId}`);
-  if (!resUser.ok) throw new Error("Failed to fetch current user.");
-  const user = await resUser.json();
+  const { error } = await supabase.from("follows").insert([
+    {
+      followerId: currentUserId,
+      followingId: userIdToFollow,
+    },
+  ]);
 
-  // update followingIds
-  const updatedUser = {
-    ...user,
-    followingIds: [...(user.followingIds || []), userIdToFollow],
-  };
-
-  const resUpdate = await fetch(`${USERS_API}/${currentUserId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedUser),
-  });
-
-  if (!resUpdate.ok) throw new Error("Failed to follow user.");
-
-  // fetch user to follow
-  const resUserToFollow = await fetch(`${USERS_API}/${userIdToFollow}`);
-  if (!resUserToFollow.ok) throw new Error("Failed to fetch user to follow.");
-  const userToFollow = await resUserToFollow.json();
-
-  // update followerIds
-  const updatedUserToFollow = {
-    ...userToFollow,
-    followerIds: [...(userToFollow.followerIds || []), currentUserId],
-  };
-
-  const resUpdateUserToFollow = await fetch(`${USERS_API}/${userIdToFollow}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedUserToFollow),
-  });
-
-  if (!resUpdateUserToFollow.ok) throw new Error("Failed to follow user.");
-
-  return updatedUser;
+  if (error) throw new Error("Failed to follow user.");
 }
 
 export async function unfollowUser(currentUserId, userIdToUnfollow) {
-  // fetch current user
-  const resUser = await fetch(`${USERS_API}/${currentUserId}`);
-  if (!resUser.ok) throw new Error("Failed to fetch current user.");
-  const user = await resUser.json();
-
-  // update followingIds (current user)
-  const updatedUser = {
-    ...user,
-    followingIds: (user.followingIds || []).filter(
-      (id) => id !== userIdToUnfollow
-    ),
-  };
-
-  const resUpdate = await fetch(`${USERS_API}/${currentUserId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedUser),
-  });
-
-  if (!resUpdate.ok) throw new Error("Failed to unfollow user.");
-
-  // fetch user to unfollow
-  const resUserToUnfollow = await fetch(`${USERS_API}/${userIdToUnfollow}`);
-  if (!resUserToUnfollow.ok)
-    throw new Error("Failed to fetch user to unfollow.");
-
-  const userToUnfollow = await resUserToUnfollow.json();
-
-  // update followerIds (other user)
-  const updatedUserToUnfollow = {
-    ...userToUnfollow,
-    followerIds: (userToUnfollow.followerIds || []).filter(
-      (id) => id !== currentUserId
-    ),
-  };
-
-  const resUpdateUserToUnfollow = await fetch(
-    `${USERS_API}/${userIdToUnfollow}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedUserToUnfollow),
-    }
-  );
-
-  if (!resUpdateUserToUnfollow.ok) throw new Error("Failed to unfollow user.");
-
-  return updatedUser;
+  const { error } = await supabase
+    .from("follows")
+    .delete()
+    .eq("followerId", currentUserId)
+    .eq("followingId", userIdToUnfollow);
+  if (error) throw new Error("Failed to unfollow user.");
 }

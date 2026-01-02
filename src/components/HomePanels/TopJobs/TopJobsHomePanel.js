@@ -12,9 +12,7 @@ export default function TopJobsHomePanel({ className }) {
   });
 
   const jobs = data?.result?.jobs || [];
-
-  console.log(jobs);
-
+  
   return (
     <Panel className={className || ""}>
       <PanelTitle className={styles["panel-title"]}>Top Jobs</PanelTitle>

@@ -1,6 +1,7 @@
 .photo-preview {
   position: relative;
   display: inline-block;
+  margin-top: var(--space-md);
 }
 
 .photo-preview img {

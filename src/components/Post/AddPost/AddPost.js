@@ -42,17 +42,9 @@ export default function AddPost() {
     if (!text.trim() && !photo) return;
 
     const newPost = {
-      id: Date.now().toString(), // generate unique id
-      authorId: user.id.toString(),
-      authorName: user.name,
-      authorImage: user.image,
-      authorPosition: user.position || "",
+      authorId: user.id,
       text,
       photo: photo ? URL.createObjectURL(photo) : null,
-      date: new Date().toISOString(),
-      likes: 0,
-      liked: false,
-      comments: [],
     };
 
     createPost(newPost, {
