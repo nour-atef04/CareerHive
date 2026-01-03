@@ -5,10 +5,10 @@ import ProfileIcon from "../../ui/ProfileIcon";
 import { useCreateComment } from "../../../hooks/usePosts";
 
 const AddCommentInput = forwardRef(function AddCommentInput(
-  { postId, user, setComments },
+  { postId, user },
   ref
 ) {
-  const { id, image, name } = user;
+  const { id, image } = user;
   const [comment, setComment] = useState("");
   const createCommentMutation = useCreateComment();
 
@@ -16,18 +16,11 @@ const AddCommentInput = forwardRef(function AddCommentInput(
     e.preventDefault();
     if (!comment.trim()) return;
     const newComment = {
-      id: Date.now(),
       text: comment,
       authorId: id,
-      author: name,
       postId,
-      date: new Date().toISOString(),
     };
-
-    // optimistic local update
-    setComments((prev) => [...prev, newComment]);
-
-    // persist to backend
+    
     createCommentMutation.mutate(newComment);
 
     setComment("");

@@ -41,7 +41,7 @@ export default function ProfileActivitySection({ user }) {
           <Posts
             userId={user.id}
             commentedPostfilter={(post) =>
-              post.comments.some((c) => c.authorId === user.id)
+              post.postComments?.some((c) => c.authorId === user.id)
             }
           />
         </div>

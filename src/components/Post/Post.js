@@ -22,11 +22,11 @@ export default function Post({
   const postId = post.id;
   const commentInputRef = useRef(null);
   // const user = useSelector(getUser);
-  const {currentUser : user} = useAuth();
+  const { currentUser: user } = useAuth();
 
   const [editPostId, setEditPostId] = useState(null);
   const [likes, setLikes] = useState(post.postLikes.length);
-  const [comments, setComments] = useState(post.postComments);
+  const comments = post.postComments;
   const [liked, setLiked] = useState(post.liked);
   const [openComments, setOpenComments] = useState(!!commentedPostfilter);
 
@@ -70,7 +70,6 @@ export default function Post({
           ref={commentInputRef}
           postId={postId}
           comments={comments}
-          setComments={setComments}
           user={user}
         />
       )}

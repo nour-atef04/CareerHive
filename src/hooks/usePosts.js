@@ -14,9 +14,7 @@ export function usePosts(followingIds, currentUserId) {
     queryKey: ["posts"],
     queryFn: () => fetchPosts(followingIds, currentUserId),
     select: (posts) =>
-      [...posts].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      ),
+      [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     enabled: !!followingIds && followingIds.length > 0,
   });
 }
@@ -37,24 +35,77 @@ export function useCreatePost() {
 
 export function useCreateComment() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createComment,
-    onSuccess: (updatedPost) => {
+    // when mutate is called:
+    onMutate: async (newCommentVariables) => {
+      // cancel outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+
+      // snapshot the previous value
+      const previousPosts = queryClient.getQueryData(["posts"]);
+
+      // optimistically update to the new value
       queryClient.setQueryData(["posts"], (oldPosts = []) =>
-        oldPosts.map((p) => (p.id === updatedPost.id ? updatedPost : p))
+        oldPosts.map((post) =>
+          post.id === newCommentVariables.postId
+            ? {
+                ...post,
+                postComments: [
+                  ...post.postComments,
+                  {
+                    ...newCommentVariables,
+                    id: Date.now().toString(), // temp id since real one doesn't exist yet
+                    createdAt: new Date().toISOString(),
+                  },
+                ],
+              }
+            : post
+        )
       );
+
+      // return context object with the snapshotted value
+      return { previousPosts };
+    },
+    // if the mutation fails, use the context we returned above
+    onError: (err, newComment, context) => {
+      queryClient.setQueryData(["posts"], context.previousPosts);
+      toast.error("Could not add comment");
+    },
+    // always refetch after error or success to sync with DB IDs
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
 }
 
 export function useDeleteComment() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deleteComment,
-    onSuccess: (updatedPost) => {
+    onMutate: async (commentId) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      const previousPosts = queryClient.getQueryData(["posts"]);
+
+      // update cache immediately
       queryClient.setQueryData(["posts"], (oldPosts = []) =>
-        oldPosts.map((p) => (p.id === updatedPost.id ? updatedPost : p))
+        oldPosts.map((post) => ({
+          ...post,
+          postComments: post.postComments.filter((c) => c.id !== commentId),
+        }))
       );
+
+      return { previousPosts };
+    },
+    onError: (err, commentId, context) => {
+      // rollback if delete fails
+      queryClient.setQueryData(["posts"], context.previousPosts);
+      toast.error("Failed to delete comment");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
 }
@@ -81,6 +132,6 @@ export function useEditPost() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries(["posts"]);
       queryClient.invalidateQueries(["posts"], postId);
-    }
+    },
   });
 }

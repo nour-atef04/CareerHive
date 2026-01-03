@@ -1,8 +1,6 @@
 import supabase from "./supabase";
 
 export async function fetchPosts(followingIds = [], currentUserId) {
-  if (!followingIds.length) return []; // no followings, return empty array
-
   const { data: posts, error } = await supabase
     .from("posts")
     .select(
@@ -87,26 +85,30 @@ export async function updatePost({ userId, postId, newText, toggleLike }) {
 
 export async function deletePost(postId) {
   const { error } = await supabase.from("posts").delete().eq("id", postId);
-  if(error) throw new Error("Failed to delete post.")
+  if (error) throw new Error("Failed to delete post.");
 }
 
-export async function createComment({ postId, text, authorId }) {
-  let { error } = await supabase.from("post_comments").insert([
-    {
-      postId,
-      text,
-      authorId,
-    },
-  ]);
+export async function createComment(newComment) {
+  let { data, error } = await supabase
+    .from("post_comments")
+    .insert([newComment])
+    .select()
+    .single();
 
   if (error) throw new Error("Failed to create comment.");
+  return data;
 }
 
-export async function deleteComment({ commentId }) {
-  const { error } = await supabase
+export async function deleteComment(commentId) {
+  console.log("COMMENT");
+  console.log(commentId);
+
+  const { data, error } = await supabase
     .from("post_comments")
     .delete()
-    .eq("commentId", commentId);
+    .eq("id", commentId);
 
-  if (error) throw new Error("Failed to create comment.");
+  console.log(data);
+
+  if (error) throw new Error("Failed to delete comment.");
 }
