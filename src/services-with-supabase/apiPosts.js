@@ -48,15 +48,17 @@ export async function updatePost({ userId, postId, newText, toggleLike }) {
   }
 
   if (toggleLike !== undefined) {
+    //check if the like exists
     const { data: isLiked, error: isLikedError } = await supabase
       .from("post_likes")
       .select("*")
       .eq("userId", userId)
       .eq("postId", postId);
 
-    if (isLiked) {
-      // delete like
+    if (isLikedError) throw new Error("Failed to like post.");
 
+    if (isLiked.length > 0) {
+      // delete like
       const { error: deleteLikeError } = await supabase
         .from("post_likes")
         .delete()
@@ -66,20 +68,12 @@ export async function updatePost({ userId, postId, newText, toggleLike }) {
       if (deleteLikeError) throw new Error("Failed to like post.");
     } else {
       // insert like
-
       const { error: createLikeError } = await supabase
         .from("post_likes")
-        .insert([
-          {
-            postId,
-            userId,
-          },
-        ]);
+        .insert([{ postId, userId }])
 
       if (createLikeError) throw new Error("Failed to like post.");
     }
-
-    if (isLikedError) throw new Error("Failed to like post.");
   }
 }
 
