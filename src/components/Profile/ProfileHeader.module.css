@@ -1,7 +1,7 @@
-.profile-name, .stats-container{
+.profile-name, .stats-container, .loader{
   margin-left: var(--space-lg);
 }
 
-.stats-container{
+.stats-container, .loader{
   margin-bottom: var(--space-md);
 }

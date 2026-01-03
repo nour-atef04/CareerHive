@@ -3,17 +3,19 @@ import ProfileNamePosition from "../ui/ProfileNamePosition";
 import styles from "./ProfileHeader.module.css";
 import ProfileStats from "./ProfileStats";
 import ProfileSection from "./ProfileSection";
+import { useUserFollowers, useUserFollowings } from "../../hooks/useUsers";
+import Loader from "../ui/Loader";
 
 export default function ProfileHeader({ user }) {
-  const {
-    name,
-    image,
-    position,
-    followerIds = [],
-    followingIds = [],
-  } = user || {};
-  const followersCount = followerIds.length;
-  const followingsCount = followingIds.length;
+  const { name, image, position } = user || {};
+
+  const { data: followers = [], isLoading: isLoadingFollowers } =
+    useUserFollowers(user.id);
+  const followersCount = followers.length;
+
+  const { data: followings = [], isLoading: isLoadingFollowings } =
+    useUserFollowings(user.id);
+  const followingsCount = followings.length;
 
   return (
     <ProfileSection>
@@ -27,11 +29,15 @@ export default function ProfileHeader({ user }) {
         name={name}
         position={position}
       />
-      <ProfileStats
-        className={styles["stats-container"]}
-        followersCount={followersCount}
-        followingsCount={followingsCount}
-      />
+      {!isLoadingFollowers && !isLoadingFollowings ? (
+        <ProfileStats
+          className={styles["stats-container"]}
+          followersCount={followersCount}
+          followingsCount={followingsCount}
+        />
+      ) : (
+        <Loader className={styles.loader} />
+      )}
     </ProfileSection>
   );
 }

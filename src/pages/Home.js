@@ -12,13 +12,16 @@ import Loader from "../components/ui/Loader";
 export default function Home() {
   const { currentUser } = useAuth();
   const userId = currentUser?.id;
-  const { data: followingIds = [], isLoading } = useUserFollowings(userId);
-  // console.log(userId + followingIds);
+  const { data: followings = [], isLoading } = useUserFollowings(userId);
 
   // useMemo since react query won't refetch if the array ref doesn't change locally
   const feedAuthorIds = useMemo(() => {
+    if (!userId) return [];
+
+    const followingIds = followings.map((user) => user.id);
+
     return Array.from(new Set([...followingIds, userId]));
-  }, [followingIds, userId]);
+  }, [followings, userId]);
 
   return (
     <main className={styles.main}>

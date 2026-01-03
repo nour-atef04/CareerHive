@@ -18,7 +18,7 @@ export async function fetchPosts(followingIds = [], currentUserId) {
     throw new Error("Failed to fetch posts.");
   }
 
-  console.log(posts);
+  // console.log(posts);
 
   return posts.map((post) => {
     const postComments = post.post_comments || [];
@@ -34,7 +34,6 @@ export async function fetchPosts(followingIds = [], currentUserId) {
 }
 
 export async function createPost(newPost) {
-  console.log(newPost);
   let { error } = await supabase.from("posts").insert([newPost]);
   if (error) throw new Error("Failed to add post.");
 }

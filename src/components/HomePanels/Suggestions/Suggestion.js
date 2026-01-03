@@ -6,6 +6,7 @@ import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
 import Spinner from "../../ui/Spinner";
 
 export default function Suggestion({ className, isFollowing, suggestion }) {
+
   const [followed, setFollowed] = useState(isFollowing);
   const { mutate: followUser, isLoading: isFollowingUser } = useFollowUser();
   const { mutate: unfollowUser, isLoading: isUnfollowingUser } =

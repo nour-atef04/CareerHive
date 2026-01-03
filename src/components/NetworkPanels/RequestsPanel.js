@@ -1,7 +1,10 @@
 import styles from "./RequestsPanel.module.css";
 import Panel from "../ui/Panel";
 import PanelTitle from "../ui/PanelTitle";
-import { useUnfollowUser, useUserFollowers } from "../../hooks/useUsers";
+import {
+  useUnfollowUser,
+  useUserRequests,
+} from "../../hooks/useUsers";
 import { useAuth } from "../../context/AuthContext";
 import Loader from "../ui/Loader";
 import { useState } from "react";
@@ -12,16 +15,18 @@ const MAX_PEOPLE = 6;
 
 export default function RequestsPanel() {
   const { currentUser } = useAuth();
-  const { data: followerIds = [], isLoading: isLoadingFollowers } =
-    useUserFollowers(currentUser.id);
+  // const { data: followerIds = [], isLoading: isLoadingFollowers } =
+  //   useUserFollowers(currentUser.id);
 
-  console.log(followerIds);
+  const { data: requests = [], isLoading: isLoadingRequests } = useUserRequests(
+    currentUser.id
+  );
 
   const [confirmUnfollowUser, setConfirmUnfollowUser] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const unfollowUser = useUnfollowUser();
 
-  const isLessThanMax = followerIds.length < MAX_PEOPLE;
+  const isLessThanMax = requests.length < MAX_PEOPLE;
 
   return (
     <Panel
@@ -39,11 +44,11 @@ export default function RequestsPanel() {
         )}
       </PanelTitle>
 
-      {isLoadingFollowers ? (
+      {isLoadingRequests ? (
         <Loader />
       ) : (
         <RequestsList
-          followerIds={followerIds}
+          requests={requests}
           setConfirmUnfollowUser={setConfirmUnfollowUser}
           showAll={showAll}
           MAX_PEOPLE={MAX_PEOPLE}

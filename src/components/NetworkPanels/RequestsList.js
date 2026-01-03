@@ -6,23 +6,23 @@ import PersonLi from "../ui/PersonLi";
 import styles from "./RequestsList.module.css";
 
 export default function RequestsList({
-  followerIds,
+  requests,
   setConfirmUnfollowUser,
   showAll,
   MAX_PEOPLE,
 }) {
   const { currentUser } = useAuth();
-  const { data: followingIds } = useUserFollowings(currentUser);
+  const { data: followings } = useUserFollowings(currentUser.id);
   const followUser = useFollowUser();
 
   return (
     <List
       className={styles["requests-list"]}
-      items={showAll ? followerIds : followerIds.slice(0, MAX_PEOPLE)}
+      items={showAll ? requests : requests.slice(0, MAX_PEOPLE)}
       keyExtractor={(user) => user.id}
       emptyMessage="No people found."
       renderItem={(user) => {
-        const followed = followingIds?.includes(user.id);
+        const followed = followings?.some((f) => f.id === user.id);
 
         return (
           <PersonLi className={styles.person} person={user}>

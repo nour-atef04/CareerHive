@@ -80,8 +80,10 @@ export default function ProfileStatsModal({ onClose }) {
             keyExtractor={(user) => user.id}
             emptyMessage="No people found."
             renderItem={(user) => {
-              const followed = currentUser.followingIds?.includes(user.id);
-
+              // check if the current profile is following this user
+              const followed = followingsQuery.data?.some(
+                (f) => f.id === user.id
+              );
               return (
                 <PersonLi
                   className={styles.person}
