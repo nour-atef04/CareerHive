@@ -5,6 +5,7 @@ import { useAuth } from "../../../context/AuthContext";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import {
+  useChatById,
   useChatByParticipantsId,
   useCreateChat,
   useSendMessage,
@@ -14,48 +15,58 @@ import { useUser } from "../../../hooks/useUsers";
 
 export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
+  const chatRef = useRef(null);
 
-  const { data: chat, isLoading: isChatLoading } = useChatByParticipantsId(
+  // get chat id
+  const { data: chatId, isLoading: isChatIdLoading } = useChatByParticipantsId(
     user.id,
     chatPersonId
   );
 
+  // get actual messages using the id
+  const { data: messages = [], isMsgLoading } = useChatById(chatId);
+
+  // get recepient profile details
   const { data: chatPerson, isLoading: isUserLoading } = useUser(chatPersonId);
 
   const createChat = useCreateChat();
   const sendMessage = useSendMessage();
-  const chatRef = useRef(null);
 
   // scroll to bottom when messages change
   useEffect(() => {
-    chatRef.current?.scrollTo(0, chatRef.current.scrollHeight);
-  }, [chat?.messages]);
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   async function handleAddNewMessage(text) {
-    if (!chat) {
+    if (!text.trim()) return;
+
+    if (!chatId) {
       await createChat.mutateAsync({
         senderId: user.id,
         receiverId: chatPersonId,
         text,
       });
-      return;
+    } else {
+      sendMessage.mutate({
+        chatId,
+        senderId: user.id,
+        text,
+      });
     }
-    sendMessage.mutate({
-      chatId: chat.id,
-      senderId: user.id,
-      text,
-    });
   }
 
   if (!chatPersonId) return <div></div>;
-  if (isChatLoading || isUserLoading) return <Loader />;
+  if (isChatIdLoading || isUserLoading || (chatId && isMsgLoading))
+    return <Loader />;
 
   return (
     <section
       className={`${styles["chat-section"]} ${showChat && styles["show-chat"]}`}
     >
       <ChatHeader chatPerson={chatPerson} setShowChat={setShowChat} />
-      <ChatMessages chat={chat} chatPerson={chatPerson} user={user} />
+      <ChatMessages messages={messages} chatPerson={chatPerson} user={user} />
       <NewMessageForm onAddNewMessage={handleAddNewMessage} />
     </section>
   );

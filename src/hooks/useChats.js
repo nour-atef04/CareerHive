@@ -5,17 +5,17 @@ import {
   editMessage,
   fetchChatById,
   fetchChatByParticipantsId,
-  fetchChats,
+  // fetchChats,
   fetchUsersChats,
   sendMessage,
 } from "../services-with-supabase/apiChats";
 
-export function useChats() {
-  return useQuery({
-    queryKey: ["chats"],
-    queryFn: fetchChats,
-  });
-}
+// export function useChats() {
+//   return useQuery({
+//     queryKey: ["chats"],
+//     queryFn: fetchChats,
+//   });
+// }
 
 export function useChatById(chatId) {
   return useQuery({
@@ -34,12 +34,8 @@ export function useUsersChats(currentUserId) {
 
 export function useChatByParticipantsId(userId1, userId2) {
   return useQuery({
-    queryKey: ["chats", userId1, userId2],
-    queryFn: async ({ queryKey }) => {
-      const [, id1, id2] = queryKey; // unpack user IDs from queryKey
-      const chat = await fetchChatByParticipantsId(id1, id2);
-      return chat || null;
-    },
+    queryKey: ["chats", "participants", userId1, userId2],
+    queryFn: () => fetchChatByParticipantsId(userId1, userId2),
     enabled: !!userId1 && !!userId2, // only fetch if both IDs are defined
   });
 }
@@ -49,9 +45,8 @@ export function useSendMessage() {
 
   return useMutation({
     mutationFn: sendMessage,
-    onSuccess: (_, { chatId }) => {
-      queryClient.invalidateQueries(["chats"]); // update chats list
-      queryClient.invalidateQueries(["chats", chatId]); // update single chat
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
     },
   });
 }

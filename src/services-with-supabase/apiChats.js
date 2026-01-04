@@ -2,130 +2,163 @@
 // Redux async thunks + local form state
 // to React Query + React Hook Form
 
-import { fetchUsers } from "./apiUsers";
-
-export async function fetchChats() {
-  const res = await fetch("http://localhost:3001/chats");
-  if (!res.ok) throw new Error("Failed to fetch chats.");
-  return res.json();
-}
+import supabase from "./supabase";
 
 export async function fetchUsersChats(currentUserId) {
-  const chats = await fetchChats();
-  const allUsers = await fetchUsers();
+  // get chat ids
+  const { data: participations, error } = await supabase
+    .from("chat_participants")
+    .select("chatId")
+    .eq("userId", currentUserId);
 
-  // only chats that include current user
-  const userChats = chats.filter((chat) =>
-    chat.participantsIds.includes(currentUserId)
-  );
+  // console.log(participations);
 
-  // get all participants except current user
-  // flatMap to do this [2, 3, 4] instead of this [[2, 3], [4]]
-  const participants = userChats.flatMap((chat) =>
-    chat.participantsIds.filter((id) => id !== currentUserId)
-  );
+  if (error) throw new Error("Failed to fetch chats");
 
-  // Remove duplicates
-  const uniqueParticipantIds = [...new Set(participants)];
+  const chatIds = participations.map((p) => p.chatId);
+  // console.log(chatIds);
 
-  // Map IDs to full user objects
-  // .filter(Boolean) to remove undefined entries
-  return uniqueParticipantIds
-    .map((id) => allUsers.find((u) => u.id === id))
-    .filter(Boolean);
+  if (chatIds.length === 0) return [];
+
+  // fetch other participants + last msg
+  const { data, error: chatsError } = await supabase
+    .from("chat_participants")
+    .select(
+      `
+    chatId, profiles(id, name, position, image), chats(messages(id, text, senderId, createdAt))`
+    )
+    .in("chatId", chatIds)
+    .neq("userId", currentUserId);
+
+  if (chatsError) throw new Error("Failed to fetch chats");
+
+  // console.log(data);
+
+  return data.map((row) => {
+    const messages = row.chats?.messages ?? [];
+    const lastMessage =
+      messages.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      )[0] ?? null;
+
+    return {
+      chatId: row.chatId,
+      participant: row.profiles,
+      lastMessage,
+    };
+  });
 }
 
 export async function fetchChatById(chatId) {
-  const res = await fetch(`http://localhost:3001/chats/${chatId}`);
-  if (!res.ok) throw new Error("Failed to fetch chat.");
-  return res.json();
+  const { data, error } = await supabase
+    .from("messages")
+    .select(
+      `
+    id, text, senderId, createdAt, profiles(id, name, image)
+    `
+    )
+    .eq("chatId", chatId)
+    .order("createdAt", { ascending: true });
+
+  if (error) throw new Error("Failed to fetch chat messages");
+  return data;
 }
 
 export async function fetchChatByParticipantsId(userId1, userId2) {
-  const chats = await fetchChats();
-  return chats.find(
-    (c) =>
-      c.participantsIds.includes(userId1) && c.participantsIds.includes(userId2)
-  );
+  // get chats userId1 participates in
+  const { data: chats1, error } = await supabase
+    .from("chat_participants")
+    .select("chatId")
+    .eq("userId", userId1);
+
+  if (error) throw new Error("Failed to fetch chat");
+
+  if (!chats1 || chats1.length === 0) return null;
+
+  const chatIds1 = chats1.map((c) => c.chatId);
+
+  const { data: match, error: matchError } = await supabase
+    .from("chat_participants")
+    .select("chatId")
+    .in("chatId", chatIds1)
+    .eq("userId", userId2)
+    .maybeSingle(); // for when no chat
+
+  console.log(chatIds1);
+
+  if (matchError) throw new Error("Failed to fetch chat");
+
+  return match ? match.chatId : null;
 }
 
 export async function sendMessage({ chatId, senderId, text }) {
-  const newMessage = {
-    id: Date.now().toString(),
-    senderId,
-    text,
-    timestamp: new Date().toISOString(),
-  };
+  const { error } = await supabase.from("messages").insert([
+    {
+      chatId,
+      senderId,
+      text,
+    },
+  ]);
 
-  // getting existing thread of chatId
-  const res = await fetch(`http://localhost:3001/chats/${chatId}`);
-  const thread = await res.json();
-
-  // update chat to add new msg
-  const updatedChat = {
-    ...thread,
-    messages: [...thread.messages, newMessage],
-  };
-
-  // save to backend
-  await fetch(`http://localhost:3001/chats/${chatId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedChat),
-  });
+  if (error) throw new Error("Failed to send message.");
 }
 
 export async function createChat({ senderId, receiverId, text }) {
-  const newMessage = {
-    id: Date.now().toString(),
+  // create chat
+  const { data: chat, error } = await supabase
+    .from("chats")
+    .insert({})
+    .select()
+    .single();
+
+  const chatId = chat.id;
+
+  // if (error) throw new Error("Failed to initialize chat");
+  if (error || !chat) {
+    console.error("Chat creation error:", error);
+    throw new Error("Failed to create chat. Check your database permissions.");
+  }
+
+  // add participants
+  const { error: participantsError } = await supabase
+    .from("chat_participants")
+    .insert([
+      {
+        chatId: chatId,
+        userId: senderId,
+      },
+      {
+        chatId: chatId,
+        userId: receiverId,
+      },
+    ]);
+
+  if (participantsError) throw new Error("Failed to add participants.");
+
+  // send 1st msg
+  await sendMessage({
+    chatId,
     senderId,
     text,
-    timestamp: new Date().toISOString(),
-  };
-
-  const newChat = {
-    id: Date.now().toString(),
-    participantsIds: [senderId, receiverId],
-    messages: [newMessage],
-  };
-
-  await fetch("http://localhost:3001/chats", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newChat),
   });
+
+  return chatId;
 }
 
 export async function editMessage({ chatId, messageId, newText }) {
-  const res = await fetch(`http://localhost:3001/chats/${chatId}`);
-  const chat = await res.json();
+  const { error } = await supabase
+    .from("messages")
+    .update({ text: newText })
+    .eq("id", messageId);
 
-  const updatedChat = {
-    ...chat,
-    messages: chat.messages.map((msg) =>
-      msg.id === messageId ? { ...msg, text: newText } : msg
-    ),
-  };
-
-  await fetch(`http://localhost:3001/chats/${chatId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedChat),
-  });
+  if (error) throw new Error("Failed to edit message.");
 }
 
 export async function deleteMessage({ chatId, messageId }) {
-  const res = await fetch(`http://localhost:3001/chats/${chatId}`);
-  const chat = await res.json();
+  const { error } = await supabase
+    .from("messages")
+    .delete()
+    .eq("id", messageId);
 
-  const updatedChat = {
-    ...chat,
-    messages: chat.messages.filter((msg) => msg.id !== messageId),
-  };
-
-  await fetch(`http://localhost:3001/chats/${chatId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updatedChat),
-  });
+  if (error) throw new Error("Failed to delete message.");
 }

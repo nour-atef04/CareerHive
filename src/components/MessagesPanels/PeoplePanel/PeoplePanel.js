@@ -4,46 +4,36 @@ import PeopleList from "./PeopleList";
 import { useAuth } from "../../../context/AuthContext";
 import { useUserFollowings } from "../../../hooks/useUsers";
 import { useUsersChats } from "../../../hooks/useChats";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Loader from "../../ui/Loader";
 
 export default function PeoplePanel({ showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
-
-  // console.log(user.id);
-
   const { data: followings = [], isLoadingFollowings } = useUserFollowings(
     user.id
   );
-
   const { data: usersChats = [], isLoadingChats } = useUsersChats(user.id);
 
-  // console.log(usersChats);
-  // console.log(followings);
+  const peopleToShow = useMemo(() => {
+    if (!followings || !usersChats) return [];
 
-  const [peopleToShow, setPeopleToShow] = useState([]);
-  const [filteredPeople, setFilteredPeople] = useState([]);
-
-  // Merge followings + chat participants
-  useEffect(() => {
-    if (!followings || !usersChats) return;
-
-    // new Set( ... ) for fast lookup
+    // ids of my followings
     const followingIds = new Set(followings.map((f) => f.id));
 
-    // Include all followings + chat participants not in followings
-    const combined = [
-      ...followings,
-      ...usersChats.filter((u) => !followingIds.has(u.id)),
-    ];
+    // extract participant data from chats where the person is NOT followed
+    const chatParticipantsNotFollowed = usersChats
+      .map((chat) => chat.participant) 
+      .filter((person) => person && !followingIds.has(person.id));
 
-    setPeopleToShow(combined);
-    setFilteredPeople(combined); // initialize filtered list
+    // flatten both into one list of user objects
+    return [...followings, ...chatParticipantsNotFollowed];
   }, [followings, usersChats]);
 
-  if (isLoadingFollowings || isLoadingChats) return <Loader />;
+  const [filteredPeople, setFilteredPeople] = useState(peopleToShow);
 
-  // console.log(filteredPeople);
+  console.log(peopleToShow);
+
+  if (isLoadingFollowings || isLoadingChats) return <Loader />;
 
   return (
     <section
