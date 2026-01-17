@@ -1,5 +1,4 @@
 .job-item {
-  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-xxs);
@@ -16,5 +15,16 @@
 .job-info {
   font-size: smaller;
   color: var(--color-dark--1);
-  
+}
+
+.item-container {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save {
+  color: var(--color-brand--1);
+  cursor: pointer;
 }
