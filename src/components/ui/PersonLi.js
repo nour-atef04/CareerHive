@@ -14,7 +14,7 @@ export default function PersonLi({
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate(`/profile/${person}`);
+    navigate(`/profile/${person.id}`);
   }
 
   return (
