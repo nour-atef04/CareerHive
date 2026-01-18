@@ -70,6 +70,11 @@ export function useFollowUser() {
         queryKey: ["users", currentUser.id, "followings"],
       });
 
+      // refetch suggestions list
+      queryClient.invalidateQueries({
+        queryKey: ["users", currentUser.id, "suggestions"],
+      });
+
       // display notification
       toast.success(`You are now following ${userName}`);
     },
@@ -92,6 +97,11 @@ export function useUnfollowUser() {
         queryKey: ["users", currentUser.id, "followings"],
       });
 
+      // refetch suggestions list
+      queryClient.invalidateQueries({
+        queryKey: ["users", currentUser.id, "suggestions"],
+      });
+
       // display notification
       toast.success(`You have unfollowed ${userName}`);
     },
@@ -106,9 +116,9 @@ export function useUserSuggestions(userId) {
     queryKey: ["users", userId, "suggestions"],
     queryFn: () => getUserSuggestions(userId),
     enabled: !!userId,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    // staleTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: true,
   });
 }
 
@@ -117,8 +127,8 @@ export function useUserRequests(userId) {
     queryKey: ["users", userId, "requests"],
     queryFn: () => getUserRequests(userId),
     enabled: !!userId,
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    // staleTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: true,
   });
 }
