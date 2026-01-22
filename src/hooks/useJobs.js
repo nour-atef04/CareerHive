@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { saveJob, unsaveJob } from "../services-with-supabase/apiJobs";
+import {
+  getSavedJobs,
+  saveJob,
+  unsaveJob,
+} from "../services-with-supabase/apiJobs";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 export function useJobs({
   page = 1,
@@ -81,7 +86,7 @@ export function useSaveJob() {
     mutationFn: saveJob,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["savedJobs"] });
-      toast.success("Job saved.")
+      toast.success("Job saved.");
     },
     onError: () => {
       toast.error("Failed to save job.");
@@ -96,10 +101,23 @@ export function useUnsaveJob() {
     mutationFn: unsaveJob,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["savedJobs"] });
-      toast.success("Job removed.")
+      toast.success("Job removed.");
     },
     onError: () => {
       toast.error("Failed to unsave job.");
     },
+  });
+}
+
+export function useSavedJobs() {
+  const { currentUser } = useAuth();
+
+  return useQuery({
+    queryKey: ["savedJobs"],
+    queryFn: () => getSavedJobs(currentUser.id),
+    onError: () => {
+      toast.error("Failed to unsave job.");
+    },
+    enabled: !!currentUser?.id,
   });
 }
