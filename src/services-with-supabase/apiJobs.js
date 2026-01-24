@@ -76,7 +76,7 @@ export async function unsaveJob(job) {
 export async function getSavedJobs(userId) {
   const { data, error } = await supabase
     .from("saved_jobs")
-    .select(`id, jobs(external_job_id)`)
+    .select(`id, jobs(external_job_id, raw)`)
     .eq("user_id", userId);
 
   // console.log(data);

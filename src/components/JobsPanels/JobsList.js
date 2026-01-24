@@ -7,7 +7,13 @@ import Button from "../ui/Button";
 import { filterJobs } from "./filterJobs";
 import List from "../ui/List";
 
-export default function JobsList({ setShowJob, keyword, page, setPage }) {
+export default function JobsList({
+  givenJobs,
+  setShowJob,
+  keyword,
+  page = 1,
+  setPage,
+}) {
   const navigate = useNavigate();
 
   const pageSize = 8; // Jobs per page
@@ -20,7 +26,9 @@ export default function JobsList({ setShowJob, keyword, page, setPage }) {
   if (isLoading) return <Loader className={styles["loader"]} />;
   if (isError) return <p>Error: {error.message}</p>;
 
-  const jobs = data?.result?.jobs || [];
+  const jobs = givenJobs ?? data?.result?.jobs ?? [];
+
+  console.log(givenJobs);
 
   // Filter jobs locally
   const filteredJobs = filterJobs(jobs, { keyword });
@@ -51,27 +59,29 @@ export default function JobsList({ setShowJob, keyword, page, setPage }) {
       />
 
       {/* Pagination controls */}
-      <div className={styles["pagination"]}>
-        <Button
-          size="sm"
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          variant={page === 1 || isFetching ? "disabled" : "filled"}
-        >
-          Previous
-        </Button>
+      {setPage && (
+        <div className={styles["pagination"]}>
+          <Button
+            size="sm"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            variant={page === 1 || isFetching ? "disabled" : "filled"}
+          >
+            Previous
+          </Button>
 
-        <span>
-          Page {page} of {totalPages || 1}
-        </span>
+          <span>
+            Page {page} of {totalPages || 1}
+          </span>
 
-        <Button
-          size="sm"
-          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-          variant={page >= totalPages || isFetching ? "disabled" : "filled"}
-        >
-          Next
-        </Button>
-      </div>
+          <Button
+            size="sm"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            variant={page >= totalPages || isFetching ? "disabled" : "filled"}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </>
   );
 }

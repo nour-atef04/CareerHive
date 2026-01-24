@@ -27,7 +27,7 @@
   position: relative;
 }
 
-.post-job{
+.post-job {
   border-top: var(--border-style-default);
 }
 
@@ -42,3 +42,8 @@
     width: 85%;
   }
 } */
+
+.list {
+  height: 500px;
+  overflow: auto;
+}
