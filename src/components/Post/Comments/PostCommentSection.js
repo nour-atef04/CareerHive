@@ -1,23 +1,25 @@
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import AddCommentInput from "./AddCommentInput";
 import Comment from "./Comment";
 
 const PostCommentSection = forwardRef(function PostCommentSection(
-  { comments, postId, commentedPostfilter, user },
+  { comments, postId, highlightUserId, user },
   ref
 ) {
-  console.log(comments);
 
-  // Sort PROFILE USER comments first if needed
-  const sortedComments = [...comments].sort((a, b) => {
-    if (!commentedPostfilter) return 0;
-    const profileUserId = commentedPostfilter.userId;
-    const aIsProfileUser = a.authorId === profileUserId;
-    const bIsProfileUser = b.authorId === profileUserId;
-    if (aIsProfileUser && !bIsProfileUser) return -1;
-    if (!aIsProfileUser && bIsProfileUser) return 1;
-    return 0;
-  });
+// of a highlightUserId is provided (Activity Tab),
+  // put their comments at the top.
+  const sortedComments = useMemo(() => {
+    if (!highlightUserId) return comments;
+    
+    return [...comments].sort((a, b) => {
+      const aIsUser = a.authorId === highlightUserId;
+      const bIsUser = b.authorId === highlightUserId;
+      if (aIsUser && !bIsUser) return -1;
+      if (!aIsUser && bIsUser) return 1;
+      return 0;
+    });
+  }, [comments, highlightUserId]);
 
   return (
     <>

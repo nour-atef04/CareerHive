@@ -1,34 +1,59 @@
 import supabase from "./supabase";
 
-export async function fetchPosts(followingIds = [], currentUserId) {
-  const { data: posts, error } = await supabase
-    .from("posts")
-    .select(
-      `
+export async function fetchPosts({ followingIds, profileId, currentUserId }) {
+  let query = supabase.from("posts").select(
+    `
       *,
+      author:profiles!authorId(*),
       post_comments(*),
       post_likes(userId)
-    `
-    )
-    .in("authorId", followingIds);
+    `,
+  );
 
+  if (profileId) {
+    // specific profile posts -> ignore followingIds + get posts commented on
+    // 1st find ids of posts where user commented
+    const { data: commentedData, error: commentError } = await supabase
+      .from("post_comments")
+      .select("postId")
+      .eq("authorId", profileId);
+
+    if (commentError) throw new Error("Failed to fetch user activity.");
+
+    // extract ids and remove duplicates
+    const commentedPostIds = [...new Set(commentedData.map((c) => c.postId))];
+
+    // 2nd construct the OR query (is author OR is in commented list)
+    if (commentedPostIds.length > 0) {
+      query = query.or(
+        `authorId.eq.${profileId},id.in.(${commentedPostIds.join(",")})`,
+      );
+    } else {
+      // if they haven't commented on anything, just show their own posts
+      query = query.eq("authorId", profileId);
+    }
+  } else if (followingIds?.length > 0) {
+    // if on home feed -> get posts from followings
+    query = query.in("authorId", followingIds);
+  } else {
+    return [];
+  }
+
+  const { data: posts, error } = await query;
   if (error) {
+    console.error(error);
+
     throw new Error("Failed to fetch posts.");
   }
 
-  // console.log(posts);
-
-  return posts.map((post) => {
-    const postComments = post.post_comments || [];
-    const postLikes = post.post_likes || [];
-
-    return {
-      ...post,
-      postComments,
-      postLikes,
-      liked: postLikes.some((like) => like.user_id === currentUserId), // check if current user liked it
-    };
-  });
+  return posts.map((post) => ({
+    ...post,
+    postComments: post.post_comments || [],
+    postLikes: post.post_likes || [],
+    liked: (post.post_likes || []).some(
+      (like) => like.userId === currentUserId, // check if cur user liked it
+    ),
+  }));
 }
 
 export async function createPost(newPost) {
@@ -36,45 +61,28 @@ export async function createPost(newPost) {
   if (error) throw new Error("Failed to add post.");
 }
 
-export async function updatePost({ userId, postId, newText, toggleLike }) {
-  if (newText !== undefined) {
+export async function togglePostLike({ userId, postId, isLiked }) {
+  if (isLiked) {
     const { error } = await supabase
-      .from("posts")
-      .update({ text: newText })
-      .eq("id", postId)
-      .select();
-
-    if (error) throw new Error("Failed to update post");
-  }
-
-  if (toggleLike !== undefined) {
-    //check if the like exists
-    const { data: isLiked, error: isLikedError } = await supabase
       .from("post_likes")
-      .select("*")
+      .delete()
       .eq("userId", userId)
       .eq("postId", postId);
-
-    if (isLikedError) throw new Error("Failed to like post.");
-
-    if (isLiked.length > 0) {
-      // delete like
-      const { error: deleteLikeError } = await supabase
-        .from("post_likes")
-        .delete()
-        .eq("userId", userId)
-        .eq("postId", postId);
-
-      if (deleteLikeError) throw new Error("Failed to like post.");
-    } else {
-      // insert like
-      const { error: createLikeError } = await supabase
-        .from("post_likes")
-        .insert([{ postId, userId }])
-
-      if (createLikeError) throw new Error("Failed to like post.");
-    }
+    if (error) throw new Error("Failed to unlike post.");
+  } else {
+    const { error } = await supabase
+      .from("post_likes")
+      .insert([{ postId, userId }]);
+    if (error) throw new Error("Failed to like post.");
   }
+}
+
+export async function updatePost({ postId, newText }) {
+  const { error } = await supabase
+    .from("posts")
+    .update({ text: newText })
+    .eq("id", postId);
+  if (error) throw new Error("Failed to update post");
 }
 
 export async function deletePost(postId) {

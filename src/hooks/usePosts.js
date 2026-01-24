@@ -5,17 +5,30 @@ import {
   deleteComment,
   deletePost,
   fetchPosts,
+  togglePostLike,
   updatePost,
 } from "../services-with-supabase/apiPosts";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
-export function usePosts(followingIds, currentUserId) {
+const postKeys = {
+  all: ["posts"],
+  feed: (ids) => [...postKeys.all, "feed", { ids }],
+  profile: (id) => [...postKeys.all, "profile", { id }],
+};
+
+export function usePosts(followingIds, profileId) {
+  const { currentUser } = useAuth();
+
   return useQuery({
-    queryKey: ["posts"],
-    queryFn: () => fetchPosts(followingIds, currentUserId),
+    queryKey: profileId
+      ? postKeys.profile(profileId)
+      : postKeys.feed(followingIds),
+    queryFn: () =>
+      fetchPosts({ followingIds, profileId, currentUserId: currentUser?.id }),
     select: (posts) =>
       [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-    enabled: !!followingIds && followingIds.length > 0,
+    enabled: !!profileId || (!!followingIds && followingIds.length > 0),
   });
 }
 
@@ -29,6 +42,19 @@ export function useCreatePost() {
     },
     onError: (error) => {
       toast.error("Error adding your post: " + error.message);
+    },
+  });
+}
+
+export function useToggleLike() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: togglePostLike,
+    onError: () => {
+      toast.error("Failed to =like.");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
 }
@@ -61,8 +87,8 @@ export function useCreateComment() {
                   },
                 ],
               }
-            : post
-        )
+            : post,
+        ),
       );
 
       // return context object with the snapshotted value
@@ -94,7 +120,7 @@ export function useDeleteComment() {
         oldPosts.map((post) => ({
           ...post,
           postComments: post.postComments.filter((c) => c.id !== commentId),
-        }))
+        })),
       );
 
       return { previousPosts };
