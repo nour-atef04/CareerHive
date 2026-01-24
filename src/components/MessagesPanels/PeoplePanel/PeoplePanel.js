@@ -9,11 +9,14 @@ import Loader from "../../ui/Loader";
 
 export default function PeoplePanel({ showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: followings = [], isLoadingFollowings } = useUserFollowings(
-    user.id
+    user.id,
   );
   const { data: usersChats = [], isLoadingChats } = useUsersChats(user.id);
 
+  // merge the lists
   const peopleToShow = useMemo(() => {
     if (!followings || !usersChats) return [];
 
@@ -22,17 +25,21 @@ export default function PeoplePanel({ showChat, setShowChat }) {
 
     // extract participant data from chats where the person is NOT followed
     const chatParticipantsNotFollowed = usersChats
-      .map((chat) => chat.participant) 
+      .map((chat) => chat.participant)
       .filter((person) => person && !followingIds.has(person.id));
 
     // flatten both into one list of user objects
     return [...followings, ...chatParticipantsNotFollowed];
   }, [followings, usersChats]);
 
-  const [filteredPeople, setFilteredPeople] = useState(peopleToShow);
+  // derive the filtered list directly from peopleToShow and searchQuery
+  const filteredPeople = useMemo(() => {
+    if (!searchQuery) return peopleToShow;
 
-  console.log(peopleToShow);
-
+    return peopleToShow.filter((person) =>
+      person.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [peopleToShow, searchQuery]);
   if (isLoadingFollowings || isLoadingChats) return <Loader />;
 
   return (
@@ -42,8 +49,8 @@ export default function PeoplePanel({ showChat, setShowChat }) {
       }`}
     >
       <ChatSearch
-        followingsList={peopleToShow} // use merged list here
-        setFilteredFollowings={setFilteredPeople} // filtered state
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery} 
       />
       <PeopleList followings={filteredPeople} setShowChat={setShowChat} />
     </section>

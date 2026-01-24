@@ -1,5 +1,7 @@
 .profile-name, .stats-container, .loader{
   margin-left: var(--space-lg);
+  margin-right: var(--space-lg);
+  
 }
 
 .stats-container, .loader{

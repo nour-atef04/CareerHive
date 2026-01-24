@@ -1,24 +1,9 @@
-import { useState } from "react";
 import styles from "./ChatSearch.module.css";
 import FormInput from "../../ui/FormInput";
 
-export default function ChatSearch({
-  followingsList,
-  setFilteredFollowings,
-}) {
-  const [searchChat, setSearchChat] = useState("");
-
+export default function ChatSearch({ searchQuery, setSearchQuery }) {
   function handleInputChange(e) {
-    const value = e.target.value;
-    setSearchChat(value);
-    const filtered =
-      value.trim() === ""
-        ? followingsList
-        : followingsList.filter((person) =>
-            person.name.toLowerCase().includes(value.toLowerCase())
-          );
-
-    setFilteredFollowings(filtered);
+    setSearchQuery(e.target.value);
   }
 
   return (
@@ -26,7 +11,7 @@ export default function ChatSearch({
       <FormInput
         type="text"
         placeholder="Search chat"
-        value={searchChat}
+        value={searchQuery}
         onChange={handleInputChange}
       />
     </div>

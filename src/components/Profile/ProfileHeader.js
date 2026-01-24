@@ -34,6 +34,7 @@ export default function ProfileHeader({ user }) {
           className={styles["stats-container"]}
           followersCount={followersCount}
           followingsCount={followingsCount}
+          user={user}
         />
       ) : (
         <Loader className={styles.loader} />

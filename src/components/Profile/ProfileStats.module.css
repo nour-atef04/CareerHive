@@ -1,10 +1,16 @@
-.profile-stats{
+.profile-stats {
   margin-top: var(--space-sm);
   font-size: small;
   font-weight: light;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.counts {
   cursor: pointer;
 }
 
-.profile-stats:hover{
+.counts:hover {
   text-decoration: underline;
 }
