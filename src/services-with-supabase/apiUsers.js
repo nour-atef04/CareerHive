@@ -6,6 +6,15 @@ export async function fetchUsers() {
   return profiles;
 }
 
+export async function fetchUsersByName(name) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .ilike("name", `%${name}%`);
+  if (error) throw new Error("Could not find users.");
+  return data;
+}
+
 export async function signIn(email, password) {
   const { data: user, error } = await supabase.auth.signInWithPassword({
     email,
@@ -16,9 +25,9 @@ export async function signIn(email, password) {
   return user.user;
 }
 
-export async function signOut(){
-  const {error} = await supabase.auth.signOut();
-  if(error) throw new Error("Failed to sign out.")
+export async function signOut() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error("Failed to sign out.");
 }
 
 export async function fetchUser(userId) {

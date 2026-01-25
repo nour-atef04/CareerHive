@@ -1,0 +1,28 @@
+.form {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+@media (min-width: 1200px) {
+  .form {
+    width: 50%;
+  }
+}
+
+.form form{
+    flex: 1;
+}
+
+.loader{
+  margin-left: 42%;
+}
+
+.title{
+  margin-bottom: var(--space-md);
+}
+
+.person-li{
+  padding: var(--space-sm);
+}

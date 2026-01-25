@@ -8,6 +8,7 @@ import {
   unfollowUser,
   getUserSuggestions,
   getUserRequests,
+  fetchUsersByName,
 } from "../services-with-supabase/apiUsers";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
@@ -17,6 +18,14 @@ export function useUsers() {
   return useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
+  });
+}
+
+export function useUsersByName(name) {
+  return useQuery({
+    queryKey: ["users", name],
+    queryFn: () => fetchUsersByName(name),
+    enabled: !!name,
   });
 }
 
