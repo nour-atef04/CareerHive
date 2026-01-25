@@ -41,7 +41,7 @@ export default function PostFormActions({
         size="md"
         color="brand2"
       >
-        {isSubmitting ? "Posting..." : "Post"}
+        {isSubmitting ? "Posting" : "Post"}
       </Button>
     </div>
   );

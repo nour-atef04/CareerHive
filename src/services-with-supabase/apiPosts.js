@@ -1,4 +1,5 @@
-import supabase from "./supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function fetchPosts({ followingIds, profileId, currentUserId }) {
   let query = supabase.from("posts").select(
@@ -46,6 +47,8 @@ export async function fetchPosts({ followingIds, profileId, currentUserId }) {
     throw new Error("Failed to fetch posts.");
   }
 
+  // console.log(posts);
+
   return posts.map((post) => ({
     ...post,
     postComments: post.post_comments || [],
@@ -57,8 +60,55 @@ export async function fetchPosts({ followingIds, profileId, currentUserId }) {
 }
 
 export async function createPost(newPost) {
-  let { error } = await supabase.from("posts").insert([newPost]);
-  if (error) throw new Error("Failed to add post.");
+  console.log("Photo Debug:", {
+    value: newPost.photo,
+    type: typeof newPost.photo,
+    isFile: newPost.photo instanceof File,
+    isBlob: newPost.photo instanceof Blob, // Check if it's a Blob instead
+  });
+
+  // check if there's an image to upload (file object)
+  const hasImage = newPost.photo && newPost.photo instanceof File;
+  let finalImageUrl = null;
+
+  if (hasImage) {
+    // generate unique name
+    const fileName = `${Math.random()}-${newPost.photo.name}`.replaceAll(
+      "/",
+      "",
+    );
+
+    // upload to supabase storage
+    const { error: storageError } = await supabase.storage
+      .from("post-images")
+      .upload(fileName, newPost.photo);
+
+    if (storageError) {
+      console.error(storageError);
+      throw new Error(
+        "Post image could not be uploaded: " + storageError.message,
+      );
+    }
+
+    // construct the public URL
+    finalImageUrl = `${supabaseUrl}/storage/v1/object/public/post-images/${fileName}`;
+    console.log(finalImageUrl);
+  }
+
+  const postData = {
+    text: newPost.text,
+    authorId: newPost.authorId,
+    photo: finalImageUrl,
+  };
+
+  console.log("Inserting Post:", {
+    text: newPost.text,
+    authorId: newPost.authorId, // Is this undefined?
+    photo: finalImageUrl,
+  });
+
+  let { error } = await supabase.from("posts").insert([postData]);
+  if (error) throw new Error("Failed to add post." + error.message);
 }
 
 export async function togglePostLike({ userId, postId, isLiked }) {
@@ -86,6 +136,29 @@ export async function updatePost({ postId, newText }) {
 }
 
 export async function deletePost(postId) {
+  // fetch post 1st to get the image URL
+  const { data: post, error: fetchError } = await supabase
+    .from("posts")
+    .select("photo")
+    .eq("id", postId)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching post before deletion:", fetchError);
+  }
+
+  // if there's an image -> delete it from storage
+  if (post?.photo) {
+    const fileName = post.photo.split("/").pop(); // just need the last part
+    const { error: storageError } = await supabase.storage
+      .from("post-images")
+      .remove([fileName]);
+
+    if (storageError) {
+      console.error("Couldn't delete image from storage: " + storageError);
+    }
+  }
+
   const { error } = await supabase.from("posts").delete().eq("id", postId);
   if (error) throw new Error("Failed to delete post.");
 }

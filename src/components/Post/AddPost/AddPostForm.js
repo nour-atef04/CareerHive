@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostInput from "./PostInput";
 import PhotoPreview from "./PhotoPreview";
 import PostFormActions from "./PostFormActions";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function AddPostForm({
   postText,
@@ -13,6 +14,7 @@ export default function AddPostForm({
   isSubmitting,
 }) {
   const [photoPreview, setPhotoPreview] = useState(null);
+  const { currentUser } = useAuth();
 
   function handlePhoto(file) {
     setPhoto(file);
@@ -21,9 +23,15 @@ export default function AddPostForm({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit({ text: postText, photo });
-    setPhotoPreview(null);
+    onSubmit({ authorId: currentUser.id, text: postText, photo });
+    // setPhotoPreview(null);
   }
+
+  // ensure when AddPost clears the photo on success,
+  // the preview clears automatically
+  useEffect(() => {
+    if (!photo) setPhotoPreview(null);
+  }, [photo]);
 
   function handleRemovePhoto() {
     setPhoto(null);

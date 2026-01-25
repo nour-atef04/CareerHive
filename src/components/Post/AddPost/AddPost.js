@@ -36,7 +36,7 @@ export default function AddPost() {
   //   setIsNewPostFormOpen(false);
   // }
 
-  const { mutate: createPost, isLoading } = useCreatePost();
+  const { mutate: createPost, isPending } = useCreatePost();
 
   function handleSubmit({ text, photo }) {
     if (!text.trim() && !photo) return;
@@ -44,7 +44,7 @@ export default function AddPost() {
     const newPost = {
       authorId: user.id,
       text,
-      photo: photo ? URL.createObjectURL(photo) : null,
+      photo: photo,
     };
 
     createPost(newPost, {
@@ -66,7 +66,7 @@ export default function AddPost() {
           setPhoto={setPhoto}
           onSubmit={handleSubmit}
           setIsNewPostFormOpen={setIsNewPostFormOpen}
-          isSubmitting={isLoading}
+          isSubmitting={isPending}
         />
       ) : (
         <div className={styles["add-post"]}>
