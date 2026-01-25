@@ -1,55 +1,62 @@
+import { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import FormInput from "../ui/FormInput";
-import styles from "./SearchPeopleInput.module.css";
-import { useState } from "react";
-import Modal from "../ui/Modal";
 import { useUsersByName } from "../../hooks/useUsers";
-import List from "../ui/List";
-import PersonLi from "../ui/PersonLi";
-import Loader from "../ui/Loader";
-import PanelTitle from "../ui/PanelTitle";
+import FormInput from "../ui/FormInput";
+import NetworkSearchResultsPanel from "./NetworkSearchResultsPanel";
+import styles from "./SearchPeopleInput.module.css";
 
 export default function SearchPeopleInput() {
   const [openModal, setOpenModal] = useState(false);
-
   const [inputValue, setInputValue] = useState("");
   const [submittedName, setSubmittedName] = useState("");
 
   const { data: users, isLoading } = useUsersByName(submittedName);
 
+  // debounce effect, when inputValue changes -> wait 500ms before updating submittedName
+  useEffect(() => {
+    //don't search if empty
+    if (!inputValue.trim()) {
+      setSubmittedName("");
+      setOpenModal(false);
+      return;
+    }
+
+    const timerId = setTimeout(() => {
+      setSubmittedName(inputValue);
+      setOpenModal(true);
+    }, 500);
+
+    // clean up function
+    return () => clearTimeout(timerId);
+  }, [inputValue]);
+
   function handleSubmit(e) {
     e.preventDefault();
-    setOpenModal(true);
-    setSubmittedName(inputValue);
+  }
+
+  function handleChange(e) {
+    setInputValue(e.target.value);
   }
 
   return (
     <div className={styles.form}>
-      <IoSearchOutline />
-      <form onSubmit={handleSubmit}>
-        <FormInput
-          placeholder="Search people..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-      </form>
+      <div className={styles.input}>
+        <IoSearchOutline />
+        <form onSubmit={handleSubmit}>
+          <FormInput
+            placeholder="Search people..."
+            value={inputValue}
+            onChange={handleChange}
+          />
+        </form>
+      </div>
+
       {openModal && (
-        <Modal onClose={() => setOpenModal(false)}>
-          <PanelTitle className={styles.title} type="h2">
-            Results for: {inputValue}
-          </PanelTitle>
-          {!isLoading ? (
-            <List
-              items={users}
-              renderItem={(user) => (
-                <PersonLi className={styles["person-li"]} person={user} />
-              )}
-              keyExtractor={(user) => user.id}
-            />
-          ) : (
-            <Loader className={styles.loader} />
-          )}
-        </Modal>
+        <NetworkSearchResultsPanel
+          inputValue={inputValue}
+          results={users}
+          isLoading={isLoading}
+        />
       )}
     </div>
   );

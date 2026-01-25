@@ -1,0 +1,18 @@
+.panel {
+  padding: var(--space-md);
+  max-height: 500px;
+  overflow: auto;
+}
+
+.title {
+  padding: 0 var(--space-xs);
+  padding-bottom: var(--space-sm);
+}
+
+.loader{
+    margin-left: 44%;
+}
+
+.person-li{
+    padding: var(--space-sm);
+}

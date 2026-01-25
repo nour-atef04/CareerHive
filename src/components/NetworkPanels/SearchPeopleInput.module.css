@@ -1,7 +1,7 @@
 .form {
   width: 80%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--space-sm);
 }
 
@@ -11,18 +11,12 @@
   }
 }
 
-.form form{
-    flex: 1;
+.input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-.loader{
-  margin-left: 42%;
-}
-
-.title{
-  margin-bottom: var(--space-md);
-}
-
-.person-li{
-  padding: var(--space-sm);
+.input form {
+  flex: 1;
 }
