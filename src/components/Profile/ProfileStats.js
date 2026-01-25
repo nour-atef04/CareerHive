@@ -8,6 +8,7 @@ import {
   useUserFollowings,
 } from "../../hooks/useUsers";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileStats({
   className,
@@ -15,6 +16,8 @@ export default function ProfileStats({
   followingsCount,
   user,
 }) {
+  const navigate = useNavigate();
+
   const [openModal, setOpenModal] = useState(false);
 
   const { currentUser } = useAuth();
@@ -45,17 +48,27 @@ export default function ProfileStats({
           <span> • </span>
           <span>{followingsCount} followings</span>{" "}
         </div>
-
-        {!isMyProfile &&
-          (isFollowing ? (
-            <Button onClick={handleClick} variant="filled">
-              Unfollow
+        <div className={styles["buttons"]}>
+          {!isMyProfile && (
+            <Button
+              onClick={() => navigate(`/messages/${id}`)}
+              variant="outline-dark"
+              color="brand2"
+            >
+              Message
             </Button>
-          ) : (
-            <Button onClick={handleClick} variant="outline-dark">
-              Follow
-            </Button>
-          ))}
+          )}
+          {!isMyProfile &&
+            (isFollowing ? (
+              <Button onClick={handleClick} variant="filled">
+                Unfollow
+              </Button>
+            ) : (
+              <Button onClick={handleClick} variant="outline-dark">
+                Follow
+              </Button>
+            ))}
+        </div>
       </div>
       {openModal && <ProfileStatsModal onClose={() => setOpenModal(false)} />}
     </>

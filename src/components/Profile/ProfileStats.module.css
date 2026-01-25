@@ -14,3 +14,8 @@
 .counts:hover {
   text-decoration: underline;
 }
+
+.buttons {
+  display: flex;
+  gap: var(--space-xs);
+}

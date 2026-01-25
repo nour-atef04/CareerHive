@@ -123,9 +123,6 @@ export default function Posts({
 
   if (isLoading) return <Loader />;
 
-  if (filteredPosts.length === 0)
-    return <div className={styles["no-posts"]}>No posts yet.</div>;
-
   const visiblePosts = userId
     ? filteredPosts.slice(0, visibleCount)
     : filteredPosts;
@@ -133,6 +130,9 @@ export default function Posts({
   return (
     <div className={`${styles["posts"]} ${className || ""}`}>
       {mode === "feed" && <AddPost />}
+      {filteredPosts.length === 0 && (
+        <div className={styles["no-posts"]}>No posts yet.</div>
+      )}
       {visiblePosts.map((post) => (
         <Post
           key={post.id}
