@@ -5,6 +5,7 @@ import {
   fetchUser,
   getCurrentUser,
   signIn,
+  signOut,
 } from "../services-with-supabase/apiUsers";
 import { useUser } from "../hooks/useUsers";
 
@@ -66,10 +67,17 @@ export function AuthProvider({ children }) {
     }
   }
 
-  function logout() {
-    // TO DO: CALL SUPABASE.AUTH.SIGNOUT() HERE
-    setCurrentUser(null);
-    setIsAuthenticated(false);
+  async function logout() {
+    try {
+      setIsLoading(true);
+      await signOut();
+    } catch {
+      toast.error("Failed to sign out.");
+    } finally {
+      setCurrentUser(null);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    }
   }
 
   return (

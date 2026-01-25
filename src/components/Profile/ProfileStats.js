@@ -20,7 +20,7 @@ export default function ProfileStats({
 
   const [openModal, setOpenModal] = useState(false);
 
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { id, name } = user || {};
 
   const { data: currentUserFollowings } = useUserFollowings(currentUser.id);
@@ -30,12 +30,17 @@ export default function ProfileStats({
   const { mutate: followUser } = useFollowUser();
   const { mutate: unFollowUser } = useUnfollowUser();
 
-  function handleClick() {
+  function handleFollowClick() {
     if (isFollowing) {
       unFollowUser({ userIdToUnfollow: id, userName: name });
     } else {
       followUser({ userIdToFollow: id, userName: name });
     }
+  }
+
+  function handleLogout(e) {
+    e.preventDefault();
+    logout(); // protected route will automatically detect isAuth = false and redirect to login
   }
 
   const isMyProfile = currentUser.id === id;
@@ -60,14 +65,23 @@ export default function ProfileStats({
           )}
           {!isMyProfile &&
             (isFollowing ? (
-              <Button onClick={handleClick} variant="filled">
+              <Button onClick={handleFollowClick} variant="filled">
                 Unfollow
               </Button>
             ) : (
-              <Button onClick={handleClick} variant="outline-dark">
+              <Button onClick={handleFollowClick} variant="outline-dark">
                 Follow
               </Button>
             ))}
+          {isMyProfile && (
+            <Button
+              onClick={handleLogout}
+              variant="outline-dark"
+              color="brand2"
+            >
+              Logout
+            </Button>
+          )}
         </div>
       </div>
       {openModal && <ProfileStatsModal onClose={() => setOpenModal(false)} />}
