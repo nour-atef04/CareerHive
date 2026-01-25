@@ -27,6 +27,20 @@ export async function fetchUser(userId) {
   return profile;
 }
 
+// checks if Supabase currently has a valid session and if so, fetches the full profile
+export async function getCurrentUser() {
+  const { data: session } = await supabase.auth.getSession();
+  if (!session.session) return null;
+
+  const { data, error } = fetchUser(session.session.user.id);
+
+  if (error) {
+    console.error("Error fetching current user profile:", error);
+    return null;
+  }
+  return { ...data, id: session.session.user.id };
+}
+
 export async function fetchFollowings(userId) {
   let { data, error } = await supabase
     .from("follows")
@@ -34,7 +48,7 @@ export async function fetchFollowings(userId) {
       `
       followingId, 
       profiles!follows_following_id_fkey(
-      id, name, image, position)`
+      id, name, image, position)`,
     )
     .eq("followerId", userId);
   if (error) throw new Error("Failed to fetch user followings.");
@@ -51,7 +65,7 @@ export async function fetchFollowers(userId) {
       `
       followerId, 
       profiles!follows_follower_id_fkey(
-      id, name, image, position)`
+      id, name, image, position)`,
     )
     .eq("followingId", userId);
   if (error) throw new Error("Failed to fetch user followers.");
@@ -98,7 +112,7 @@ export async function getUserSuggestions(userId) {
   const { data, error } = await supabase
     .from("follows")
     .select(
-      `followingId, profiles!follows_following_id_fkey(id, name, image, position)`
+      `followingId, profiles!follows_following_id_fkey(id, name, image, position)`,
     )
     .in("followerId", followingIds)
     // exclude user i already follow
@@ -153,7 +167,7 @@ export async function getUserRequests(userId) {
       `
       followerId,
       profiles!follows_follower_id_fkey(id, name, image, position)
-    `
+    `,
     )
     .eq("followingId", userId); // only users who follow me
 
