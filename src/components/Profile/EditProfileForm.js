@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
-import { useUser } from "../../hooks/useUsers";
+import { useEditProfile, useUser } from "../../hooks/useUsers";
 import Button from "../ui/Button";
 import FormInput from "../ui/FormInput";
 import Loader from "../ui/Loader";
@@ -15,9 +15,10 @@ export default function EditProfileForm() {
     handleSubmit,
     formState: { isSubmitting, errors, isDirty },
   } = useForm({ values: user });
+  const { mutate: editMutation } = useEditProfile();
 
   function onSubmit(data) {
-    console.log(data);
+    editMutation(data);
   }
 
   return (
@@ -28,21 +29,39 @@ export default function EditProfileForm() {
         <Loader />
       ) : (
         <>
-          <div>
+          <div className={styles.input}>
             <p>Name</p>
             <FormInput
               id="name"
-              {...register("name", { required: "Name is required" })}
+              {...register("name", {
+                required: "Name is required",
+                setValueAs: (v) => v.trim(),
+                maxLength: {
+                  value: 20,
+                  message: "Name cannot exceed 20 characters",
+                },
+              })}
             />
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.name && (
+              <span className={styles.error}>{errors.name.message}</span>
+            )}
           </div>
-          <div>
+          <div className={styles.input}>
             <p>Position</p>
             <FormInput
               id="position"
-              {...register("position", { required: "Position is required" })}
+              {...register("position", {
+                required: "Position is required",
+                setValueAs: (v) => v.trim(),
+                maxLength: {
+                  value: 20,
+                  message: "Position cannot exceed 20 characters",
+                },
+              })}
             />
-            {errors.position && <span>{errors.position.message}</span>}
+            {errors.position && (
+              <span className={styles.error}>{errors.position.message}</span>
+            )}
           </div>
           <Button
             type="submit"

@@ -193,8 +193,17 @@ export async function getUserRequests(userId) {
 
   const { data, error } = await query;
 
-  console.log(data);
+  // console.log(data);
 
   if (error) throw error;
   return data.map((row) => row.profiles);
+}
+
+export async function editProfile({ userId, data }) {
+  const { error } = await supabase
+    .from("profiles")
+    .update(data)
+    .eq("id", userId);
+
+  if (error) throw error;
 }

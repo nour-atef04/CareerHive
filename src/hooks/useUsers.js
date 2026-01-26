@@ -9,6 +9,7 @@ import {
   getUserSuggestions,
   getUserRequests,
   fetchUsersByName,
+  editProfile,
 } from "../services-with-supabase/apiUsers";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
@@ -30,22 +31,30 @@ export function useUsersByName(name) {
 }
 
 // fetch one profile
-export function useUser(userId) {
-  const { currentUser } = useAuth();
+// export function useUser(userId) {
+//   const { currentUser } = useAuth();
 
+//   return useQuery({
+//     queryKey: ["users", userId],
+//     queryFn: async ({ queryKey }) => {
+//       const [, id] = queryKey; // unpack userId from queryKey
+//       if (id === "me") {
+//         // console.log("ME");
+//         return currentUser;
+//       } // return current user directly
+//       // return fetchUser(id);
+//       const profile = await fetchUser(id);
+//       // console.log(profile);
+//       return profile;
+//     },
+//     enabled: !!userId,
+//   });
+// }
+
+export function useUser(userId) {
   return useQuery({
     queryKey: ["users", userId],
-    queryFn: async ({ queryKey }) => {
-      const [, id] = queryKey; // unpack userId from queryKey
-      if (id === "me") {
-        // console.log("ME");
-        return currentUser;
-      } // return current user directly
-      // return fetchUser(id);
-      const profile = await fetchUser(id);
-      // console.log(profile);
-      return profile;
-    },
+    queryFn: () => fetchUser(userId), 
     enabled: !!userId,
   });
 }
@@ -149,5 +158,24 @@ export function useUserRequests(userId) {
     // staleTime: Infinity,
     // refetchOnWindowFocus: false,
     // refetchOnMount: true,
+  });
+}
+
+export function useEditProfile() {
+  const { currentUser } = useAuth();
+  const queryClient = useQueryClient();
+  const userId = currentUser.id;
+
+  return useMutation({
+    mutationFn: (data) => editProfile({ userId, data }),
+    onSuccess: () => {
+      toast.success("Profile succesfully updated.");
+      queryClient.invalidateQueries({
+        queryKey: ["users", userId],
+      });
+    },
+    onError: () => {
+      toast.error("Failed to update profile.");
+    },
   });
 }

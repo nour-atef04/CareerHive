@@ -8,13 +8,14 @@ import Loader from "../components/ui/Loader";
 
 export default function Profile() {
   const { userId } = useParams();
-
-  const { data: otherUser, isLoading: isLoadingUser } = useUser(userId);
   const { currentUser } = useAuth();
 
-  const user = userId === "me" ? currentUser : otherUser;
+  // if the URL param is "me", swap it for the real id from auth
+  const profileId = userId === "me" ? currentUser?.id : userId;
 
-  if (isLoadingUser) return <Loader />;
+  const { data: user, isLoading } = useUser(profileId);
+
+  if (isLoading) return <Loader />;
 
   return (
     <main className={styles["main"]}>
