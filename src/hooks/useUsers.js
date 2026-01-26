@@ -74,6 +74,11 @@ export function useFollowUser() {
     mutationFn: ({ userIdToFollow }) =>
       followUser(currentUser.id, userIdToFollow),
     onSuccess: (_, { userName }) => {
+      // refetch users
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
+
       // refetch followings list
       queryClient.invalidateQueries({
         queryKey: ["users", currentUser.id, "followings"],
@@ -101,6 +106,11 @@ export function useUnfollowUser() {
     mutationFn: ({ userIdToUnfollow }) =>
       unfollowUser(currentUser.id, userIdToUnfollow),
     onSuccess: (_, { userName }) => {
+      // refetch users
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
+
       // refetch followings list
       queryClient.invalidateQueries({
         queryKey: ["users", currentUser.id, "followings"],

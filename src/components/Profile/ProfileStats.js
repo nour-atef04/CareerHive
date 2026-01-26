@@ -1,14 +1,9 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import EditLogoutButtons from "./EditLogoutButtons";
+import FollowMessageButtons from "./FollowMessageButtons";
 import styles from "./ProfileStats.module.css";
 import ProfileStatsModal from "./ProfileStatsModal";
-import Button from "../ui/Button";
-import {
-  useFollowUser,
-  useUnfollowUser,
-  useUserFollowings,
-} from "../../hooks/useUsers";
-import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function ProfileStats({
   className,
@@ -16,32 +11,10 @@ export default function ProfileStats({
   followingsCount,
   user,
 }) {
-  const navigate = useNavigate();
-
   const [openModal, setOpenModal] = useState(false);
 
-  const { currentUser, logout } = useAuth();
-  const { id, name } = user || {};
-
-  const { data: currentUserFollowings } = useUserFollowings(currentUser.id);
-  const currentUserFollowingsIds = currentUserFollowings.map((user) => user.id);
-  const isFollowing = currentUserFollowingsIds.includes(id);
-
-  const { mutate: followUser } = useFollowUser();
-  const { mutate: unFollowUser } = useUnfollowUser();
-
-  function handleFollowClick() {
-    if (isFollowing) {
-      unFollowUser({ userIdToUnfollow: id, userName: name });
-    } else {
-      followUser({ userIdToFollow: id, userName: name });
-    }
-  }
-
-  function handleLogout(e) {
-    e.preventDefault();
-    logout(); // protected route will automatically detect isAuth = false and redirect to login
-  }
+  const { currentUser } = useAuth();
+  const { id } = user || {};
 
   const isMyProfile = currentUser.id === id;
 
@@ -54,33 +27,10 @@ export default function ProfileStats({
           <span>{followingsCount} followings</span>{" "}
         </div>
         <div className={styles["buttons"]}>
-          {!isMyProfile && (
-            <Button
-              onClick={() => navigate(`/messages/${id}`)}
-              variant="outline-dark"
-              color="brand2"
-            >
-              Message
-            </Button>
-          )}
-          {!isMyProfile &&
-            (isFollowing ? (
-              <Button onClick={handleFollowClick} variant="filled">
-                Unfollow
-              </Button>
-            ) : (
-              <Button onClick={handleFollowClick} variant="outline-dark">
-                Follow
-              </Button>
-            ))}
+          {!isMyProfile && <FollowMessageButtons user={user} />}
+
           {isMyProfile && (
-            <Button
-              onClick={handleLogout}
-              variant="outline-dark"
-              color="brand2"
-            >
-              Logout
-            </Button>
+            <EditLogoutButtons />
           )}
         </div>
       </div>

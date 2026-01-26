@@ -1,0 +1,14 @@
+.edit {
+  color: var(--color-light--3);
+  cursor: pointer;
+}
+
+.edit:hover {
+  color: var(--color-light--4);
+}
+
+.my-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
