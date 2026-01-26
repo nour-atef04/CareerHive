@@ -72,7 +72,7 @@ export default function FormPanel() {
             Sign In
           </Button>
           <hr className={styles.hr} />
-          <p className={styles["join-now"]}>New to CareerHive? Join Now</p>
+          <p className={styles["join-now"]} onClick={()=>navigate("/signup")}>New to CareerHive? Join Now</p>
         </form>
       </div>
     </div>

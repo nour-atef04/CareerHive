@@ -34,6 +34,13 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: "/signup",
+    lazy: async () => {
+      const { default: Signup } = await import("./pages/Signup");
+      return { Component: Signup };
+    },
+  },
+  {
     element: <ProtectedLayout />,
     children: [
       {
@@ -60,9 +67,8 @@ const router = createBrowserRouter([
       {
         path: "/jobs/:jobId",
         lazy: async () => {
-          const { default: JobDetailsPage } = await import(
-            "./pages/JobDetailsPage"
-          );
+          const { default: JobDetailsPage } =
+            await import("./pages/JobDetailsPage");
           return { Component: JobDetailsPage };
         },
       },
@@ -129,13 +135,13 @@ export default function App() {
           },
           error: {
             duration: 5000,
-            iconTheme:{
+            iconTheme: {
               primary: "white",
-              secondary: "darkred"
+              secondary: "darkred",
             },
-            style:{
-              color: "darkred"
-            }
+            style: {
+              color: "darkred",
+            },
           },
           style: {
             fontSize: "16px",
