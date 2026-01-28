@@ -1,4 +1,4 @@
-import LoginPanel from "../components/LoginPanels/FormPanel";
+import LoginPanel from "../components/LoginPanels/LoginPanel";
 import MarketingPanel from "../components/LoginPanels/MarketingPanel";
 import styles from "./Login.module.css";
 

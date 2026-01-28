@@ -1,16 +1,12 @@
-// npm run server
-
 import { useEffect, useState } from "react";
-import Button from "../ui/Button";
-import FormInput from "../ui/FormInput";
-import styles from "./FormPanel.module.css";
-import Logo from "../Logo/Logo";
-import { useNavigate } from "react-router-dom";
+import styles from "./SignupPanel.module.css";
 import { useAuth } from "../../context/AuthContext";
-// import { useDispatch, useSelector } from "react-redux";
-// import { loginUser } from "../../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import Logo from "../Logo/Logo";
+import FormInput from "../ui/FormInput";
+import Button from "../ui/Button";
 
-export default function FormPanel() {
+export default function SignupPanel() {
   // pre-fill for dev purposes
   const [email, setEmail] = useState("jessica.william@example.com");
   const [password, setPassword] = useState("qwerty12345");
@@ -72,7 +68,9 @@ export default function FormPanel() {
             Sign In
           </Button>
           <hr className={styles.hr} />
-          <p className={styles["join-now"]} onClick={()=>navigate("/signup")}>New to CareerHive? Join Now</p>
+          <p className={styles["join-now"]} onClick={() => navigate("/signup")}>
+            New to CareerHive? Join Now
+          </p>
         </form>
       </div>
     </div>
