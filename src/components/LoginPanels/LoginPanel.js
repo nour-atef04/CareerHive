@@ -53,7 +53,7 @@ export default function LoginPanel() {
 
           <FormInput
             type="password"
-            placeholder="password"
+            placeholder="Password"
             autoComplete="current-password"
             {...register("password", { required: "Password is required" })}
           />

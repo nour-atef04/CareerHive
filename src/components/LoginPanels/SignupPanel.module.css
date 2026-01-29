@@ -1,4 +1,4 @@
-.login-panel {
+.signup-panel {
   flex: 1;
   background-color: var(--color-light--1);
   color: var(--color-dark--4);
@@ -32,16 +32,7 @@
   text-align: center;
 }
 
-.form-options {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xxl);
-  font-size: smaller;
-  color: var(--color-dark--1);
-}
-
-.forgot-password,
-.join-now {
+.login {
   color: #0e6cb5;
   text-decoration: underline #0e6cb5;
   cursor: pointer;
@@ -59,4 +50,9 @@
 .form-button{
   width: 60%;
   border-radius: var(--space-lg);
+}
+
+.name{
+    display: flex;
+    gap: var(--space-xs);
 }
