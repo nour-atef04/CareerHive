@@ -30,6 +30,22 @@ export async function signOut() {
   if (error) throw new Error("Failed to sign out.");
 }
 
+export async function signup({ email, password, name, position }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name,
+        position,
+      },
+    },
+  });
+
+  if (error) throw new Error("Failed to sign up");
+  return data;
+}
+
 export async function fetchUser(userId) {
   let { data: profile, error } = await supabase
     .from("profiles")

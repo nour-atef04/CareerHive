@@ -7,7 +7,6 @@ import {
   signIn,
   signOut,
 } from "../services-with-supabase/apiUsers";
-import { useUser } from "../hooks/useUsers";
 
 const { createContext, useState, useContext, useEffect } = require("react");
 
