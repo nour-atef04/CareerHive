@@ -6,6 +6,7 @@ import {
   deletePost,
   fetchPosts,
   togglePostLike,
+  toggleRepost,
   updatePost,
 } from "../services-with-supabase/apiPosts";
 import toast from "react-hot-toast";
@@ -14,18 +15,23 @@ import { useAuth } from "../context/AuthContext";
 const postKeys = {
   all: ["posts"],
   feed: (ids) => [...postKeys.all, "feed", { ids }],
-  profile: (id) => [...postKeys.all, "profile", { id }],
+  profile: (id, type) => [...postKeys.all, "profile", { id, type }],
 };
 
-export function usePosts(followingIds, profileId) {
+export function usePosts(followingIds, profileId, mode = "feed") {
   const { currentUser } = useAuth();
 
   return useQuery({
     queryKey: profileId
-      ? postKeys.profile(profileId)
+      ? postKeys.profile(profileId, mode)
       : postKeys.feed(followingIds),
     queryFn: () =>
-      fetchPosts({ followingIds, profileId, currentUserId: currentUser?.id }),
+      fetchPosts({
+        followingIds,
+        profileId,
+        currentUserId: currentUser?.id,
+        type: mode,
+      }),
     select: (posts) =>
       [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     enabled: !!profileId || (!!followingIds && followingIds.length > 0),
@@ -158,6 +164,20 @@ export function useEditPost() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries(["posts"]);
       queryClient.invalidateQueries(["posts"], postId);
+    },
+  });
+}
+
+export function useToggleRepost() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: toggleRepost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      toast.success("Reposted successfully.");
+    },
+    onError: (err) => {
+      toast.error(err.message);
     },
   });
 }

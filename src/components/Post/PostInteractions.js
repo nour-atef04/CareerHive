@@ -8,31 +8,21 @@ import { useEditPost } from "../../hooks/usePosts";
 import { useAuth } from "../../context/AuthContext";
 
 export default function PostInteractions({
-  postId,
   liked,
-  setLiked,
-  likes,
-  setLikes,
+  likesCount,
+  onLike,
+  onRepost,
   toggleComments,
 }) {
-  const editMutation = useEditPost();
-
-  const { currentUser } = useAuth();
-
-  function handleLike() {
-    setLiked(!liked);
-    setLikes(likes + (liked ? -1 : 1));
-
-    editMutation.mutate({
-      userId: currentUser.id,
-      postId,
-      toggleLike: true
-    });
-  }
-
   return (
     <div className={styles["interactions"]}>
-      <div onClick={handleLike} className={liked ? styles["liked"] : ""}>
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          onLike();
+        }}
+        className={liked ? styles["liked"] : ""}
+      >
         {liked ? (
           <AiFillLike style={{ fontSize: "larger" }} />
         ) : (
@@ -44,7 +34,7 @@ export default function PostInteractions({
         <FaRegComment />
         <span>Comment</span>
       </div>
-      <div>
+      <div onClick={onRepost}>
         <BiRepost style={{ fontSize: "large" }} />
         Repost
       </div>

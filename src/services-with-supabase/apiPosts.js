@@ -1,7 +1,11 @@
-import { SupabaseClient } from "@supabase/supabase-js";
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function fetchPosts({ followingIds, profileId, currentUserId }) {
+export async function fetchPosts({
+  followingIds,
+  profileId,
+  currentUserId,
+  type = "feed", // "feed" | "posts" | "reposts" | "comments"
+}) {
   let query = supabase.from("posts").select(
     `
       *,
@@ -11,7 +15,23 @@ export async function fetchPosts({ followingIds, profileId, currentUserId }) {
     `,
   );
 
-  if (profileId) {
+  // 1. REPOSTS
+  if (profileId && type === "reposts") {
+    const { data: reposts, error: repostError } = await supabase
+      .from("post_reposts")
+      .select("postId")
+      .eq("userId", profileId);
+
+    if (repostError) throw new Error("Failed to fetch reposts.");
+
+    if (!reposts || reposts.length === 0) return [];
+    const respostedPostIds = reposts.map((r) => r.postId);
+
+    query = query.in("id", respostedPostIds);
+  }
+
+  // 2. PROFILE POSTS
+  else if (profileId) {
     // specific profile posts -> ignore followingIds + get posts commented on
     // 1st find ids of posts where user commented
     const { data: commentedData, error: commentError } = await supabase
@@ -33,6 +53,8 @@ export async function fetchPosts({ followingIds, profileId, currentUserId }) {
       // if they haven't commented on anything, just show their own posts
       query = query.eq("authorId", profileId);
     }
+
+    // 3. FEED POSTS
   } else if (followingIds?.length > 0) {
     // if on home feed -> get posts from followings
     query = query.in("authorId", followingIds);
@@ -46,8 +68,6 @@ export async function fetchPosts({ followingIds, profileId, currentUserId }) {
 
     throw new Error("Failed to fetch posts.");
   }
-
-  // console.log(posts);
 
   return posts.map((post) => ({
     ...post,
@@ -186,4 +206,20 @@ export async function deleteComment(commentId) {
   console.log(data);
 
   if (error) throw new Error("Failed to delete comment.");
+}
+
+export async function toggleRepost({ userId, postId, isReposted }) {
+  if (isReposted) {
+    const { error } = await supabase
+      .from("post_reposts")
+      .delete()
+      .eq("userId", userId)
+      .eq("postId", postId);
+    if (error) throw new Error("Failed to remove repost.");
+  } else {
+    const { error } = await supabase
+      .from("post_reposts")
+      .insert([{ postId, userId }]);
+    if (error) throw new Error("Failed to repost.");
+  }
 }
