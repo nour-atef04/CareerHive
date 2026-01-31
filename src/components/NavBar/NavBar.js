@@ -19,7 +19,7 @@ export default function NavBar() {
         className={styles["show-more-button"]}
         onClick={() => setShowMenu(showMenu ? false : true)}
       >
-        <IoIosMore style={{ fontSize: "large" }} />
+        <IoIosMore size={20} />
       </Button>
     </div>
   );

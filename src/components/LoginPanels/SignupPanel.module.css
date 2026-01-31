@@ -56,3 +56,9 @@
     display: flex;
     gap: var(--space-xs);
 }
+
+.error{
+  font-size: smaller;
+  color: darkred;
+  font-weight: bold;
+}

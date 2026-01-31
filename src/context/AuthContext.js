@@ -4,8 +4,9 @@ import toast from "react-hot-toast";
 import {
   fetchUser,
   getCurrentUser,
-  signIn,
+  signIn as signInApi,
   signOut,
+  signUp as signUpApi,
 } from "../services-with-supabase/apiUsers";
 
 const { createContext, useState, useContext, useEffect } = require("react");
@@ -48,7 +49,29 @@ export function AuthProvider({ children }) {
   async function login(email, password, onSuccess) {
     try {
       setIsLoading(true);
-      const authUser = await signIn(email, password);
+      const authUser = await signInApi(email, password);
+      const profile = await fetchUser(authUser.id);
+
+      setCurrentUser({
+        ...profile,
+        id: authUser.id,
+      });
+
+      setIsAuthenticated(true);
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      console.error(err.message);
+      toast.error("Login failed.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function signUp(email, password, name, position, onSuccess) {
+    try {
+      setIsLoading(true);
+      const data = await signUpApi({ email, password, name, position });
+      const authUser = data.user;
       const profile = await fetchUser(authUser.id);
 
       setCurrentUser({
@@ -86,6 +109,7 @@ export function AuthProvider({ children }) {
         setCurrentUser,
         isAuthenticated,
         login,
+        signUp,
         logout,
         isLoading,
       }}

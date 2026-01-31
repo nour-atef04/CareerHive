@@ -39,7 +39,7 @@ export const JOB_TITLES = [
 ];
 
 export default function SignupPanel() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, signUp, isLoading } = useAuth();
   const navigate = useNavigate();
 
   // if authenticated, skip signup
@@ -50,11 +50,15 @@ export default function SignupPanel() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm();
 
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(data) {
+    console.log(errors);
+    const { email, password, firstName, lastName, position } = data;
+    const fullName = `${firstName} ${lastName}`.trim();
+    signUp(email, password, fullName, position, () => navigate("/home"));
   }
 
   return (
@@ -69,24 +73,33 @@ export default function SignupPanel() {
           <FormInput
             type="email"
             placeholder="Email"
-            {...register("email", { required: "Email is required" })}
+            {...register("email", {
+              required: "Email is required",
+              pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email" },
+            })}
           />
-          {errors.email && <span>{errors.email.message}</span>}
+          {errors.email && (
+            <span className={styles.error}>{errors.email.message}</span>
+          )}
 
           <div className={styles.name}>
             <FormInput
-              type="firstName"
+              type="text"
               placeholder="First name"
               {...register("firstName", { required: "First name is required" })}
             />
-            {errors.firstName && <span>{errors.firstName.message}</span>}
+            {errors.firstName && (
+              <span className={styles.error}>{errors.firstName.message}</span>
+            )}
 
             <FormInput
-              type="lastName"
+              type="text"
               placeholder="Last name"
               {...register("lastName", { required: "Last name is required" })}
             />
-            {errors.lastName && <span>{errors.lastName.message}</span>}
+            {errors.lastName && (
+              <span className={styles.error}>{errors.lastName.message}</span>
+            )}
           </div>
           <FormInput
             id="position"
@@ -100,34 +113,46 @@ export default function SignupPanel() {
               <option key={title} value={title} />
             ))}
           </datalist>
-          {errors.position && <span>{errors.position.message}</span>}
+          {errors.position && (
+            <span className={styles.error}>{errors.position.message}</span>
+          )}
 
           <FormInput
             type="password"
             placeholder="Password"
-            {...register("password", { required: "Password is required" })}
+            {...register("password", {
+              required: "Password is required",
+              minLength: { value: 6, message: "Min 6 characters" },
+            })}
           />
-          {errors.password && <span>{errors.password.message}</span>}
+          {errors.password && (
+            <span className={styles.error}>{errors.password.message}</span>
+          )}
 
           <FormInput
             type="password"
             placeholder="Confirm password"
             {...register("confirmPassword", {
               required: "Password confirmation is required",
+              validate: (val) => {
+                if (watch("password") !== val) return "Passwords do not match";
+              },
             })}
           />
           {errors.confirmPassword && (
-            <span>{errors.confirmPassword.message}</span>
+            <span className={styles.error}>
+              {errors.confirmPassword.message}
+            </span>
           )}
 
           <Button
             type="submit"
-            variant={isSubmitting ? "disabled" : "filled"}
+            variant={isSubmitting || isLoading ? "disabled" : "filled"}
             size="md"
             color="brand2"
             className={styles["form-button"]}
           >
-            {isSubmitting ? "Signing In..." : "Sign In"}
+            {isSubmitting || isLoading ? "Signing In..." : "Sign In"}
           </Button>
           <hr className={styles.hr} />
           <p className={styles["login"]} onClick={() => navigate("/login")}>

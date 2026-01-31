@@ -30,7 +30,7 @@ export async function signOut() {
   if (error) throw new Error("Failed to sign out.");
 }
 
-export async function signup({ email, password, name, position }) {
+export async function signUp({ email, password, name, position }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -42,7 +42,25 @@ export async function signup({ email, password, name, position }) {
     },
   });
 
-  if (error) throw new Error("Failed to sign up");
+  if (error) throw new Error(error.message);
+
+  if (data?.user) {
+    const { error: profileError } = await supabase.from("profiles").insert([
+      {
+        id: data.user.id,
+        name,
+        position,
+        image: "default-user",
+      },
+    ]);
+
+    if (profileError) {
+      throw new Error(profileError.message);
+    }
+  }
+
+  // TO DO: instead -> create a trigger for reliability
+
   return data;
 }
 
