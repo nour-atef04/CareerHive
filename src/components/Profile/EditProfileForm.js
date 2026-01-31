@@ -63,6 +63,15 @@ export default function EditProfileForm() {
               <span className={styles.error}>{errors.position.message}</span>
             )}
           </div>
+          <div className={styles.input}>
+            <p>Image</p>
+            <FormInput
+              id="image"
+              type="file"
+              accept="image/*" // only allow images
+              {...register("image")}
+            />
+          </div>
           <Button
             type="submit"
             variant={!isDirty || isSubmitting ? "disabled" : "filled"}

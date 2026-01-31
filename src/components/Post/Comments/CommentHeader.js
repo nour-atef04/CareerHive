@@ -10,7 +10,7 @@ export default function CommentHeader({ comment }) {
 
   return (
     <div className={styles["commenter-header"]}>
-      <ProfileIcon src={`/assets/${user.image}.jpg`} alt="user" size="small" />
+      <ProfileIcon src={user.image} alt="user" size="small" />
       <div>
         <p className={styles["name"]}>{user.name}</p>
         <p>{user.position}</p>

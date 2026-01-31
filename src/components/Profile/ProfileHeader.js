@@ -20,7 +20,8 @@ export default function ProfileHeader({ user }) {
   return (
     <ProfileSection>
       <ProfileIconHeader
-        src={`/assets/${image}.jpg`}
+        // src={`/assets/${image}.jpg`}
+        src={image}
         alt={`${name}'s profile`}
         type={"left"}
       />

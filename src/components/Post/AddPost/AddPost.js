@@ -71,8 +71,10 @@ export default function AddPost() {
       ) : (
         <div className={styles["add-post"]}>
           <ProfileIcon
+            className={styles.image}
             onClick={() => navigate("/profile")}
-            src={`/assets/${image}.jpg`}
+            // src={`/assets/${image}.jpg`}
+            src={image}
             alt="user profile"
             size="medium"
           />

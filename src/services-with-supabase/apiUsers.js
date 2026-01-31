@@ -50,7 +50,7 @@ export async function signUp({ email, password, name, position }) {
         id: data.user.id,
         name,
         position,
-        image: "default-user",
+        image: null,
       },
     ]);
 
@@ -234,9 +234,36 @@ export async function getUserRequests(userId) {
 }
 
 export async function editProfile({ userId, data }) {
+  const hasNewImage = data.image instanceof FileList && data.image.length > 0;
+
+  let imagePath = data.image;
+
+  if (hasNewImage) {
+    const file = data.image[0];
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `avatar-${userId}-${Math.random()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(fileName, file);
+
+    if (uploadError) throw new Error(uploadError.message);
+
+    const { data: urlData } = supabase.storage
+      .from("avatars")
+      .getPublicUrl(fileName);
+
+    imagePath = urlData.publicUrl;
+  }
+
   const { error } = await supabase
     .from("profiles")
-    .update(data)
+    .update({
+      name: data.name,
+      position: data.position,
+      image: imagePath,
+    })
     .eq("id", userId);
 
   if (error) throw error;

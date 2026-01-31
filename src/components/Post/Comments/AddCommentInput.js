@@ -28,7 +28,7 @@ const AddCommentInput = forwardRef(function AddCommentInput(
 
   return (
     <form className={styles["add-comment"]} onSubmit={handleSubmit}>
-      <ProfileIcon src={`/assets/${image}.jpg`} alt="user" size="small" />
+      <ProfileIcon src={image} alt="user" size="small" />
       <FormInput
         ref={ref}
         className={styles["add-comment-input"]}

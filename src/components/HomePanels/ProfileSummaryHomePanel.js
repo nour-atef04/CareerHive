@@ -26,7 +26,8 @@ export default function ProfileSummaryHomePanel({ className }) {
     >
       <ProfileIconHeader
         type="centered"
-        src={`/assets/${image}.jpg`}
+        // src={`/assets/${image}.jpg`}
+        src={image}
         alt={`${name}'s profile`}
       />
       <ProfileNamePosition

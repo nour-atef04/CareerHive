@@ -31,7 +31,8 @@ export default function PostHeader({ post }) {
       {!isLoading ? (
         <>
           <ProfileIcon
-            src={`/assets/${image}.jpg`}
+            // src={`/assets/${image}.jpg`}
+            src={image}
             alt={name}
             size="medium"
             onClick={() => navigate(`/profile/${id}`)}
