@@ -7,20 +7,19 @@ import { LuMessagesSquare } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 
 export default function NavBarItemsList({ showMenu }) {
-  const navItems = ["Home", "Network", "Jobs", "Messages", "Profile"];
-  const navItemsIcons = {
-    Home: <IoHomeOutline />,
-    Network: <LiaUserFriendsSolid />,
-    Jobs: <PiSuitcaseSimple />,
-    Messages: <LuMessagesSquare />,
-    Profile: <FaRegUser />,
-  };
+  const navLinks = [
+    { label: "Home", path: "home", icon: <IoHomeOutline /> },
+    { label: "Network", path: "network", icon: <LiaUserFriendsSolid /> },
+    { label: "Jobs", path: "jobs", icon: <PiSuitcaseSimple /> },
+    { label: "Messages", path: "messages", icon: <LuMessagesSquare /> },
+    { label: "Profile", path: "profile/me", icon: <FaRegUser /> }, // Easy to customize paths like this
+  ];
 
   return (
     <ul className={`${styles["navbar-list"]} ${showMenu ? styles.show : ""}`}>
-      {navItems.map((item, i) => (
-        <NavBarItem key={i} page={item.toLowerCase()}>
-          {navItemsIcons[item]} <span>{item}</span>
+      {navLinks.map((link) => (
+        <NavBarItem key={link.label} page={link.path}>
+          {link.icon} <span>{link.label}</span>
         </NavBarItem>
       ))}
     </ul>
