@@ -13,14 +13,16 @@ import { useToggleLike, useToggleRepost } from "../../hooks/usePosts";
 
 export default function Post({
   post,
-  mode,
+  mode = "feed", // + "details"
   profileUserId,
   openOptionsPostId,
   setOpenOptionsPostId,
 }) {
   const { currentUser } = useAuth();
   const commentInputRef = useRef(null);
-  const [openComments, setOpenComments] = useState(mode === "comments");
+  const [openComments, setOpenComments] = useState(
+    mode === "comments" || mode === "details",
+  );
   const [editPostId, setEditPostId] = useState(null);
 
   const postLikes = post.postLikes || [];

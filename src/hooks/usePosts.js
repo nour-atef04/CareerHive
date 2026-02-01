@@ -4,6 +4,7 @@ import {
   createPost,
   deleteComment,
   deletePost,
+  fetchPost,
   fetchPosts,
   togglePostLike,
   toggleRepost,
@@ -35,6 +36,14 @@ export function usePosts(followingIds, profileId, mode = "feed") {
     select: (posts) =>
       [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     enabled: !!profileId || (!!followingIds && followingIds.length > 0),
+  });
+}
+
+export function usePost(postId) {
+  return useQuery({
+    queryKey: ["post", postId],
+    queryFn: () => fetchPost(postId),
+    enabled: !!postId,
   });
 }
 

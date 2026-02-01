@@ -93,6 +93,13 @@ const router = createBrowserRouter([
           return { Component: Profile };
         },
       },
+      {
+        path: "/post/:postId",
+        lazy: async () => {
+          const { default: PostDetails } = await import("./pages/PostDetails");
+          return { Component: PostDetails };
+        },
+      },
       { path: "/profile", element: <Navigate to="/profile/me" replace /> },
     ],
   },

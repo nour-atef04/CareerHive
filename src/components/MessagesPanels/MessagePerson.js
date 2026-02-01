@@ -11,7 +11,8 @@ export default function MessagePerson({ onClick, id, image, name, className }) {
       onClick={onClick}
     >
       <ProfileIcon
-        src={`/assets/${image}.jpg`}
+        // src={`/assets/${image}.jpg`}
+        src={image}
         alt="user profile"
         onClick={() => navigate(`/profile/${id}`)}
       />

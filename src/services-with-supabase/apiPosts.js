@@ -77,6 +77,30 @@ async function fetchCommentedPostIds(userId) {
   return [...new Set(data?.map((c) => c.postId) || [])];
 }
 
+export async function fetchPost(postId) {
+  const { data: post, error } = await supabase
+    .from("posts")
+    .select(
+      `*,
+      author:profiles!authorId(*),
+      post_comments(*),
+      post_likes(userId),
+      post_reposts(userId)
+      `,
+    )
+    .eq("id", postId)
+    .single();
+
+  if (error) throw new Error("Post not found.");
+
+  return {
+    ...post,
+    postComments: post.post_comments || [],
+    postLikes: post.post_likes || [],
+    postReposts: post.post_reposts || [],
+  };
+}
+
 export async function createPost(newPost) {
   console.log("Photo Debug:", {
     value: newPost.photo,
