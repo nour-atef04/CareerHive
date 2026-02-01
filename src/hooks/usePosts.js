@@ -172,9 +172,9 @@ export function useToggleRepost() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: toggleRepost,
-    onSuccess: () => {
+    onSuccess: (_, { isReposted }) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      toast.success("Reposted successfully.");
+      toast.success(isReposted ? "Repost removed" : "Reposted successfully");
     },
     onError: (err) => {
       toast.error(err.message);

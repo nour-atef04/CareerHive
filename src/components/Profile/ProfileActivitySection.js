@@ -65,7 +65,7 @@ export default function ProfileActivitySection({ user }) {
       <div className={styles["activity-container"]}>
         <PanelTitle type="h3">Activity</PanelTitle>
         <div className={styles["activity-buttons"]}>
-          {["posts", "comments"].map((tab) => (
+          {["posts", "comments", "reposts"].map((tab) => (
             <Button
               key={tab}
               size="sm"

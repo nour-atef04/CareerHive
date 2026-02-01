@@ -4,12 +4,10 @@ import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { LuSend } from "react-icons/lu";
-import { useEditPost } from "../../hooks/usePosts";
-import { useAuth } from "../../context/AuthContext";
 
 export default function PostInteractions({
   liked,
-  likesCount,
+  reposted,
   onLike,
   onRepost,
   toggleComments,
@@ -34,7 +32,13 @@ export default function PostInteractions({
         <FaRegComment />
         <span>Comment</span>
       </div>
-      <div onClick={onRepost}>
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          onRepost();
+        }}
+        className={reposted ? styles["reposted"] : ""}
+      >
         <BiRepost style={{ fontSize: "large" }} />
         Repost
       </div>

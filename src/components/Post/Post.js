@@ -23,11 +23,15 @@ export default function Post({
   const [openComments, setOpenComments] = useState(mode === "comments");
   const [editPostId, setEditPostId] = useState(null);
 
-  // Status indicators derived directly from props (no local state duplication)
-  const likesCount = post.postLikes?.length || 0;
-  const isLiked = post.postLikes?.some(
-    (like) => like.userId === currentUser.id,
+  const postLikes = post.postLikes || [];
+  const isLiked = postLikes.some((like) => like.userId === currentUser?.id);
+  const likesCount = postLikes.length;
+
+  const postReposts = post.postReposts || [];
+  const isReposted = postReposts.some(
+    (repost) => repost.userId === currentUser?.id,
   );
+
   const comments = post.postComments || [];
 
   const { mutate: toggleLike } = useToggleLike();
@@ -42,8 +46,8 @@ export default function Post({
 
   function handleLike() {
     toggleLike({
-      postId: post.id,
       userId: currentUser.id,
+      postId: post.id,
       isLiked,
     });
   }
@@ -52,7 +56,7 @@ export default function Post({
     toggleRepost({
       postId: post.id,
       userId: currentUser.id,
-      isReposted: false, // test
+      isReposted,
     });
   }
 
@@ -79,7 +83,7 @@ export default function Post({
       />
       <PostInteractions
         liked={isLiked}
-        likesCount={likesCount}
+        reposted={isReposted}
         onLike={handleLike}
         onRepost={handleRepost}
         toggleComments={() => setOpenComments((prev) => !prev)}

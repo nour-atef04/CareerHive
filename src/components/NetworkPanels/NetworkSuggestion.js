@@ -31,7 +31,8 @@ export default function NetworkSuggestion({ user }) {
     <div className={styles["suggestion"]}>
       <Panel className={styles["suggestion-card"]}>
         <ProfileIconHeader
-          src={`/assets/${user.image}.jpg`}
+          // src={`/assets/${user.image}.jpg`}
+          src={user.image}
           alt={`${user.name}'s profile`}
           type="centered"
           onClick={() => navigate(`/profile/${user.id}`)}

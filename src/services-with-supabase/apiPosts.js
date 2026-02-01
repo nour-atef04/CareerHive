@@ -11,61 +11,43 @@ export async function fetchPosts({
       *,
       author:profiles!authorId(*),
       post_comments(*),
-      post_likes(userId)
+      post_likes(userId),
+      post_reposts(userId)
     `,
   );
 
-  // 1. REPOSTS
-  if (profileId && type === "reposts") {
-    const { data: reposts, error: repostError } = await supabase
-      .from("post_reposts")
-      .select("postId")
-      .eq("userId", profileId);
-
-    if (repostError) throw new Error("Failed to fetch reposts.");
-
-    if (!reposts || reposts.length === 0) return [];
-    const respostedPostIds = reposts.map((r) => r.postId);
-
-    query = query.in("id", respostedPostIds);
-  }
-
-  // 2. PROFILE POSTS
-  else if (profileId) {
-    // specific profile posts -> ignore followingIds + get posts commented on
-    // 1st find ids of posts where user commented
-    const { data: commentedData, error: commentError } = await supabase
-      .from("post_comments")
-      .select("postId")
-      .eq("authorId", profileId);
-
-    if (commentError) throw new Error("Failed to fetch user activity.");
-
-    // extract ids and remove duplicates
-    const commentedPostIds = [...new Set(commentedData.map((c) => c.postId))];
-
-    // 2nd construct the OR query (is author OR is in commented list)
-    if (commentedPostIds.length > 0) {
-      query = query.or(
-        `authorId.eq.${profileId},id.in.(${commentedPostIds.join(",")})`,
-      );
-    } else {
-      // if they haven't commented on anything, just show their own posts
+  switch (type) {
+    case "posts":
+      // posts the profile user has posted
+      if (!profileId) throw new Error("Profile ID required for posts.");
       query = query.eq("authorId", profileId);
-    }
-
-    // 3. FEED POSTS
-  } else if (followingIds?.length > 0) {
-    // if on home feed -> get posts from followings
-    query = query.in("authorId", followingIds);
-  } else {
-    return [];
+      break;
+    case "reposts":
+      // posts the profile user has reposted
+      if (!profileId) throw new Error("Profile ID required for posts.");
+      const repostedIds = await fetchRepostedIds(profileId);
+      if (repostedIds.length === 0) return [];
+      query = query.in("id", repostedIds);
+      break;
+    case "comments":
+      // posts the profile user has commented on
+      if (!profileId) throw new Error("Profile ID required for posts.");
+      const commentedIds = await fetchCommentedPostIds(profileId);
+      if (commentedIds.length === 0) return [];
+      query = query.in("id", commentedIds);
+      break;
+    case "feed":
+      // posts from followed users
+      if (!followingIds || followingIds.length === 0) return [];
+      query = query.in("authorId", followingIds);
+      break;
+    default:
+      return [];
   }
 
   const { data: posts, error } = await query;
   if (error) {
     console.error(error);
-
     throw new Error("Failed to fetch posts.");
   }
 
@@ -73,10 +55,26 @@ export async function fetchPosts({
     ...post,
     postComments: post.post_comments || [],
     postLikes: post.post_likes || [],
-    liked: (post.post_likes || []).some(
-      (like) => like.userId === currentUserId, // check if cur user liked it
-    ),
+    postReposts: post.post_reposts || [],
   }));
+}
+
+async function fetchRepostedIds(userId) {
+  const { data } = await supabase
+    .from("post_reposts")
+    .select("postId")
+    .eq("userId", userId);
+  return data?.map((r) => r.postId) || [];
+}
+
+async function fetchCommentedPostIds(userId) {
+  const { data } = await supabase
+    .from("post_comments")
+    .select("postId")
+    .eq("authorId", userId);
+
+  // unique IDs only
+  return [...new Set(data?.map((c) => c.postId) || [])];
 }
 
 export async function createPost(newPost) {
@@ -219,7 +217,10 @@ export async function toggleRepost({ userId, postId, isReposted }) {
   } else {
     const { error } = await supabase
       .from("post_reposts")
-      .insert([{ postId, userId }]);
+      .upsert([{ postId, userId }], {
+        onConflict: "userId, postId",
+        ignoreDuplicates: true,
+      });
     if (error) throw new Error("Failed to repost.");
   }
 }

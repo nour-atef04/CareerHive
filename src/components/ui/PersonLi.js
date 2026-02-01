@@ -20,7 +20,8 @@ export default function PersonLi({
   return (
     <div className={`${className || ""} ${styles["person"]}`}>
       <ProfileIcon
-        src={`/assets/${image}.jpg`}
+        // src={`/assets/${image}.jpg`}
+        src={image}
         alt="user profile"
         onClick={onClick || handleClick}
       />
