@@ -1,26 +1,60 @@
-import styles from "./PostInteractions.module.css";
-import { AiOutlineLike } from "react-icons/ai";
-import { AiFillLike } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { BiRepost } from "react-icons/bi";
+import { FaRegComment } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
+import { useToggleLike, useToggleRepost } from "../../hooks/usePosts";
+import styles from "./PostInteractions.module.css";
 
 export default function PostInteractions({
+  post,
+  currentUser,
   liked,
   reposted,
-  onLike,
-  onRepost,
   toggleComments,
 }) {
+  const { mutate: toggleLike } = useToggleLike();
+  const { mutate: toggleRepost } = useToggleRepost();
+
+  const postLikes = post.postLikes || [];
+  const isLiked = postLikes.some((like) => like.userId === currentUser?.id);
+
+  const postReposts = post.postReposts || [];
+  const isReposted = postReposts.some(
+    (repost) => repost.userId === currentUser?.id,
+  );
+
+  function handleLike() {
+    toggleLike({
+      userId: currentUser.id,
+      postId: post.id,
+      isLiked,
+    });
+  }
+
+  function handleRepost() {
+    toggleRepost({
+      postId: post.id,
+      userId: currentUser.id,
+      isReposted,
+    });
+  }
+
+  function handleShare() {
+    const link = `${window.location.origin}/post/${post.id}`;
+    // Copy to clipboard
+    navigator.clipboard
+      .writeText(link)
+      .then(() => toast.success("Link copied to clipboard!"))
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+        toast.error("Failed to copy link");
+      });
+  }
+
   return (
     <div className={styles["interactions"]}>
-      <div
-        onClick={(e) => {
-          e.preventDefault();
-          onLike();
-        }}
-        className={liked ? styles["liked"] : ""}
-      >
+      <div onClick={handleLike} className={liked ? styles["liked"] : ""}>
         {liked ? (
           <AiFillLike style={{ fontSize: "larger" }} />
         ) : (
@@ -33,18 +67,15 @@ export default function PostInteractions({
         <span>Comment</span>
       </div>
       <div
-        onClick={(e) => {
-          e.preventDefault();
-          onRepost();
-        }}
+        onClick={handleRepost}
         className={reposted ? styles["reposted"] : ""}
       >
         <BiRepost style={{ fontSize: "large" }} />
         Repost
       </div>
-      <div>
+      <div onClick={handleShare}>
         <LuSend />
-        Send
+        Share
       </div>
     </div>
   );

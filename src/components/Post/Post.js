@@ -1,15 +1,14 @@
-import styles from "./Post.module.css";
-import { useRef, useEffect, useState } from "react";
-import PostHeader from "./PostHeader";
-import PostContent from "./PostContent";
-import PostStatus from "./PostStatus";
-import PostInteractions from "./PostInteractions";
-import PostCommentSection from "./Comments/PostCommentSection";
-import PostEditOptions from "./PostEditOptions";
-import PostEditModal from "./PostEditModal";
-import Panel from "../ui/Panel";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useToggleLike, useToggleRepost } from "../../hooks/usePosts";
+import Panel from "../ui/Panel";
+import PostCommentSection from "./Comments/PostCommentSection";
+import styles from "./Post.module.css";
+import PostContent from "./PostContent";
+import PostEditModal from "./PostEditModal";
+import PostEditOptions from "./PostEditOptions";
+import PostHeader from "./PostHeader";
+import PostInteractions from "./PostInteractions";
+import PostStatus from "./PostStatus";
 
 export default function Post({
   post,
@@ -36,31 +35,12 @@ export default function Post({
 
   const comments = post.postComments || [];
 
-  const { mutate: toggleLike } = useToggleLike();
-  const { mutate: toggleRepost } = useToggleRepost();
-
   // focus input when manually opening comments
   useEffect(() => {
     if (openComments && commentInputRef.current && mode !== "comments") {
       commentInputRef.current.focus();
     }
   }, [openComments, mode]);
-
-  function handleLike() {
-    toggleLike({
-      userId: currentUser.id,
-      postId: post.id,
-      isLiked,
-    });
-  }
-
-  function handleRepost() {
-    toggleRepost({
-      postId: post.id,
-      userId: currentUser.id,
-      isReposted,
-    });
-  }
 
   return (
     <Panel className={styles["post"]}>
@@ -84,10 +64,10 @@ export default function Post({
         toggleComments={() => setOpenComments((prev) => !prev)}
       />
       <PostInteractions
+        post={post}
+        currentUser={currentUser}
         liked={isLiked}
         reposted={isReposted}
-        onLike={handleLike}
-        onRepost={handleRepost}
         toggleComments={() => setOpenComments((prev) => !prev)}
       />
       {openComments && (

@@ -3,6 +3,7 @@ import styles from "./Message.module.css";
 import EditMessageForm from "./EditMessageForm";
 import { formatFullTimestamp } from "../chatHelperFunctions";
 import DeleteConfirmation from "./DeleteConfirmation";
+import { formatTextWithLinks } from "./formatTextWithLinks";
 
 export default function Message({
   chatId,
@@ -60,7 +61,8 @@ export default function Message({
             {children}
           </EditMessageForm>
         ) : (
-          <p>{children}</p>
+          // <p>{children}</p>
+          <p>{formatTextWithLinks(children)}</p>
         )}
         <p className={styles["time"]}>{formatFullTimestamp(time)}</p>
       </div>
