@@ -1,0 +1,20 @@
+.notification {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: small;
+  padding: var(--space-md);
+}
+
+.name {
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.text {
+  cursor: pointer;
+}

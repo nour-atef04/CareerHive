@@ -29,6 +29,7 @@ export default function PostInteractions({
       userId: currentUser.id,
       postId: post.id,
       isLiked,
+      postAuthorId: post.authorId,
     });
   }
 
@@ -37,6 +38,7 @@ export default function PostInteractions({
       postId: post.id,
       userId: currentUser.id,
       isReposted,
+      postAuthorId: post.authorId,
     });
   }
 

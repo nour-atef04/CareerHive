@@ -12,6 +12,7 @@ import {
 } from "../services-with-supabase/apiPosts";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import { createNotification } from "../services-with-supabase/apiNotifications";
 
 const postKeys = {
   all: ["posts"],
@@ -64,9 +65,20 @@ export function useCreatePost() {
 export function useToggleLike() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: togglePostLike,
+    mutationFn: async ({ postId, userId, isLiked, postAuthorId }) => {
+      await togglePostLike({ postId, userId, isLiked });
+      // if liking, send a notif
+      if (!isLiked && postAuthorId) {
+        await createNotification({
+          recipientId: postAuthorId,
+          senderId: userId,
+          type: "like",
+          postId,
+        });
+      }
+    },
     onError: () => {
-      toast.error("Failed to =like.");
+      toast.error("Failed to like.");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -78,7 +90,17 @@ export function useCreateComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createComment,
+    mutationFn: async ({ postId, userId, postAuthorId, comment }) => {
+      await createComment(comment);
+      if (postAuthorId) {
+        await createNotification({
+          recipientId: postAuthorId,
+          senderId: userId,
+          type: "comment",
+          postId,
+        });
+      }
+    },
     // when mutate is called:
     onMutate: async (newCommentVariables) => {
       // cancel outgoing refetches (so they don't overwrite our optimistic update)
@@ -180,7 +202,17 @@ export function useEditPost() {
 export function useToggleRepost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: toggleRepost,
+    mutationFn: async ({ postId, userId, isReposted, postAuthorId }) => {
+      await toggleRepost({ userId, postId, isReposted });
+      if (!isReposted && postAuthorId) {
+        await createNotification({
+          recipientId: postAuthorId,
+          senderId: userId,
+          type: "repost",
+          postId,
+        });
+      }
+    },
     onSuccess: (_, { isReposted }) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       toast.success(isReposted ? "Repost removed" : "Reposted successfully");

@@ -3,25 +3,33 @@ import styles from "./AddCommentInput.module.css";
 import FormInput from "../../ui/FormInput";
 import ProfileIcon from "../../ui/ProfileIcon";
 import { useCreateComment } from "../../../hooks/usePosts";
+import { useAuth } from "../../../context/AuthContext";
 
 const AddCommentInput = forwardRef(function AddCommentInput(
-  { postId, user },
-  ref
+  { postId, postAuthorId },
+  ref,
 ) {
-  const { id, image } = user;
   const [comment, setComment] = useState("");
-  const createCommentMutation = useCreateComment();
+  const { mutate: createComment } = useCreateComment();
+  const { currentUser = {} } = useAuth();
+  const { id, image } = currentUser;
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!comment.trim()) return;
+
     const newComment = {
       text: comment,
-      authorId: id,
+      authorId: id, // of the comment
       postId,
     };
-    
-    createCommentMutation.mutate(newComment);
+
+    createComment({
+      postId,
+      userId: currentUser.id,
+      postAuthorId: postAuthorId,
+      comment: newComment,
+    });
 
     setComment("");
   }

@@ -1,0 +1,22 @@
+.notifications-container {
+  padding: var(--space-md);
+  width: 80%;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.all {
+  height: 88%;
+  overflow: auto;
+}
+
+.list {
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 1200px) {
+  .notifications-container {
+    padding: var(--space-md);
+    width: 50%;
+  }
+}

@@ -74,8 +74,9 @@ export default function Post({
         <PostCommentSection
           ref={commentInputRef}
           postId={post.id}
+          postAuthorId={post.authorId}
           comments={comments}
-          user={currentUser}
+
           // if in "comments" mode, pass the profile ID to highlight their comment
           highlightUserId={mode === "comments" ? profileUserId : null}
         />

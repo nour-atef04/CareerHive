@@ -3,7 +3,7 @@ import AddCommentInput from "./AddCommentInput";
 import Comment from "./Comment";
 
 const PostCommentSection = forwardRef(function PostCommentSection(
-  { comments, postId, highlightUserId, user },
+  { comments, postId, highlightUserId, postAuthorId },
   ref
 ) {
 
@@ -26,7 +26,7 @@ const PostCommentSection = forwardRef(function PostCommentSection(
       <AddCommentInput
         ref={ref}
         postId={postId}
-        user={user}
+        postAuthorId={postAuthorId}
       />
       {sortedComments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
