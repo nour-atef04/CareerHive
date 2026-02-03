@@ -31,36 +31,42 @@ export default function Posts({
     );
     if (loadMoreRef.current) observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
-  }, [userId, mode]);
-
-  if (isLoading) return <Loader />;
+  }, [userId, mode, isLoading]);
 
   const visiblePosts = posts.slice(0, visibleCount);
+  const showLoadMore = visibleCount < posts.length;
 
   return (
     <div className={`${styles["posts"]} ${className || ""}`}>
-      {mode === "feed" && <AddPost />}
-      {posts.length === 0 && (
-        <div className={styles["no-posts"]}>
-          {mode === "reposts" ? "No reposts yet." : "No posts yet."}
-        </div>
-      )}
-      {visiblePosts.map((post) => (
-        <Post
-          key={post.id}
-          post={post}
-          mode={mode}
-          profileUserId={userId} // passing this so we can sort comments later
-          openOptionsPostId={openOptionsPostId}
-          setOpenOptionsPostId={setOpenOptionsPostId}
-        />
-      ))}
-
-      {/*Lazy-loading trigger*/}
-      {visibleCount < posts.length && (
-        <div ref={loadMoreRef} className={styles["load-more-trigger"]}>
-          <Loader />
-        </div>
+      {isLoading ? (
+        <Loader />
+      ) : posts.length === 0 ? (
+        <>
+          {mode === "feed" && <AddPost />}
+          <div className={styles["no-posts"]}>
+            {mode === "reposts" ? "No reposts yet." : "No posts yet."}
+          </div>
+        </>
+      ) : (
+        <>
+          {mode === "feed" && <AddPost />}
+          {visiblePosts.map((post) => (
+            <Post
+              key={post.id}
+              post={post}
+              mode={mode}
+              profileUserId={userId} // passing this so we can sort comments later
+              openOptionsPostId={openOptionsPostId}
+              setOpenOptionsPostId={setOpenOptionsPostId}
+            />
+          ))}
+          {/*Lazy-loading trigger*/}
+          {showLoadMore && (
+            <div ref={loadMoreRef} className={styles["load-more-trigger"]}>
+              <Loader />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

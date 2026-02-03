@@ -14,6 +14,9 @@
 
 .posts-panel {
   grid-area: posts;
+  position: relative;
+  min-height: 400px;
+  
 }
 
 .right-section {
@@ -21,13 +24,12 @@
 }
 
 .premium-panel,
-.top-jobs-panel {
-  margin-bottom: var(--space-md);
-}
-
+.top-jobs-panel,
 .profile-summary-panel,
 .suggestions-panel {
   margin-bottom: var(--space-md);
+  position: relative;
+  min-height: 200px;
 }
 
 @media (max-width: 1200px) {

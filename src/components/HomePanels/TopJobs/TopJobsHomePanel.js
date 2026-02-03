@@ -17,7 +17,7 @@ export default function TopJobsHomePanel({ className }) {
     <Panel className={className || ""}>
       <PanelTitle className={styles["panel-title"]}>Top Jobs</PanelTitle>
 
-      {isLoading && <Loader className={styles["loader"]} />}
+      {isLoading && <Loader />}
       {isError && <p>Error: {error.message}</p>}
       {!isLoading && !isError && (
         <List

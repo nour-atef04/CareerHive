@@ -22,10 +22,12 @@
   padding: var(--space-lg);
   width: 100%;
   border-bottom: var(--border-style-default);
+  position: relative;
 }
 
-.stats > p:first-of-type , .profile-position {
-  color:var(--color-light--3);
+.stats > p:first-of-type,
+.profile-position {
+  color: var(--color-light--3);
 }
 
 .profile-summary-container > .stats:nth-of-type(2) {
@@ -44,7 +46,7 @@
   text-decoration: underline;
 }
 
-.name-position{
+.name-position {
   display: flex;
   flex-direction: column;
   justify-content: center;

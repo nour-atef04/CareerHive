@@ -26,7 +26,6 @@ export default function ProfileSummaryHomePanel({ className }) {
     >
       <ProfileIconHeader
         type="centered"
-        // src={`/assets/${image}.jpg`}
         src={image}
         alt={`${name}'s profile`}
       />
@@ -36,12 +35,22 @@ export default function ProfileSummaryHomePanel({ className }) {
         position={position}
       />
       <div className={styles["stats"]}>
-        <p>Followers</p>
-        {!isLoadingFollowers ? <p>{followerIds.length}</p> : <Loader />}
+        {!isLoadingFollowers ? (
+          <>
+            <p>Followers</p> <p>{followerIds.length}</p>
+          </>
+        ) : (
+          <Loader />
+        )}
       </div>
       <div className={styles["stats"]}>
-        <p>Following</p>
-        {!isLoadingFollowings ? <p>{followingIds.length}</p> : <Loader />}
+        {!isLoadingFollowings ? (
+          <>
+            <p>Following</p> <p>{followingIds.length}</p>
+          </>
+        ) : (
+          <Loader />
+        )}
       </div>
       <p onClick={() => navigate("/profile")}>View Profile</p>
     </Panel>

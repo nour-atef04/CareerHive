@@ -5,8 +5,3 @@
 .panel-title {
   padding: var(--space-lg);
 }
-
-.loader {
-  margin-left: 40%;
-  margin-bottom: var(--space-lg);
-}
