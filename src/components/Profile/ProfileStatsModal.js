@@ -72,7 +72,7 @@ export default function ProfileStatsModal({ onClose }) {
           </Button>
         </div>
         {isLoading ? (
-          <Loader className={styles.loader} />
+          <Loader />
         ) : (
           <List
             className={styles.list}

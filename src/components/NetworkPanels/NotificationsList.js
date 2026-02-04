@@ -28,20 +28,3 @@ export default function NotificationsList() {
     </Panel>
   );
 }
-
-// {
-//     "id": 5,
-//     "recipientId": "6849c316-6c78-440d-98ab-427fa6bdd04d",
-//     "senderId": "b7726334-5a64-4065-b85e-4b761c98e42f",
-//     "postId": "2ae8995d-14d9-4270-83c0-df1c31b99275",
-//     "type": "like",
-//     "read": false,
-//     "created_at": "2026-02-01T14:13:17.900691+00:00",
-//     "sender": {
-//         "name": "John Doe",
-//         "image": "john.doe"
-//     },
-//     "post": {
-//         "text": "Excited to start a new project!! <3 "
-//     }
-// }

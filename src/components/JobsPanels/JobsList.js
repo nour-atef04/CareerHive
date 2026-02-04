@@ -23,12 +23,10 @@ export default function JobsList({
     limit: 1000, // Fetch more for filtering
   });
 
-  if (isLoading) return <Loader className={styles["loader"]} />;
+  if (isLoading) return <Loader />;
   if (isError) return <p>Error: {error.message}</p>;
 
   const jobs = givenJobs ?? data?.result?.jobs ?? [];
-
-  console.log(givenJobs);
 
   // Filter jobs locally
   const filteredJobs = filterJobs(jobs, { keyword });

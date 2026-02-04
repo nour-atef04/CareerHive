@@ -1,8 +1,6 @@
 .suggestions-container {
   padding: var(--space-md);
   width: 80%;
-  height: 500px;
-  position: relative;
 }
 
 @media (min-width: 1200px) {

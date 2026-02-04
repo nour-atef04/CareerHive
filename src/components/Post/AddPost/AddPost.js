@@ -1,13 +1,11 @@
 import ProfileIcon from "../../ui/ProfileIcon";
-import styles from "./AddPost.module.css";
 import { useState } from "react";
 import AddPostForm from "./AddPostForm";
-// import { useSelector } from "react-redux";
-// import { getUser } from "../../../redux/slices/authSlice";
 import Panel from "../../ui/Panel";
 import { useCreatePost } from "../../../hooks/usePosts";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import styles from "./AddPost.module.css";
 
 export default function AddPost() {
   // const user = useSelector(getUser);
@@ -18,23 +16,6 @@ export default function AddPost() {
   const [IsNewPostFormOpen, setIsNewPostFormOpen] = useState(false);
   const [postText, setPostText] = useState("");
   const [photo, setPhoto] = useState(null);
-
-  // --------- REFACTORED TO USE REACT QUERY INSTEAD ---------
-
-  // const dispatch = useDispatch();
-
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   if (!postText.trim() && !photo) return;
-
-  //   const photoBase64 = photo ? URL.createObjectURL(photo) : null;
-  //   dispatch(addNewPost({ text: postText, photoBase64, user }));
-
-  //   setPostText("");
-  //   setPhoto(null);
-  //   setIsNewPostFormOpen(false);
-  // }
 
   const { mutate: createPost, isPending } = useCreatePost();
 
@@ -73,7 +54,6 @@ export default function AddPost() {
           <ProfileIcon
             className={styles.image}
             onClick={() => navigate("/profile")}
-            // src={`/assets/${image}.jpg`}
             src={image}
             alt="user profile"
             size="medium"

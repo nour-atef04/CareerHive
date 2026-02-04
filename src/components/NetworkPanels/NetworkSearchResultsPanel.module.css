@@ -9,10 +9,6 @@
   padding-bottom: var(--space-sm);
 }
 
-.loader{
-    margin-left: 44%;
-}
-
 .person-li{
     padding: var(--space-sm);
 }

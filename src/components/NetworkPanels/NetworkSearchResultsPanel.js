@@ -16,7 +16,7 @@ export default function NetworkSearchResultsPanel({
         Results for:{inputValue}
       </PanelTitle>
       {isLoading ? (
-        <Loader className={styles.loader} />
+        <Loader />
       ) : (
         <List
           keyExtractor={(result) => result.id}

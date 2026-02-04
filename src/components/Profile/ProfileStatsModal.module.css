@@ -7,11 +7,6 @@
   flex: 1;
 }
 
-.loader {
-  margin: var(--space-xl);
-  margin-left: 43%;
-}
-
 .list{
   margin-top: var(--space-lg);
 }
