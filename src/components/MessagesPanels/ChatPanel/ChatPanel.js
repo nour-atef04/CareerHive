@@ -8,6 +8,7 @@ import {
   useChatById,
   useChatByParticipantsId,
   useCreateChat,
+  useMarkChatAsRead,
   useSendMessage,
 } from "../../../hooks/useChats";
 import Loader from "../../ui/Loader";
@@ -20,7 +21,7 @@ export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
   // get chat id
   const { data: chatId, isLoading: isChatIdLoading } = useChatByParticipantsId(
     user.id,
-    chatPersonId
+    chatPersonId,
   );
 
   // get actual messages using the id
@@ -31,6 +32,14 @@ export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
 
   const createChat = useCreateChat();
   const sendMessage = useSendMessage();
+
+  const { mutate: markAsRead } = useMarkChatAsRead();
+
+  useEffect(() => {
+    if (chatId && user) {
+      markAsRead({ chatId, userId: user.id });
+    }
+  }, [chatId, user, markAsRead]);
 
   // scroll to bottom when messages change
   useEffect(() => {

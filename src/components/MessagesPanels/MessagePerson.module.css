@@ -1,10 +1,59 @@
 .message-person {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: var(--space-sm);
   padding: 0 var(--space-lg);
+  width: 100%;
+  cursor: pointer;
 }
 
-.message-person:hover{
-    cursor: pointer;
+.info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.last-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.last-message-text {
+  font-size: smaller;
+  color: var(--color-light--3);
+
+  /* Truncation logic */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: var(--space-sm);
+
+  display: flex;
+  align-items: center;
+  
+}
+
+.last-message-time {
+  font-size: smaller;
+  color: var(--color-light--3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+.unread-text {
+  color: var(--color-dark--1) !important; 
+  font-weight: 700; 
+}
+
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-brand--1); 
+  border-radius: 50%;
+  margin-right: var(--space-xs);
 }

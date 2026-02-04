@@ -25,7 +25,7 @@ export async function fetchUsersChats(currentUserId) {
     .from("chat_participants")
     .select(
       `
-    chatId, profiles(id, name, position, image), chats(messages(id, text, senderId, createdAt))`
+    chatId, profiles(id, name, position, image), chats(messages(id, text, senderId, createdAt))`,
     )
     .in("chatId", chatIds)
     .neq("userId", currentUserId);
@@ -38,7 +38,7 @@ export async function fetchUsersChats(currentUserId) {
     const messages = row.chats?.messages ?? [];
     const lastMessage =
       messages.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       )[0] ?? null;
 
     return {
@@ -55,7 +55,7 @@ export async function fetchChatById(chatId) {
     .select(
       `
     id, text, senderId, createdAt, profiles(id, name, image)
-    `
+    `,
     )
     .eq("chatId", chatId)
     .order("createdAt", { ascending: true });
@@ -84,7 +84,8 @@ export async function fetchChatByParticipantsId(userId1, userId2) {
     .eq("userId", userId2)
     .maybeSingle(); // for when no chat
 
-  console.log(chatIds1);
+  // console.log(chatIds1);
+  console.log(match);
 
   if (matchError) throw new Error("Failed to fetch chat");
 
@@ -161,4 +162,32 @@ export async function deleteMessage({ chatId, messageId }) {
     .eq("id", messageId);
 
   if (error) throw new Error("Failed to delete message.");
+}
+
+export async function fetchLastMessage(chatId) {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("text, createdAt, senderId, read")
+    .eq("chatId", chatId)
+    .order("createdAt", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    // ignore "Row not found" error (no messages yet)
+    throw new Error("Failed to fetch last message");
+  }
+
+  return data;
+}
+
+export async function markMessagesAsRead(chatId, currentUserId) {
+  const { error } = await supabase
+    .from("messages")
+    .update({ read: true })
+    .eq("chatId", chatId)
+    .neq("senderId", currentUserId) 
+    .eq("read", false); 
+
+  if (error) throw new Error(error.message);
 }

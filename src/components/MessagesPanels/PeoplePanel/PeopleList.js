@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import MessagePerson from "../MessagePerson";
 import List from "../../ui/List";
-import styles from "./PeopleList.module.css"
+import styles from "./PeopleList.module.css";
 
 const MAX_PEOPLE = 7;
 
-export default function PeopleList({ followings, setShowChat }) {
+export default function PeopleList({ people, setShowChat }) {
   const navigate = useNavigate();
 
-  const people = followings?.slice(0, MAX_PEOPLE);
+  const peopleList = people?.slice(0, MAX_PEOPLE);
 
   return (
     <>
       <List
-        items={people}
+        items={peopleList}
         className={styles.list}
         keyExtractor={(user) => user.id}
         renderItem={(person) => (
@@ -21,10 +21,12 @@ export default function PeopleList({ followings, setShowChat }) {
             key={person.id}
             image={person.image}
             name={person.name}
+            id={person.id}
             onClick={() => {
               setShowChat(true);
               navigate(`/messages/${person.id}`);
             }}
+            mode="list"
           />
         )}
       />

@@ -5,8 +5,10 @@ import {
   editMessage,
   fetchChatById,
   fetchChatByParticipantsId,
+  fetchLastMessage,
   // fetchChats,
   fetchUsersChats,
+  markMessagesAsRead,
   sendMessage,
 } from "../services-with-supabase/apiChats";
 
@@ -45,8 +47,10 @@ export function useSendMessage() {
 
   return useMutation({
     mutationFn: sendMessage,
-    onSuccess: () => {
+    onSuccess: (_, { chatId }) => {
       queryClient.invalidateQueries({ queryKey: ["chats"] });
+      queryClient.invalidateQueries({ queryKey: ["chats", chatId] });
+      queryClient.invalidateQueries({ queryKey: ["lastMessage", chatId] });
     },
   });
 }
@@ -80,6 +84,25 @@ export function useDeleteMessage() {
     onSuccess: (_, { chatId }) => {
       queryClient.invalidateQueries(["chats"]);
       queryClient.invalidateQueries(["chats", chatId]);
+    },
+  });
+}
+
+export function useLastMessage(chatId) {
+  return useQuery({
+    queryKey: ["lastMessage", chatId],
+    queryFn: () => fetchLastMessage(chatId),
+    enabled: !!chatId,
+  });
+}
+
+export function useMarkChatAsRead() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ chatId, userId }) => markMessagesAsRead(chatId, userId),
+    onSuccess: (_, { chatId }) => {
+      queryClient.invalidateQueries({ queryKey: ["lastMessage", chatId] });
     },
   });
 }
