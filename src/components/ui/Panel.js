@@ -1,10 +1,10 @@
 import styles from "./Panel.module.css";
 
 export default function Panel({ className, children, topBorder = false }) {
-  const topBorderClass = styles[`${topBorder && "top-border"}`];
-
   return (
-    <div className={`${styles.panel} ${className || ""} ${topBorderClass}`}>
+    <div
+      className={`${styles.panel} ${topBorder ? styles["top-border"] : ""} ${className || ""}`}
+    >
       {children}
     </div>
   );

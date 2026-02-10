@@ -1,31 +1,20 @@
-import { useNavigate } from "react-router-dom";
 import ProfileIcon from "./ProfileIcon";
 import styles from "./ProfileIconHeader.module.css";
 
-export default function ProfileIconHeader({ type, src, alt, onClick }) {
-  const navigate = useNavigate();
-
-  function handleClick() {
-    navigate("/profile");
-  }
-
-  const className = {
-    centered: "centered",
-    left: "left",
-  };
-
+export default function ProfileIconHeader({
+  type = "centered",
+  src,
+  alt,
+  onClick,
+}) {
   return (
     <div
-      className={`${styles["profile-summary-header"]} ${
-        styles[className[type]]
-      }`}
-      onClick={onClick || handleClick}
+      className={`${styles["profile-summary-header"]} ${styles[type]}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
     >
-      <ProfileIcon
-        src={src}
-        alt={alt}
-        size="large"
-      />
+      <ProfileIcon src={src} alt={alt} size="large" className={styles.avatar} />
     </div>
   );
 }

@@ -27,7 +27,8 @@
 }
 
 .crown {
-  height: var(--space-md);
+  font-size: larger;
+  color: orange;
 }
 
 .header,

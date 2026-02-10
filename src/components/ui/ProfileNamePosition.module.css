@@ -1,4 +1,5 @@
 .profile-name {
+  /* avatar sticks out var(--space-xxxl)/2 so add a bit more for gap */
   margin-top: calc(var(--space-xxxl) / 2 + var(--space-sm));
   font-size: larger;
   font-weight: bolder;

@@ -3,7 +3,7 @@
   border-radius: var(--border-radius-default);
   border: var(--border-style-default);
   overflow: auto;
-    position: relative;
+  position: relative;
   min-height: 200px;
 }
 

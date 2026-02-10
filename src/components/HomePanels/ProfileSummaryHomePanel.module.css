@@ -3,16 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: fit-content;
-}
-
-.profile-summary-container img {
-  position: absolute;
-  bottom: calc(var(--space-xxxl) / -2);
-  height: var(--space-xxxl);
-  width: var(--space-xxxl);
-  border-radius: 50%;
-  border: 3px solid white;
 }
 
 .stats {
@@ -35,14 +25,15 @@
   margin-top: var(--space-md);
 }
 
-.profile-summary-container > p:last-of-type {
+.view-profile-link {
   color: var(--color-brand--2);
   margin-top: var(--space-md);
   margin-bottom: var(--space-md);
+  text-decoration: none;
   cursor: pointer;
 }
 
-.profile-summary-container > p:last-of-type:hover {
+.view-profile-link:hover {
   text-decoration: underline;
 }
 

@@ -1,5 +1,5 @@
 import styles from "./ProfileSummaryHomePanel.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileIconHeader from "../ui/ProfileIconHeader";
 import ProfileNamePosition from "../ui/ProfileNamePosition";
 import Panel from "../ui/Panel";
@@ -9,8 +9,9 @@ import { useUserFollowers, useUserFollowings } from "../../hooks/useUsers";
 
 export default function ProfileSummaryHomePanel({ className }) {
   const navigate = useNavigate();
+
   const { currentUser } = useAuth();
-  const { name, image, position } = currentUser;
+  const { id, name, image, position } = currentUser || {};
 
   const userId = currentUser?.id;
 
@@ -28,6 +29,7 @@ export default function ProfileSummaryHomePanel({ className }) {
         type="centered"
         src={image}
         alt={`${name}'s profile`}
+        onClick={() => navigate(`/profile/${id}`)}
       />
       <ProfileNamePosition
         className={styles["name-position"]}
@@ -52,7 +54,9 @@ export default function ProfileSummaryHomePanel({ className }) {
           <Loader />
         )}
       </div>
-      <p onClick={() => navigate("/profile")}>View Profile</p>
+      <Link to={`/profile/${userId}`} className={styles["view-profile-link"]}>
+        View Profile
+      </Link>
     </Panel>
   );
 }

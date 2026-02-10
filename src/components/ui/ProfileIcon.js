@@ -9,21 +9,6 @@ export default function ProfileIcon({
   size = "small",
   onClick,
 }) {
-  let sizeClassName;
-
-  switch (size) {
-    case "small":
-      sizeClassName = "small";
-      break;
-    case "medium":
-      sizeClassName = "medium";
-      break;
-    case "large":
-      sizeClassName = "large";
-      break;
-    default:
-      sizeClassName = "";
-  }
 
   let imageSource = DEFAULT_AVATAR;
 
@@ -36,13 +21,10 @@ export default function ProfileIcon({
 
   return (
     <img
-      // src={src || "/default-user.jpg"}
       src={imageSource}
       alt={alt}
-      className={`${styles["profile-icon"]} ${className || ""} ${
-        styles[sizeClassName]
-      }`}
-      onClick={onClick || null}
+      className={`${styles["profile-icon"]} ${className || ""} ${styles[size]}`}
+      onClick={onClick}
     />
   );
 }
