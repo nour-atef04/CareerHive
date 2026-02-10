@@ -16,17 +16,18 @@ export default function JobsActionsPanel() {
 
   return (
     <Panel className={styles["search-job-container"]}>
-      {/* <JobSearchInput className={styles["search-job-input"]} /> */}
-
-      <div className={styles["saved-jobs"]} onClick={() => setOpenModal(true)}>
-        <FiBookmark />
-        My saved jobs
-      </div>
-      <hr className={styles["line"]} />
-      <div className={styles["post-job"]}>
-        <LuSquarePen />
-        Post a job
-      </div>
+      <button
+        className={styles["action-btn"]}
+        onClick={() => setOpenModal(true)}
+      >
+        <FiBookmark aria-hidden="true" />
+        <span>My saved jobs</span>
+      </button>
+      {/* <hr className={styles["line"]} /> */}
+      <button className={styles["action-btn"]}>
+        <LuSquarePen aria-hidden="true" />
+        <span>Post a job</span>
+      </button>
       {openModal && (
         <Modal onClose={() => setOpenModal(false)}>
           <PanelTitle>Saved Jobs</PanelTitle>

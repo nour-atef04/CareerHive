@@ -25,6 +25,17 @@
 }
 
 .save {
+  background: none;
+  border: none;
   color: var(--color-brand--1);
   cursor: pointer;
+  padding: var(--space-xs);
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

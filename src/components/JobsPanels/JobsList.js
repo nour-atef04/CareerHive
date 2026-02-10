@@ -6,6 +6,7 @@ import Loader from "../ui/Loader";
 import Button from "../ui/Button";
 import { filterJobs } from "./filterJobs";
 import List from "../ui/List";
+import { useMemo } from "react";
 
 export default function JobsList({
   givenJobs,
@@ -15,26 +16,32 @@ export default function JobsList({
   setPage,
 }) {
   const navigate = useNavigate();
-
   const pageSize = 8; // Jobs per page
+  const shouldFetch = !givenJobs;
 
   const { data, isLoading, isError, error, isFetching } = useJobs({
     page: 1,
     limit: 1000, // Fetch more for filtering
+    enabled: shouldFetch,
   });
 
-  if (isLoading) return <Loader />;
-  if (isError) return <p>Error: {error.message}</p>;
+  // Calculate jobs list
+  const allJobs = useMemo(() => {
+    return givenJobs || data?.result?.jobs || [];
+  }, [givenJobs, data]);
 
-  const jobs = givenJobs ?? data?.result?.jobs ?? [];
-
-  // Filter jobs locally
-  const filteredJobs = filterJobs(jobs, { keyword });
+  // Filter jobs locally only when keyword or jobs change
+  const filteredJobs = useMemo(() => {
+    return filterJobs(allJobs, { keyword });
+  }, [allJobs, keyword]);
 
   // Paginate filtered jobs
   const totalPages = Math.ceil(filteredJobs.length / pageSize);
   const start = (page - 1) * pageSize;
   const paginatedJobs = filteredJobs.slice(start, start + pageSize);
+
+  if (isLoading) return <Loader />;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -48,9 +55,7 @@ export default function JobsList({
             job={job}
             onClick={() => {
               setShowJob?.(true);
-              navigate(`/jobs/${encodeURIComponent(job._id)}`, {
-                state: { job },
-              });
+              navigate(`/jobs/${job._id}`, { state: { job } });
             }}
           />
         )}
@@ -58,11 +63,12 @@ export default function JobsList({
 
       {/* Pagination controls */}
       {setPage && (
-        <div className={styles["pagination"]}>
+        <div className={styles["pagination"]} aria-label="Job list pagination">
           <Button
             size="sm"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             variant={page === 1 || isFetching ? "disabled" : "filled"}
+            disabled={page === 1 || isFetching}
           >
             Previous
           </Button>
@@ -75,6 +81,7 @@ export default function JobsList({
             size="sm"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             variant={page >= totalPages || isFetching ? "disabled" : "filled"}
+            disabled={page >= totalPages || isFetching}
           >
             Next
           </Button>

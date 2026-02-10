@@ -2,6 +2,9 @@ export function filterJobs(
   jobs,
   { keyword = "", location = "", workModel = "" }
 ) {
+
+  if (!jobs) return [];
+
   const keywordLower = keyword.toLowerCase();
   const locationLower = location.toLowerCase();
   const workModelLower = workModel.toLowerCase();

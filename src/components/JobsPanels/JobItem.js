@@ -17,6 +17,7 @@ export default function JobItem({ job, onClick }) {
 
   const { mutate: saveJob, isLoading: isSaving } = useSaveJob();
   const { mutate: unsaveJob, isLoading: isUnsaving } = useUnsaveJob();
+  const isLoading = isSaving || isUnsaving;
 
   const { data: savedJobs = [] } = useSavedJobs();
 
@@ -26,7 +27,7 @@ export default function JobItem({ job, onClick }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isSaving || isUnsaving) return;
+    if (isLoading) return;
 
     if (isSaved) {
       unsaveJob(job);
@@ -36,25 +37,32 @@ export default function JobItem({ job, onClick }) {
   }
 
   return (
-    <div className={styles["item-container"]}>
+    <article className={styles["item-container"]}>
       <Link to={`/jobs/${_id}`} className={styles["job-item"]}>
-        <p className={styles["job-name"]} onClick={onClick}>
-          {title}
-        </p>
+        <h4 className={styles["job-name"]}>{title}</h4>
 
         <div className={styles["job-info"]}>
-          {owner.companyName} •{" "}
-          {owner.locationAddress || locationAddress || location} ({type}){" "}
-          {descriptionBreakdown && `• ${descriptionBreakdown.employmentType}`}
+          <span>{owner.companyName}</span> <span>•</span>{" "}
+          <span>{owner.locationAddress || locationAddress || location}</span>
+          <span>({type})</span>
+          {descriptionBreakdown?.employmentType && (
+            <>
+              {" "}
+              <span>•</span> <span>{descriptionBreakdown.employmentType}</span>
+            </>
+          )}
         </div>
       </Link>
-      <div
+      <button
+        type="button"
         className={styles.save}
         onClick={handleToggleSave}
-        style={{ cursor: isSaving || isUnsaving ? "not-allowed" : "pointer" }}
+        disabled={isLoading}
+        aria-label={isSaved ? "Unsave job" : "Save job"}
+        title={isSaved ? "Unsave job" : "Save job"}
       >
-        {!isSaved ? <FaRegBookmark /> : <FaBookmark />}
-      </div>
-    </div>
+        {isSaved ? <FaBookmark /> : <FaRegBookmark />}
+      </button>
+    </article>
   );
 }
