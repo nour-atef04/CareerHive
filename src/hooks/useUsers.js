@@ -30,35 +30,15 @@ export function useUsersByName(name) {
   });
 }
 
-// fetch one profile
-// export function useUser(userId) {
-//   const { currentUser } = useAuth();
-
-//   return useQuery({
-//     queryKey: ["users", userId],
-//     queryFn: async ({ queryKey }) => {
-//       const [, id] = queryKey; // unpack userId from queryKey
-//       if (id === "me") {
-//         // console.log("ME");
-//         return currentUser;
-//       } // return current user directly
-//       // return fetchUser(id);
-//       const profile = await fetchUser(id);
-//       // console.log(profile);
-//       return profile;
-//     },
-//     enabled: !!userId,
-//   });
-// }
-
 export function useUser(userId) {
   return useQuery({
     queryKey: ["users", userId],
-    queryFn: () => fetchUser(userId), 
+    queryFn: () => fetchUser(userId),
     enabled: !!userId,
   });
 }
 
+// DONE
 export function useUserFollowings(userId) {
   return useQuery({
     queryKey: ["users", userId, "followings"],
@@ -75,6 +55,8 @@ export function useUserFollowers(userId) {
   });
 }
 
+
+// DONE
 export function useFollowUser() {
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
@@ -82,15 +64,20 @@ export function useFollowUser() {
   return useMutation({
     mutationFn: ({ userIdToFollow }) =>
       followUser(currentUser.id, userIdToFollow),
-    onSuccess: (_, { userName }) => {
+    onSuccess: (_, { userName, userIdToFollow }) => {
       // refetch users
-      queryClient.invalidateQueries({
-        queryKey: ["users"],
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["users"],
+      // });
 
-      // refetch followings list
+      // refetch my followings list
       queryClient.invalidateQueries({
         queryKey: ["users", currentUser.id, "followings"],
+      });
+
+      // refetch user's profile to update followers
+      queryClient.invalidateQueries({
+        queryKey: ["users", userIdToFollow],
       });
 
       // refetch suggestions list
@@ -107,6 +94,8 @@ export function useFollowUser() {
   });
 }
 
+
+// DONE
 export function useUnfollowUser() {
   const queryClient = useQueryClient();
   const { currentUser } = useAuth();
@@ -114,11 +103,11 @@ export function useUnfollowUser() {
   return useMutation({
     mutationFn: ({ userIdToUnfollow }) =>
       unfollowUser(currentUser.id, userIdToUnfollow),
-    onSuccess: (_, { userName }) => {
+    onSuccess: (_, { userName, userIdToUnfollow }) => {
       // refetch users
-      queryClient.invalidateQueries({
-        queryKey: ["users"],
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ["users"],
+      // });
 
       // refetch followings list
       queryClient.invalidateQueries({
@@ -130,6 +119,11 @@ export function useUnfollowUser() {
         queryKey: ["users", currentUser.id, "suggestions"],
       });
 
+      // refetch user's profile to update followings
+      queryClient.invalidateQueries({
+        queryKey: ["users", userIdToUnfollow],
+      });
+
       // display notification
       toast.success(`You have unfollowed ${userName}`);
     },
@@ -139,11 +133,14 @@ export function useUnfollowUser() {
   });
 }
 
+
+// DONE
 export function useUserSuggestions(userId) {
   return useQuery({
     queryKey: ["users", userId, "suggestions"],
     queryFn: () => getUserSuggestions(userId),
     enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
     // staleTime: Infinity,
     // refetchOnWindowFocus: false,
     // refetchOnMount: true,

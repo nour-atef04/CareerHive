@@ -89,6 +89,8 @@ export async function getCurrentUser() {
   return { ...data, id: session.session.user.id };
 }
 
+
+// DONE
 export async function fetchFollowings(userId) {
   let { data, error } = await supabase
     .from("follows")
@@ -102,7 +104,6 @@ export async function fetchFollowings(userId) {
   if (error) throw new Error("Failed to fetch user followings.");
 
   const followings = data.map((row) => row.profiles);
-  // console.log(followings);
   return followings;
 }
 
@@ -122,6 +123,7 @@ export async function fetchFollowers(userId) {
   return followings;
 }
 
+// DONE
 export async function followUser(currentUserId, userIdToFollow) {
   const { error } = await supabase.from("follows").insert([
     {
@@ -133,6 +135,8 @@ export async function followUser(currentUserId, userIdToFollow) {
   if (error) throw new Error("Failed to follow user.");
 }
 
+
+// DONE
 export async function unfollowUser(currentUserId, userIdToUnfollow) {
   const { error } = await supabase
     .from("follows")
@@ -142,6 +146,8 @@ export async function unfollowUser(currentUserId, userIdToUnfollow) {
   if (error) throw new Error("Failed to unfollow user.");
 }
 
+
+// DONE
 export async function getUserSuggestions(userId) {
   // get ids of user that the current user follow
   const { data: userFollowings, error: followingsError } = await supabase
@@ -169,7 +175,6 @@ export async function getUserSuggestions(userId) {
     .neq("followingId", userId);
 
   if (error) throw error;
-  // console.log(data);
 
   // compute mutual follow score (how many of my followings follow each candidate)
   const scoreMap = new Map();

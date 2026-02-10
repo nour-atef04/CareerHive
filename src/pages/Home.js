@@ -30,11 +30,14 @@ export default function Home() {
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />
       </section>
 
-      {!isLoading ? (
-        <Posts className={styles["posts-panel"]} followingIds={feedAuthorIds} />
-      ) : (
-        <Loader />
-      )}
+      <div className={styles["posts-panel"]}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Posts followingIds={feedAuthorIds} />
+        )}
+      </div>
+      
       <section className={styles["right-section"]}>
         <PremiumHomePanel className={styles["premium-panel"]} />
         <TopJobsHomePanel className={styles["top-jobs-panel"]} />

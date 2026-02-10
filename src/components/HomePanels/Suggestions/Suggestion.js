@@ -5,12 +5,15 @@ import { useFollowUser, useUnfollowUser } from "../../../hooks/useUsers";
 import Spinner from "../../ui/Spinner";
 
 export default function Suggestion({ isFollowing, suggestion }) {
-  // const [followed, setFollowed] = useState(isFollowing);
   const { mutate: followUser, isLoading: isFollowingUser } = useFollowUser();
   const { mutate: unfollowUser, isLoading: isUnfollowingUser } =
     useUnfollowUser();
 
+  const isLoading = isFollowingUser || isUnfollowingUser;
+
   function handleFollow() {
+    if (isLoading) return; // prevent double clicks
+
     if (!isFollowing) {
       // setFollowed(true);
       followUser({
@@ -33,18 +36,17 @@ export default function Suggestion({ isFollowing, suggestion }) {
         size="sm"
         variant={isFollowing ? "filled" : "outline-dark"}
         className={styles["follow-btn"]}
+        disabled={isLoading}
+        // accessibility for screen readers
+        aria-label={`${isFollowing ? "Unfollow" : "Follow"} ${suggestion.name}`}
       >
-        {/* {followed ? "−" : "+"} */}
-        {isFollowing ? (
-          isFollowingUser ? (
-            <Spinner size="small" color="white" />
-          ) : (
-            "-"
-          )
-        ) : isUnfollowingUser ? (
-          <Spinner size="small" color="var(--color-brand--1)" />
+        {isLoading ? (
+          <Spinner
+            size="small"
+            color={isFollowing ? "var(--color-dark--1)" : "white"}
+          />
         ) : (
-          "+"
+          <span>{isFollowing ? "−" : "+"}</span>
         )}
       </Button>
     </PersonLi>

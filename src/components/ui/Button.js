@@ -8,6 +8,7 @@ export default function Button({
   variant = "filled", // "filled" | "outline" | "outline-dark" | "disabled" | "disabled-dark"
   size = "md", // "sm" | "md" | "lg"
   color = "brand1", // "brand1" | "brand2"
+  disabled = false,
 }) {
   const variantClass = styles[`variant--${variant}`];
   const sizeClass = styles[`size--${size}`];
@@ -20,7 +21,9 @@ export default function Button({
       className={`${styles.button} ${variantClass} ${sizeClass} ${colorClass} ${
         className || ""
       }`}
-      disabled={variant === "disabled" || variant === "disabled-dark"}
+      disabled={
+        disabled || variant === "disabled" || variant === "disabled-dark"
+      }
     >
       {children}
     </button>
