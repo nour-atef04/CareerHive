@@ -1,27 +1,52 @@
-.panel-title {
-  margin-top: var(--space-lg);
+.container {
+  font-size: 0.9rem;
+  color: var(--color-dark--2);
 }
 
-.about {
-  margin-top: var(--space-md);
+.panel-title {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.summary {
+  margin-bottom: var(--space-md);
   font-size: smaller;
 }
 
-.more-info {
+.job-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
   margin: var(--space-md) 0;
 }
 
-.more-info > p {
+.meta-item {
   display: flex;
   gap: var(--space-xs);
 }
 
-.more-info > p > span:nth-of-type(1) {
-  font-weight: bold;
+.meta-item dt {
+  font-weight: 700;
   color: var(--color-brand--1);
+  min-width: 140px;
 }
 
-.about > li {
-  margin-left: var(--space-lg);
+.meta-item dd {
+  margin: 0; 
+}
+
+.skills-list {
+  list-style: disc;
+  padding-left: var(--space-lg);
   margin-top: var(--space-xs);
+}
+
+.skills-list li {
+  margin-bottom: var(--space-xxs);
+}
+
+.error,
+.empty {
+  color: var(--color-light--3);
+  font-style: italic;
 }

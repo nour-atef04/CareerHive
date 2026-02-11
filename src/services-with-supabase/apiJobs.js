@@ -43,12 +43,9 @@ export async function insertJob(job) {
 
 export async function saveJob(job) {
   const { data } = await supabase.auth.getSession();
-  // console.log("AUTH SESSION:", data?.session.user.id);
 
   // ensure job exists and get id
   const jobId = await insertJob(job);
-
-  // console.log(jobId);
 
   const { error } = await supabase
     .from("saved_jobs")
@@ -78,8 +75,6 @@ export async function getSavedJobs(userId) {
     .from("saved_jobs")
     .select(`id, jobs(external_job_id, raw)`)
     .eq("user_id", userId);
-
-  // console.log(data);
 
   if (error) throw new Error("Failed to get saved jobs.");
   return data;

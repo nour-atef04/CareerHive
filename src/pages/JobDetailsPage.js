@@ -1,6 +1,6 @@
 // import fakeJobs from "../components/JobsPanels/fakeJobs";
 import styles from "./JobDetailsPage.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobsListPanel from "../components/JobsPanels/JobsListPanel";
 import JobDetailsPanel from "../components/JobsPanels/JobDetailsPanel/JobDetailsPanel";
 import Panel from "../components/ui/Panel";
@@ -10,6 +10,12 @@ export default function JobDetailsPage() {
   const { job, isLoading, error } = useJobDetails();
 
   const [showJob, setShowJob] = useState(false);
+
+  useEffect(() => {
+    if (job) {
+      setShowJob(true);
+    }
+  }, [job]);
 
   if (isLoading) {
     return (

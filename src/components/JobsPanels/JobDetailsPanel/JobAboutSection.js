@@ -1,13 +1,8 @@
-import { useJobDetails } from "../../../hooks/useJobs";
-import Loader from "../../ui/Loader";
 import PanelTitle from "../../ui/PanelTitle";
 import styles from "./JobAboutSection.module.css";
 
-export default function JobAboutSection() {
-  const { job, isLoading, error } = useJobDetails();
-
-  if (isLoading) return <Loader />;
-  if (error || !job) return <p>Job not found</p>;
+export default function JobAboutSection({ job }) {
+  if (!job) return <p className={styles.error}>Job details not available.</p>;
 
   const {
     department,
@@ -20,7 +15,7 @@ export default function JobAboutSection() {
 
   const {
     oneSentenceJobSummary,
-    skillRequirements,
+    skillRequirements = [],
     salaryRangeMinYearly,
     salaryRangeMaxYearly,
     employmentType,
@@ -35,57 +30,55 @@ export default function JobAboutSection() {
       : "No salary info available";
 
   return (
-    <section>
+    <section className={styles.container}>
       <PanelTitle className={styles["panel-title"]} type="h3">
         About the job
       </PanelTitle>
 
-      <div className={styles["about"]}>
-        {oneSentenceJobSummary ? (
-          <p>{oneSentenceJobSummary}</p>
-        ) : (
-          <p>No job description available.</p>
-        )}
-
-        <div className={styles["more-info"]}>
-          <p>
-            <span>Department: </span>
-            {department ?? "No department info available"}
-          </p>
-
-          <p>
-            <span>Salary (yearly): </span>
-            {salaryText}
-          </p>
-
-          <p>
-            <span>Employment type: </span>
-            {employmentType ?? "No employment type info available"}
-          </p>
-
-          <p>
-            <span>Location: </span>
-            {resolvedLocation ?? "No location info available"}
-          </p>
-
-          <p>
-            <span>Type: </span>
-            {type ?? "No job type info available"}
-          </p>
-        </div>
+      <div className={styles["summary"]}>
+        <p>{oneSentenceJobSummary || "No job description available."}</p>
       </div>
+
+      <dl className={styles["job-meta"]}>
+        <div className={styles["meta-item"]}>
+          <dt>Department:</dt>
+          <dd>{department || "N/A"}</dd>
+        </div>
+
+        <div className={styles["meta-item"]}>
+          <dt>Salary (yearly):</dt>
+          <dd>{salaryText}</dd>
+        </div>
+
+        <div className={styles["meta-item"]}>
+          <dt>Employment type:</dt>
+          <dd>{employmentType || "N/A"}</dd>
+        </div>
+
+        <div className={styles["meta-item"]}>
+          <dt>Location:</dt>
+          <dd>{resolvedLocation || "N/A"}</dd>
+        </div>
+
+        <div className={styles["meta-item"]}>
+          <dt>Type:</dt>
+          <dd>{type || "N/A"}</dd>
+        </div>
+      </dl>
 
       <PanelTitle className={styles["panel-title"]} type="h3">
         Required Skills
       </PanelTitle>
 
-      <ul className={styles["about"]}>
-        {skillRequirements?.length ? (
-          skillRequirements.map((skill) => <li key={skill}>{skill}</li>)
-        ) : (
-          <p>No requirements available.</p>
-        )}
-      </ul>
+      {skillRequirements.length > 0 ? (
+        <ul className={styles["skills-list"]}>
+          {skillRequirements.map((skill, index) => (
+            <li key={index}>{skill}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.empty}>No specific skills listed.</p>
+      )}
     </section>
   );
 }

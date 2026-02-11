@@ -30,15 +30,12 @@
 @media (max-width: 600px) {
   .back-button {
     display: inline;
-    width: fit-content;
-    margin-bottom: auto;
     border-radius: 5px;
     border: var(--border-style-default);
     padding: var(--space-xxs);
     background-color: white;
     color: var(--color-light--4);
     font-size: large;
-    margin-left: var(--space-md);
     margin-bottom: var(--space-md);
   }
   .back-button:hover {
