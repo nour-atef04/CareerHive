@@ -1,26 +1,36 @@
-import Button from "../ui/Button";
-import Logo from "../Logo/Logo";
-import styles from "./NavBar.module.css";
-import { IoIosMore } from "react-icons/io";
 import { useState } from "react";
+import { IoIosMore } from "react-icons/io";
+import { Link } from "react-router-dom";
+import Logo from "../Logo/Logo";
+import Button from "../ui/Button";
+import styles from "./NavBar.module.css";
 import NavBarItemsList from "./NavBarItemsList";
-import NavBarItem from "./NavBarItem";
 
 export default function NavBar() {
   const [showMenu, setShowMenu] = useState(false);
 
+  function toggleMenu() {
+    setShowMenu((prev) => !prev);
+  }
+
+  function closeMenu() {
+    setShowMenu(false);
+  }
+
   return (
-    <div className={styles.navbar}>
-      <NavBarItem page={"/home"}>
+    <nav className={styles.navbar}>
+      <Link to="/home" className={styles["navbar-logo"]} onClick={closeMenu}>
         <Logo className={styles["navbar-logo"]} />
-      </NavBarItem>
-      <NavBarItemsList showMenu={showMenu} />
+      </Link>
+      <NavBarItemsList showMenu={showMenu} closeMenu={closeMenu} />
       <Button
         className={styles["show-more-button"]}
-        onClick={() => setShowMenu(showMenu ? false : true)}
+        onClick={toggleMenu}
+        aria-label="Toggle navigation menu"
+        aria-expanded={showMenu}
       >
         <IoIosMore size={20} />
       </Button>
-    </div>
+    </nav>
   );
 }

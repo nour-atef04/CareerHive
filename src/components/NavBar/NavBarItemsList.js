@@ -6,7 +6,7 @@ import { PiSuitcaseSimple } from "react-icons/pi";
 import { LuMessagesSquare } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 
-export default function NavBarItemsList({ showMenu }) {
+export default function NavBarItemsList({ showMenu, closeMenu }) {
   const navLinks = [
     { label: "Home", path: "home", icon: <IoHomeOutline /> },
     { label: "Network", path: "network", icon: <LiaUserFriendsSolid /> },
@@ -18,7 +18,7 @@ export default function NavBarItemsList({ showMenu }) {
   return (
     <ul className={`${styles["navbar-list"]} ${showMenu ? styles.show : ""}`}>
       {navLinks.map((link) => (
-        <NavBarItem key={link.label} page={link.path}>
+        <NavBarItem key={link.label} page={link.path} onClick={closeMenu}>
           {link.icon} <span>{link.label}</span>
         </NavBarItem>
       ))}
