@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 import FormInput from "../ui/FormInput";
 import styles from "./LoginPanel.module.css";
 import Logo from "../Logo/Logo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 
@@ -72,6 +72,7 @@ export default function LoginPanel() {
           <Button
             type="submit"
             variant={isSubmitting ? "disabled" : "filled"}
+            disabled={isSubmitting}
             size="md"
             color="brand2"
             className={styles["form-button"]}
@@ -79,9 +80,9 @@ export default function LoginPanel() {
             {isSubmitting ? "Logging in..." : "Log In"}
           </Button>
           <hr className={styles.hr} />
-          <p className={styles["join-now"]} onClick={() => navigate("/signup")}>
+          <Link to="/signup" className={styles["join-now"]}>
             New to CareerHive? Join Now
-          </p>
+          </Link>
         </form>
       </div>
     </div>

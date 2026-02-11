@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./SignupPanel.module.css";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import FormInput from "../ui/FormInput";
 import Button from "../ui/Button";
@@ -148,16 +148,17 @@ export default function SignupPanel() {
           <Button
             type="submit"
             variant={isSubmitting || isLoading ? "disabled" : "filled"}
+            disabled={isSubmitting || isLoading}
             size="md"
             color="brand2"
             className={styles["form-button"]}
           >
-            {isSubmitting || isLoading ? "Signing In..." : "Sign In"}
+            {isSubmitting || isLoading ? "Signing Up..." : "Sign Up"}
           </Button>
           <hr className={styles.hr} />
-          <p className={styles["login"]} onClick={() => navigate("/login")}>
+          <Link to="/login" className={styles["login"]}>
             Already a member? Log in to your account
-          </p>
+          </Link>
         </form>
       </div>
     </div>

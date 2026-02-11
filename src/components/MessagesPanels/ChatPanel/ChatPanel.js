@@ -16,7 +16,6 @@ import { useUser } from "../../../hooks/useUsers";
 
 export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
   const { currentUser: user } = useAuth();
-  const chatRef = useRef(null);
 
   // get chat id
   const { data: chatId, isLoading: isChatIdLoading } = useChatByParticipantsId(
@@ -40,13 +39,6 @@ export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
       markAsRead({ chatId, userId: user.id });
     }
   }, [chatId, user, markAsRead]);
-
-  // scroll to bottom when messages change
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   async function handleAddNewMessage(text) {
     if (!text.trim()) return;
@@ -72,6 +64,7 @@ export default function ChatPanel({ chatPersonId, showChat, setShowChat }) {
 
   return (
     <section
+      aria-label={`Chat with ${chatPerson?.name}`}
       className={`${styles["chat-section"]} ${showChat && styles["show-chat"]}`}
     >
       <ChatHeader chatPerson={chatPerson} setShowChat={setShowChat} />

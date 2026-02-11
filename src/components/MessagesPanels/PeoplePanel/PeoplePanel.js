@@ -2,7 +2,6 @@ import styles from "./PeoplePanel.module.css";
 import ChatSearch from "./ChatSearch";
 import PeopleList from "./PeopleList";
 import { useAuth } from "../../../context/AuthContext";
-import { useUserFollowings } from "../../../hooks/useUsers";
 import { useUsersChats } from "../../../hooks/useChats";
 import { useMemo, useState } from "react";
 import Loader from "../../ui/Loader";

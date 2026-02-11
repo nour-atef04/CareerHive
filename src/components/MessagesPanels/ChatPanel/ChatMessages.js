@@ -4,16 +4,11 @@ import ChatEmptyState from "./ChatEmptyState";
 import styles from "./ChatMessages.module.css";
 import DateSeperator from "./DateSeperator";
 
-export default function ChatMessages({
-  chatRef,
-  messages = [],
-  chatPerson,
-  user,
-}) {
+export default function ChatMessages({ messages = [], chatPerson, user }) {
   const hasMessages = messages && messages.length > 0;
 
   return (
-    <div ref={chatRef} className={`${styles["chat"]} `}>
+    <div className={`${styles["chat"]} `} role="log">
       {!hasMessages && <ChatEmptyState chatPerson={chatPerson?.name} />}
       {messages.map((message, i) => {
         // console.log(message);

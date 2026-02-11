@@ -43,8 +43,10 @@ export default function MessagePerson({
 
   return (
     <div
+      role="button"
       className={`${styles["message-person"]} ${className || ""}`}
       onClick={onClick}
+      aria-label={`Chat with ${name}`}
     >
       <ProfileIcon
         src={image}
@@ -63,7 +65,10 @@ export default function MessagePerson({
               className={`${styles["last-message-text"]} ${isUnread ? styles["unread-text"] : ""}`}
             >
               {isUnread && mode === "list" && (
-                <div className={styles["unread-dot"]}></div>
+                <div
+                  className={styles["unread-dot"]}
+                  aria-label="Unread message"
+                ></div>
               )}
               {isLoading
                 ? "..."

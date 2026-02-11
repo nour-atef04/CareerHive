@@ -16,6 +16,7 @@ export default function NewMessageForm({ onAddNewMessage }) {
         placeholder="Write something..."
         value={newMessage}
         onChange={(e) => setNewMessage(e.target.value)}
+        aria-label="Type a message"
       />
     </form>
   );
