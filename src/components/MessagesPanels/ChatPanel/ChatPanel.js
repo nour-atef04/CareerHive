@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import styles from "./ChatPanel.module.css";
 import NewMessageForm from "../NewMessageForm";
 import { useAuth } from "../../../context/AuthContext";

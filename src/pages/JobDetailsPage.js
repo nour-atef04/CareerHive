@@ -16,7 +16,7 @@ export default function JobDetailsPage() {
     return () => {
       document.title = "CareerHive | Connect & Grow";
     };
-  }, []);
+  }, [job?.title]);
 
   const [showJob, setShowJob] = useState(false);
 
