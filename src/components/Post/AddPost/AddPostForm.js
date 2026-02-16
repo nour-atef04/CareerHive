@@ -39,7 +39,7 @@ export default function AddPostForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} aria-label="Create a post">
       <PostInput postText={postText} setPostText={setPostText} />
       {photoPreview && (
         <PhotoPreview

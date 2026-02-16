@@ -47,6 +47,7 @@ export default function SearchPeopleInput() {
             placeholder="Search people..."
             value={inputValue}
             onChange={handleChange}
+            aria-label="Search for people"
           />
         </form>
       </div>

@@ -7,7 +7,7 @@ import NetworkSuggestion from "./NetworkSuggestion";
 import { useAuth } from "../../context/AuthContext";
 import List from "../ui/List";
 
-export default function NetworkSuggestions() {
+export default function NetworkSuggestionsPanel() {
   const { currentUser } = useAuth();
   const { data: suggestions = [], isLoading: isLoadingUsers } =
     useUserSuggestions(currentUser?.id);

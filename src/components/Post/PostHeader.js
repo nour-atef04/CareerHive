@@ -31,7 +31,6 @@ export default function PostHeader({ post }) {
       {!isLoading ? (
         <>
           <ProfileIcon
-            // src={`/assets/${image}.jpg`}
             src={image}
             alt={name}
             size="medium"
@@ -40,7 +39,7 @@ export default function PostHeader({ post }) {
           <div>
             <h3 className={styles["name"]}>{name}</h3>
             <p>{position}</p>
-            <p>{relative}</p>
+            <p>{relative} </p>
           </div>{" "}
         </>
       ) : (

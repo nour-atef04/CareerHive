@@ -4,7 +4,9 @@
   align-items: center;
 }
 
-.interactions div {
+.btn {
+  background: none;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,9 +15,10 @@
   padding: var(--space-md);
   border-radius: var(--border-radius-default);
   font-weight: bolder;
+  color: var(--color-light--3);
 }
 
-.interactions div:hover {
+.btn:hover {
   background-color: var(--color-light--1);
   transition: 0.2s;
 }
@@ -24,3 +27,4 @@
 .reposted {
   color: rgb(0, 162, 255);
 }
+

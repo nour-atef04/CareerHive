@@ -56,29 +56,38 @@ export default function PostInteractions({
 
   return (
     <div className={styles["interactions"]}>
-      <div onClick={handleLike} className={liked ? styles["liked"] : ""}>
-        {liked ? (
-          <AiFillLike style={{ fontSize: "larger" }} />
-        ) : (
-          <AiOutlineLike style={{ fontSize: "larger" }} />
-        )}
+      <button
+        onClick={handleLike}
+        className={`${styles.btn} ${liked ? styles["liked"] : ""}`}
+        aria-label={liked ? "Unlike post" : "Like post"}
+      >
+        {liked ? <AiFillLike size={17} /> : <AiOutlineLike size={17} />}
         <span>Like</span>
-      </div>
-      <div onClick={toggleComments}>
+      </button>
+      <button
+        onClick={toggleComments}
+        className={styles.btn}
+        aria-label="Comment on post"
+      >
         <FaRegComment />
         <span>Comment</span>
-      </div>
-      <div
+      </button>
+      <button
         onClick={handleRepost}
-        className={reposted ? styles["reposted"] : ""}
+        className={`${styles.btn} ${reposted ? styles["reposted"] : ""}`}
+        aria-label={reposted ? "Undo repost" : "Repost"}
       >
-        <BiRepost style={{ fontSize: "large" }} />
+        <BiRepost size={20} />
         Repost
-      </div>
-      <div onClick={handleShare}>
+      </button>
+      <button
+        onClick={handleShare}
+        className={styles.btn}
+        aria-label="Share post"
+      >
         <LuSend />
         Share
-      </div>
+      </button>
     </div>
   );
 }

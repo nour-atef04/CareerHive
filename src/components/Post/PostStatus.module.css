@@ -18,6 +18,9 @@
 
 .comment-count {
   cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
 }
 
 .comment-count:hover {
@@ -28,4 +31,3 @@
 .likes {
   color: rgb(0, 162, 255);
 }
-

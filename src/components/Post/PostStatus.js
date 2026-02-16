@@ -8,9 +8,9 @@ export default function PostStatus({ likes, comments, toggleComments }) {
         <AiOutlineLike />
         {likes} likes
       </div>
-      <div className={styles["comment-count"]} onClick={toggleComments}>
+      <button className={styles["comment-count"]} onClick={toggleComments}>
         {comments.length} comments
-      </div>
+      </button>
     </div>
   );
 }
