@@ -1,6 +1,10 @@
 import styles from "./Spinner.module.css";
 
-export default function Spinner({ size = "medium", color = "#fff", thickness = 3 }) {
+export default function Spinner({
+  size = "medium",
+  color = "#fff",
+  thickness = 3,
+}) {
   const sizeMap = {
     small: 16,
     medium: 24,
@@ -11,6 +15,8 @@ export default function Spinner({ size = "medium", color = "#fff", thickness = 3
 
   return (
     <div
+      role="status"
+      aria-label="Loading"
       className={styles.spinner}
       style={{
         width: spinnerSize,

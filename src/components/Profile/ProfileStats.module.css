@@ -9,6 +9,9 @@
 
 .counts {
   cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
 }
 
 .counts:hover {

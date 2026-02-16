@@ -14,6 +14,8 @@ export default function Modal({ className, children, onClose = () => {} }) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div
+        role="dialog"
+        aria-modal="true"
         className={`${className || ""} ${styles.modal}`}
         onClick={(e) => e.stopPropagation()}
       >

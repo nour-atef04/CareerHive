@@ -10,20 +10,30 @@ export default function PersonLi({
 }) {
   console.log(person);
 
-  const { name, image, position } = person;
+  const { id, name, image, position } = person;
   const navigate = useNavigate();
 
-  function handleClick() {
-    navigate(`/profile/${person.id}`);
-  }
+  const handleRowClick = () => {
+    if (onClick) onClick();
+    else navigate(`/profile/${id}`);
+  };
 
   return (
-    <div className={`${className || ""} ${styles["person"]}`}>
+    <div
+      className={`${className || ""} ${styles["person"]}`}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") handleRowClick();
+      }}
+    >
       <ProfileIcon
-        // src={`/assets/${image}.jpg`}
         src={image}
-        alt="user profile"
-        onClick={onClick || handleClick}
+        alt={`${name}'s profile`}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/profile/${id}`);
+        }}
       />
       <div className={styles["info"]}>
         <p className={styles["name"]}>{name}</p>

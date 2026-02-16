@@ -21,17 +21,19 @@ export default function ProfileStats({
   return (
     <>
       <div className={`${styles["profile-stats"]} ${className || ""}`}>
-        <div className={styles.counts} onClick={() => setOpenModal(true)}>
+        <button
+          aria-label="View followers and following"
+          className={styles.counts}
+          onClick={() => setOpenModal(true)}
+        >
           <span>{followersCount} followers</span>
           <span> • </span>
           <span>{followingsCount} followings</span>{" "}
-        </div>
+        </button>
         <div className={styles["buttons"]}>
           {!isMyProfile && <FollowMessageButtons user={user} />}
 
-          {isMyProfile && (
-            <EditLogoutButtons />
-          )}
+          {isMyProfile && <EditLogoutButtons />}
         </div>
       </div>
       {openModal && <ProfileStatsModal onClose={() => setOpenModal(false)} />}

@@ -18,11 +18,14 @@ export default function EditLogoutButtons() {
 
   return (
     <div className={styles["my-profile"]}>
-      <MdEdit
-        onClick={() => setOpenEditModal(true)}
-        size={20}
+      <button
         className={styles.edit}
-      />
+        onClick={() => setOpenEditModal(true)}
+        aria-label="Edit Profile"
+      >
+        <MdEdit size={20} />
+      </button>
+
       <Button onClick={handleLogout} variant="outline-dark" color="brand2">
         Logout
       </Button>

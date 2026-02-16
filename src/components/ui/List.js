@@ -11,12 +11,12 @@ export default function List({
   if (!items.length) return <p className={styles.empty}>{emptyMessage}</p>;
 
   return (
-    <div className={`${styles.list} ${className || ""}`}>
+    <ul className={`${styles.list} ${className || ""}`}>
       {items.map((item, index) => (
-        <div key={keyExtractor ? keyExtractor(item) : index}>
+        <li key={keyExtractor ? keyExtractor(item) : index}>
           {renderItem(item, index)}
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

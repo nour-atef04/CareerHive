@@ -29,6 +29,8 @@ export default function ProfileStatsModal({ onClose }) {
   const followersQuery = useUserFollowers(profileId);
   const followingsQuery = useUserFollowings(profileId);
 
+  const myFollowingsQuery = useUserFollowings(currentUser.id);
+
   const { items, isLoading } = useMemo(() => {
     return section === "followers"
       ? {
@@ -53,11 +55,13 @@ export default function ProfileStatsModal({ onClose }) {
   return (
     <>
       <Modal onClose={onClose} className={styles.modal}>
-        <div className={styles.btns}>
+        <div className={styles.btns} role="tablist">
           <Button
             onClick={() => setSection("followers")}
             className={styles.btn}
             variant={section === "followers" ? "disabled-dark" : "outline-dark"}
+            role="tab"
+            aria-selected={section === "followers"}
           >
             Followers
           </Button>
@@ -67,6 +71,8 @@ export default function ProfileStatsModal({ onClose }) {
             variant={
               section === "followings" ? "disabled-dark" : "outline-dark"
             }
+            role="tab"
+            aria-selected={section === "followings"}
           >
             Followings
           </Button>
@@ -80,10 +86,12 @@ export default function ProfileStatsModal({ onClose }) {
             keyExtractor={(user) => user.id}
             emptyMessage="No people found."
             renderItem={(user) => {
-              // check if the current profile is following this user
-              const followed = followingsQuery.data?.some(
-                (f) => f.id === user.id
+              const isMe = user.id === currentUser.id;
+
+              const amIFollowing = myFollowingsQuery.data?.some(
+                (f) => f.id === user.id,
               );
+
               return (
                 <PersonLi
                   className={styles.person}
@@ -93,21 +101,31 @@ export default function ProfileStatsModal({ onClose }) {
                     navigate(`/profile/${user.id}`);
                   }}
                 >
-                  {user.id !== currentUser.id && (
+                  {/* Show Follow Button only if it's not me */}
+                  {!isMe && (
                     <Button
-                      onClick={() =>
-                        followed
-                          ? setConfirmUnfollowUser(user)
-                          : followUser.mutate({
-                              userIdToFollow: user.id,
-                              userName: user.name,
-                            })
-                      }
                       size="sm"
-                      variant={followed ? "filled" : "outline-dark"}
+                      variant={amIFollowing ? "filled" : "outline-dark"}
                       className={styles["follow-btn"]}
+                      aria-label={
+                        amIFollowing
+                          ? `Unfollow ${user.name}`
+                          : `Follow ${user.name}`
+                      }
+                      onClick={(e) => {
+                        e.stopPropagation(); 
+
+                        if (amIFollowing) {
+                          setConfirmUnfollowUser(user);
+                        } else {
+                          followUser.mutate({
+                            userIdToFollow: user.id,
+                            userName: user.name,
+                          });
+                        }
+                      }}
                     >
-                      {followed ? "−" : "+"}
+                      <span aria-hidden="true">{amIFollowing ? "−" : "+"}</span>
                     </Button>
                   )}
                 </PersonLi>

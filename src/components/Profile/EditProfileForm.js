@@ -30,7 +30,7 @@ export default function EditProfileForm() {
       ) : (
         <>
           <div className={styles.input}>
-            <p>Name</p>
+            <label htmlFor="name">Full Name</label>
             <FormInput
               id="name"
               {...register("name", {
@@ -47,7 +47,7 @@ export default function EditProfileForm() {
             )}
           </div>
           <div className={styles.input}>
-            <p>Position</p>
+            <label htmlFor="position">Headline / Position</label>
             <FormInput
               id="position"
               {...register("position", {
@@ -64,7 +64,7 @@ export default function EditProfileForm() {
             )}
           </div>
           <div className={styles.input}>
-            <p>Image</p>
+            <label htmlFor="image">Profile Picture</label>
             <FormInput
               id="image"
               type="file"

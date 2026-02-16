@@ -9,10 +9,13 @@ export default function Button({
   size = "md", // "sm" | "md" | "lg"
   color = "brand1", // "brand1" | "brand2"
   disabled = false,
+  ...props
 }) {
   const variantClass = styles[`variant--${variant}`];
   const sizeClass = styles[`size--${size}`];
   const colorClass = styles[`color--${color}`];
+
+  const isDisabled = disabled || variant.includes("disabled");
 
   return (
     <button
@@ -21,9 +24,9 @@ export default function Button({
       className={`${styles.button} ${variantClass} ${sizeClass} ${colorClass} ${
         className || ""
       }`}
-      disabled={
-        disabled || variant === "disabled" || variant === "disabled-dark"
-      }
+      disabled={isDisabled}
+      aria-disabled={isDisabled}
+      {...props}
     >
       {children}
     </button>
