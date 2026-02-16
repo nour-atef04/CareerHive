@@ -25,23 +25,25 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <section className={styles["left-section"]}>
+      <aside
+        className={styles["left-section"]}
+        aria-label="User Profile and Suggestions"
+      >
         <ProfileSummaryHomePanel className={styles["profile-summary-panel"]} />
         <SuggestionsHomePanel className={styles["suggestions-panel"]} />
+      </aside>
+
+      <section className={styles["posts-panel"]} aria-label="News Feed">
+        {isLoading ? <Loader /> : <Posts followingIds={feedAuthorIds} />}
       </section>
 
-      <div className={styles["posts-panel"]}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <Posts followingIds={feedAuthorIds} />
-        )}
-      </div>
-      
-      <section className={styles["right-section"]}>
+      <aside
+        className={styles["right-section"]}
+        aria-label="Promotions and Jobs"
+      >
         <PremiumHomePanel className={styles["premium-panel"]} />
         <TopJobsHomePanel className={styles["top-jobs-panel"]} />
-      </section>
+      </aside>
     </main>
   );
 }

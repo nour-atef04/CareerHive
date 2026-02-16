@@ -12,7 +12,7 @@ export default function NotificationsList() {
   const { data = [], isLoading } = useNotifications(currentUser.id);
 
   return (
-    <Panel className={styles["notifications-container"]}>
+    <Panel className={styles["notifications-container"]} aria-label="Notifications">
       <PanelTitle type="h3">Notifications</PanelTitle>
       {isLoading ? (
         <Loader />

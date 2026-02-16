@@ -25,17 +25,21 @@ export default function PostDetails() {
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <Button onClick={() => navigate(-1)}>← Back</Button>
+        <header className={styles.header}>
+          <Button onClick={() => navigate(-1)} aria-label="Go back to feed">
+            ← Back
+          </Button>
           <h2>Post</h2>
-        </div>
-        <Post
-          post={post}
-          mode="details" // tells Post to auto-open comments
-          openOptionsPostId={openOptionsPostId}
-          setOpenOptionsPostId={setOpenOptionsPostId}
-          profileUserId={null}
-        />
+        </header>
+        <article>
+          <Post
+            post={post}
+            mode="details" // tells Post to auto-open comments
+            openOptionsPostId={openOptionsPostId}
+            setOpenOptionsPostId={setOpenOptionsPostId}
+            profileUserId={null}
+          />
+        </article>
       </div>
     </main>
   );

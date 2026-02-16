@@ -20,7 +20,10 @@ export default function NetworkSuggestionsPanel() {
   );
 
   return (
-    <Panel className={styles["suggestions-container"]}>
+    <Panel
+      className={styles["suggestions-container"]}
+      aria-label="People you may know"
+    >
       <PanelTitle className={styles["suggestions-title"]} type="h3">
         More suggestions
       </PanelTitle>

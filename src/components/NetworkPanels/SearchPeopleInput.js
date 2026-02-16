@@ -39,7 +39,7 @@ export default function SearchPeopleInput() {
   }
 
   return (
-    <div className={styles.form}>
+    <div className={styles.form} aria-label="Search People">
       <div className={styles.input}>
         <IoSearchOutline />
         <form onSubmit={handleSubmit}>

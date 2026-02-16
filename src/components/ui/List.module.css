@@ -2,7 +2,9 @@
   border-top: var(--border-style-default);
 }
 
-
+.list{
+  list-style: none;
+}
 
 .empty {
   text-align: center;

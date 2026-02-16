@@ -4,9 +4,9 @@ import styles from "./Login.module.css";
 
 export default function Signup() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <SignupPanel />
       <MarketingPanel />
-    </div>
+    </main>
   );
 }

@@ -1,10 +1,7 @@
 import styles from "./RequestsPanel.module.css";
 import Panel from "../ui/Panel";
 import PanelTitle from "../ui/PanelTitle";
-import {
-  useUnfollowUser,
-  useUserRequests,
-} from "../../hooks/useUsers";
+import { useUnfollowUser, useUserRequests } from "../../hooks/useUsers";
 import { useAuth } from "../../context/AuthContext";
 import Loader from "../ui/Loader";
 import { useState } from "react";
@@ -19,7 +16,7 @@ export default function RequestsPanel() {
   //   useUserFollowers(currentUser.id);
 
   const { data: requests = [], isLoading: isLoadingRequests } = useUserRequests(
-    currentUser.id
+    currentUser.id,
   );
 
   const [confirmUnfollowUser, setConfirmUnfollowUser] = useState(null);
@@ -30,6 +27,7 @@ export default function RequestsPanel() {
 
   return (
     <Panel
+      aria-label="Connection Requests"
       className={`${styles["requests-container"]} ${showAll && styles["all"]}`}
     >
       <PanelTitle type="h3" className={styles["requests-title"]}>

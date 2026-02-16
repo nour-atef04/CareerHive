@@ -1,6 +1,7 @@
 .list {
   margin-right: auto;
   width: 100%;
+  list-style: none;
 }
 
 .loader{
