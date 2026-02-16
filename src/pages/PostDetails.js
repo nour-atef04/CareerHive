@@ -4,9 +4,18 @@ import styles from "./PostDetails.module.css";
 import Loader from "../components/ui/Loader";
 import Button from "../components/ui/Button";
 import Post from "../components/Post/Post";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PostDetails() {
+  useEffect(() => {
+    document.title = "Post | CareerHive";
+
+    // cleanup to revert it when leave
+    return () => {
+      document.title = "CareerHive | Connect & Grow";
+    };
+  }, []);
+
   const { postId } = useParams();
   const { data: post = {}, isLoading, error } = usePost(postId);
   const navigate = useNavigate();

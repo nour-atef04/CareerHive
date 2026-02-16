@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Messages.module.css";
 import PeoplePanel from "../components/MessagesPanels/PeoplePanel/PeoplePanel";
 import ChatPanel from "../components/MessagesPanels/ChatPanel/ChatPanel";
@@ -6,6 +6,15 @@ import Panel from "../components/ui/Panel";
 import { useParams } from "react-router-dom";
 
 export default function Messages() {
+  useEffect(() => {
+    document.title = "Messages | CareerHive";
+
+    // cleanup to revert it when leave
+    return () => {
+      document.title = "CareerHive | Connect & Grow";
+    };
+  }, []);
+
   const [showChat, setShowChat] = useState(false);
   const { chatPersonId } = useParams();
 

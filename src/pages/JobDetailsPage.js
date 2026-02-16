@@ -9,6 +9,15 @@ import { useJobDetails } from "../hooks/useJobs";
 export default function JobDetailsPage() {
   const { job, isLoading, error } = useJobDetails();
 
+    useEffect(() => {
+    document.title = `${job.title} | CareerHive`;
+
+    // cleanup to revert it when leave
+    return () => {
+      document.title = "CareerHive | Connect & Grow";
+    };
+  }, []);
+
   const [showJob, setShowJob] = useState(false);
 
   useEffect(() => {

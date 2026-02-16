@@ -1,4 +1,15 @@
+import { useEffect } from "react";
+
 export default function NotFound() {
+  useEffect(() => {
+    document.title = "Not found";
+
+    // cleanup to revert it when leave
+    return () => {
+      document.title = "CareerHive | Connect & Grow";
+    };
+  }, []);
+
   return (
     <main
       style={{

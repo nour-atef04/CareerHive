@@ -5,11 +5,15 @@ import SuggestionsHomePanel from "../components/HomePanels/Suggestions/Suggestio
 import TopJobsHomePanel from "../components/HomePanels/TopJobs/TopJobsHomePanel";
 import styles from "./Home.module.css";
 import { useAuth } from "../context/AuthContext";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useUserFollowings } from "../hooks/useUsers";
 import Loader from "../components/ui/Loader";
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "CareerHive | Connect & Grow";
+  }, []);
+
   const { currentUser } = useAuth();
   const userId = currentUser?.id;
   const { data: followings = [], isLoading } = useUserFollowings(userId);

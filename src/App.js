@@ -5,26 +5,53 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import ErrorBoundary from "./components/ui/ErrorBoundary";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import Loader from "./components/ui/Loader";
 
 function ProtectedLayout() {
   return (
     <ProtectedRoute>
       <NavBar />
       {/* Nested pages will render here */}
-      <Outlet />
+      <ErrorBoundary>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <Loader />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </ErrorBoundary>
     </ProtectedRoute>
   );
 }
+
+// generic Error Element for Router failures (like 404s on chunks)
+const RootErrorFallback = () => (
+  <div style={{ padding: "20px", textAlign: "center" }}>
+    <h2>Something went wrong loading the application.</h2>
+    <button onClick={() => window.location.reload()}>Reload Page</button>
+  </div>
+);
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navigate to="/login" replace />,
+    errorElement: <RootErrorFallback />,
   },
   {
     path: "/login",
@@ -42,6 +69,7 @@ const router = createBrowserRouter([
   },
   {
     element: <ProtectedLayout />,
+    errorElement: <RootErrorFallback />,
     children: [
       {
         path: "/home",
@@ -124,41 +152,43 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <RouterProvider router={router} />
-      </Suspense>
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: "white",
-              secondary: "var(--color-brand--1)",
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <RouterProvider router={router} />
+        </Suspense>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: "white",
+                secondary: "var(--color-brand--1)",
+              },
             },
-          },
-          error: {
-            duration: 5000,
-            iconTheme: {
-              primary: "white",
-              secondary: "darkred",
+            error: {
+              duration: 5000,
+              iconTheme: {
+                primary: "white",
+                secondary: "darkred",
+              },
+              style: {
+                color: "darkred",
+              },
             },
             style: {
-              color: "darkred",
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "white",
+              color: "var(--color-brand--1)",
             },
-          },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "white",
-            color: "var(--color-brand--1)",
-          },
-        }}
-      />
-    </QueryClientProvider>
+          }}
+        />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

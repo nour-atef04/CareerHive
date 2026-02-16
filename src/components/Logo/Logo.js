@@ -1,18 +1,16 @@
 import styles from "./Logo.module.css";
-import logoImage from "../../assets/logo-image.png";
-import logoTitle from "../../assets/logo-title.png";
 
 export default function Logo({ className }) {
   return (
     <div className={`${styles.logo} ${className || ""}`}>
       <img
         className={styles["logo-image"]}
-        src={logoImage}
+        src="/assets/logo-image.png"
         alt="CareerHive logo"
       />
       <img
         className={styles["logo-title"]}
-        src={logoTitle}
+        src="/assets/logo-title.png"
         alt="CareerHive logo title"
       />
     </div>

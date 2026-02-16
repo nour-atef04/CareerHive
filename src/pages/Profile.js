@@ -5,8 +5,18 @@ import { useParams } from "react-router-dom";
 import { useUser } from "../hooks/useUsers";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/ui/Loader";
+import { useEffect } from "react";
 
 export default function Profile() {
+  useEffect(() => {
+    document.title = "Profile | CareerHive";
+
+    // cleanup to revert it when leave
+    return () => {
+      document.title = "CareerHive | Connect & Grow";
+    };
+  }, []);
+
   const { userId } = useParams();
   const { currentUser } = useAuth();
 
