@@ -18,6 +18,8 @@
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.218);
   transform: translateY(5px);
+  z-index: 50;
+  background-color: white;
 }
 
 .option {
@@ -25,7 +27,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--space-xs)
+  gap: var(--space-xs);
 }
 
 .option:hover {
