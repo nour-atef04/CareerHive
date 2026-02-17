@@ -15,8 +15,18 @@ export default function PeoplePanel({ showChat, setShowChat }) {
   const chatPeople = useMemo(() => {
     if (!usersChats) return [];
 
-    return usersChats.map((chat) => chat.participant).filter(Boolean);
+    const sortedChats = [...usersChats].sort((a, b) => {
+      // Try to use the last message time, fallback to chat creation time, fallback to 0
+      const dateA = new Date(a.lastMessage?.createdAt || a.createdAt || 0);
+      const dateB = new Date(b.lastMessage?.createdAt || b.createdAt || 0);
+      
+      // Descending order (Newest first)
+      return dateB - dateA;
+    });
+
+    return sortedChats.map((chat) => chat.participant).filter(Boolean);
   }, [usersChats]);
+
 
   // derive the filtered list directly from peopleToShow and searchQuery
   const filteredPeople = useMemo(() => {

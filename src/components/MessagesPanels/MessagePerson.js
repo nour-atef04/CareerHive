@@ -70,11 +70,13 @@ export default function MessagePerson({
                   aria-label="Unread message"
                 ></div>
               )}
-              {isLoading
-                ? "..."
-                : lastMsg
-                  ? `${prefix}${previewText}`
-                  : "No messages"}
+              <span className={styles["message-content"]}>
+                {isLoading
+                  ? "..."
+                  : lastMsg
+                    ? `${prefix}${previewText}`
+                    : "No messages"}
+              </span>
             </p>
             <p className={styles["last-message-time"]}>
               {lastMsg ? formatTime(lastMsg.createdAt) : ""}

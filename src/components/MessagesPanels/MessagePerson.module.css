@@ -20,6 +20,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: var(--space-xs);
 }
 
 .last-message-text {
@@ -34,7 +35,8 @@
 
   display: flex;
   align-items: center;
-  
+  min-width: 0;
+  flex: 1;
 }
 
 .last-message-time {
@@ -44,16 +46,16 @@
   flex-shrink: 0;
 }
 
-
 .unread-text {
-  color: var(--color-dark--1) !important; 
-  font-weight: 700; 
+  color: var(--color-dark--1) !important;
+  font-weight: 700;
 }
 
 .unread-dot {
   width: 10px;
   height: 10px;
-  background-color: var(--color-brand--1); 
+  background-color: var(--color-brand--1);
   border-radius: 50%;
   margin-right: var(--space-xs);
+  flex-shrink: 0;
 }
