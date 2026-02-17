@@ -7,16 +7,16 @@ import Panel from "../components/ui/Panel";
 import { useJobDetails } from "../hooks/useJobs";
 
 export default function JobDetailsPage() {
-  const { job, isLoading, error } = useJobDetails();
-
-    useEffect(() => {
-    document.title = `${job.title} | CareerHive`;
+  useEffect(() => {
+    document.title = "Job Details | CareerHive";
 
     // cleanup to revert it when leave
     return () => {
       document.title = "CareerHive | Connect & Grow";
     };
-  }, [job?.title]);
+  }, []);
+
+  const { job, isLoading, error } = useJobDetails();
 
   const [showJob, setShowJob] = useState(false);
 
